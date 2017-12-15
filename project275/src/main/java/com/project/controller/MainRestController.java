@@ -18,6 +18,10 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import com.project.model.User;
 import com.project.service.UserService;
 
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
+
 @RestController
 public class MainRestController {
 	
@@ -46,23 +50,22 @@ public class MainRestController {
 	
 	
 	@RequestMapping("/userRegistration")
-	 	public ModelAndView register(HttpServletResponse response, 
-	 			@RequestParam(value="regEmail",required=true) String email,
-	 			@RequestParam(value="password") String password,
-	 			@RequestParam(value="firstName") String firstName,
-	 			@RequestParam(value="lastName") String lastName){
-	 	System.out.println("reaches 1");
+	 	public ModelAndView register(HttpServletResponse response, @RequestBody String s) throws ParseException{
+	 		System.out.println("reaches 1");
 	 		ModelMap map = new ModelMap();
-	 		System.out.println("user is"+email);
+	 		JSONParser parser = new JSONParser();
+	 		JSONObject json = (JSONObject) parser.parse(s);
+	 		System.out.println("user is"+json);
 	 		//System.out.println(user.getEmail()+" "+user.getFirstName());
-	 		/*User user = userService.register(email,password,firstName,lastName);
+	 		User user = userService.register(json.getAsString("regEmail"),json.getAsString("password"),json.getAsString("firstName"),json.getAsString("lastName"));
 	 		if(user ==null){
 	 			map.addAttribute("statusCode","404");
+	 			System.out.println("reached 3");
 	 			return new ModelAndView(new MappingJackson2JsonView(),map);
 	 		}
 	 		map.addAttribute("statusCode","200");
 	 		map.addAttribute("username", user.getEmail());
-	 		map.addAttribute("UserFirstName", user.getFirstName());*/
+	 		map.addAttribute("UserFirstName", user.getFirstName());
 	 		return new ModelAndView(new MappingJackson2JsonView(),map);	
 	 	}
 	/*@RequestMapping("/user")

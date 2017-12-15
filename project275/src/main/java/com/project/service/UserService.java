@@ -26,6 +26,12 @@ public class UserService {
 
 	public User register(String email, String password, String firstName, String lastName) {
 		
+		for(User p:userRepo.findAll()){
+			if(p.getEmail().equals(email)){
+				return null;
+			}
+		}
+		
 		User user = new User(email,password,firstName,lastName);
 		userRepo.save(user);
 		return user;
