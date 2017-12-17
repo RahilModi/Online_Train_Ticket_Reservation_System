@@ -3,6 +3,7 @@ package com.project.controller;
 import java.security.Principal;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +33,21 @@ public class MainRestController {
 	
 	@RequestMapping("/userLogin")
 	public ModelAndView login(HttpServletResponse response,
-			@RequestParam(value="email",required=true) String email,
-			@RequestParam(value="password",required=true) String password){
+			@RequestBody String s) throws ParseException{
 		
 		ModelMap map = new ModelMap();
-		
-		User user = userService.login(email, password);
+ 		JSONParser parser = new JSONParser();
+ 		JSONObject json = (JSONObject) parser.parse(s);
+ 		
+ 		System.out.println("email is: "+json.getAsString("email")+" "+json.getAsString("password"));
+		User user = userService.login(json.getAsString("email"), json.getAsString("password"));
+		System.out.println("user is"+user);
  		if(user==null){
- 			map.addAttribute("statusCode","400");
+ 			System.out.println("reached here");
+ 			map.addAttribute("statusCode","404");
  			return new ModelAndView(new MappingJackson2JsonView(), map);
  		}
+ 		System.out.println("reached here1");
  		map.addAttribute("statusCode","200");
  		map.addAttribute("username", user.getEmail());
  		map.addAttribute("UserFirstName", user.getFirstName());
@@ -72,9 +78,11 @@ public class MainRestController {
 	public Principal user(Principal principal) {
 		return principal;
 	}*/
-
-	@GetMapping("/hello")
-	public String hello(){
-		return "Hello World!!!";
-	}
+	
+	/*@RequestMapping("/mainPage")
+	public String homePage(HttpServletRequest request){
+		System.out.println("rr");
+		request.setAttribute("mode", "Home_Page");
+		return "mainPage";
+	}*/
 }

@@ -38,7 +38,12 @@ public class UserService {
 	}
 
 	public User login(String email, String password) {
-		// TODO Auto-generated method stub
+		
+		for(User p:userRepo.findAll()){
+			if(p.getEmail().equals(email) && p.getPassword().equals(password)){
+				return p;
+			}
+		}
 		return null;
 	}
 

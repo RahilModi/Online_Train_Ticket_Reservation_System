@@ -7,7 +7,7 @@
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>Demo</title>
+<title>275Project</title>
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width" />
 <base href="/" />
@@ -32,11 +32,12 @@
 		<div class="tab-content">
     		<div id="signIn" class="tab-pane fade in active">
  				<div class="form-group">
-      				<input type="email" class="form-control" style="margin-top:15px;height:40px" placeholder="Email or username" name="email" ng-model="email"/>
-      				<input type="password" class="form-control" style="margin-top:25px;height:40px" placeholder="password" name="password" ng-model="password"/>
+      				<input type="email" class="form-control" style="margin-top:15px;height:40px" placeholder="Email" name="emailId" ng-model="emailId"/>
+      				<input type="password" class="form-control" style="margin-top:25px;height:40px" placeholder="password" name="loginPassword" ng-model="loginPassword"/>
       				<div><p font-color="red">{{invalid}}</p></div>
               		<button id="login" class="btn btn-primary" style="margin-top:25px;width:100%" value="Sign in" ng-click="home.login()">Login</button>
-      			  
+              		<a href="/connect/facebook"><button class="btn btn-primary" style="margin-top:5px;width:100%" >Facebook Login</button> </a>
+              		 <a href="/connect/google"><button class="btn btn-primary" style="margin-top:5px;width:100%" >Google Login</button> </a>
             </div>
     		</div>
     	
@@ -53,14 +54,14 @@
     		</div>
      	</div>
 	</div></center>
-	<div class="container" ng-show="!home.authenticated">
+	<!-- <div class="container" ng-show="!home.authenticated">
 		<div>
 			With Facebook: <a href="/connect/facebook">click here</a>
 		</div>
 		<div>
 			With Google: <a href="/connect/google">click here</a>
 		</div>
-	</div>
+	</div> -->
 	<div class="container" ng-show="home.authenticated">
 		Logged in as: <span ng-bind="home.user"></span>
 	</div>
@@ -70,9 +71,15 @@
 </body>
 <script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
 <script type="text/javascript">
-	angular.module("app", []).controller("home", function($scope, $http) {
+	angular.module("app", []).controller("home", function($scope, $http, $location, $window) {
 		var self = this;
-		//$scope.invalid = "Failed to register, user already exists ";
+		$http.get("/user").success(function(data) {
+			self.user = data.userAuthentication.details.name;
+			self.authenticated = true;
+		}).error(function() {
+			self.user = "N/A";
+			self.authenticated = false;
+		});
 		self.register = function() {
 			$http.post('/userRegistration', {
 				"regEmail":$scope.regEmail,
@@ -93,26 +100,24 @@
 				self.authenticated = false;
 			});
 		};
-		$scope.login = function(){
+
+				
+		self.login = function(){
 			$http.post('/userLogin',{
 				"email":$scope.emailId,
 				"password":$scope.loginPassword
 			}).success(function(data){
 				if(data.statusCode=="200"){
 					self.user = data.username;
+					console.log("successfully Loged In");
+					$window.location.href ="/mainPage";
 				}else if(data.statusCode=="404"){
 					$scope.invalid = "Failed to Login Invalid username or password";
 				}
 			})
 		}
 
-		$http.get("/user").success(function(data) {
-			self.user = data.userAuthentication.details.name;
-			self.authenticated = true;
-		}).error(function() {
-			self.user = "N/A";
-			self.authenticated = false;
-		});
+		
 		self.logout = function() {
 			$http.post('/logout', {}).success(function() {
 				self.authenticated = false;
