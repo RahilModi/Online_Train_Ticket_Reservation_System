@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class CancelledDate {
@@ -21,6 +23,7 @@ public class CancelledDate {
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Train> train;
 	
+	@Temporal(TemporalType.DATE)
 	private Date date;
 
 	public int getId() {
@@ -46,6 +49,5 @@ public class CancelledDate {
 	public void setTrain(List<Train> train) {
 		this.train = train;
 	}
-	
 	
 }
