@@ -15,12 +15,12 @@ import com.project.model.User;
 
 @Service
 @Transactional
-public class UserService implements UserServices{
+public class UserServiceimpl implements UserServices{
 	
 	private final UserRepository userRepo;
 	
 	
-	public UserService(UserRepository userRepo){
+	public UserServiceimpl(UserRepository userRepo){
 		this.userRepo = userRepo;
 	}
 
