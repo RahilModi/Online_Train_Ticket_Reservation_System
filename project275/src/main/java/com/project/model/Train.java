@@ -1,11 +1,16 @@
 package com.project.model;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
@@ -18,11 +23,15 @@ public class Train implements Serializable{
 	
 	@Enumerated(EnumType.ORDINAL)
 	private TrainType type;
+	
 	private int maxCapacity;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private Direction direction;
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "objTrainStation.train", cascade=CascadeType.ALL)
+	private Set<TrainStationMapping> trainStation;
+	
 	public String getName() {
 		return name;
 	}
@@ -53,7 +62,17 @@ public class Train implements Serializable{
 
 	public void setDirection(Direction direction) {
 		this.direction = direction;
+	}
+
+	public Set<TrainStationMapping> getTrainStation() {
+		return trainStation;
+	}
+
+	public void setTrainStation(Set<TrainStationMapping> trainStation) {
+		this.trainStation = trainStation;
 	} 
+	
+	
 	
 }
 
