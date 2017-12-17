@@ -15,7 +15,7 @@ import com.project.model.User;
 
 @Service
 @Transactional
-public class UserService {
+public class UserService implements UserServices{
 	
 	private final UserRepository userRepo;
 	
