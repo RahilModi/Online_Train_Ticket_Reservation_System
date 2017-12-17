@@ -7,11 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.project.model.User;
 
-
 public interface UserRepository extends CrudRepository<User, Integer>{
 	@Modifying
 	@Transactional
-	@Query(value="select * from 275project.userdetails where email=? and password=?",nativeQuery=true)
+	@Query(value="select * from CMPE275project.userdetails where email=? and password=?",nativeQuery=true)
 	public User findUser(String user_email,String password);
 	
 }
