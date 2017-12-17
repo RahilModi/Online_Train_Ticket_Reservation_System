@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
-
+<%-- 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+ --%>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -99,6 +99,7 @@
 				"password":$scope.loginPassword
 			}).success(function(data){
 				if(data.statusCode=="200"){
+					console.log("2");
 					self.user = data.username;
 				}else if(data.statusCode=="404"){
 					$scope.invalid = "Failed to Login Invalid username or password";
@@ -107,6 +108,7 @@
 		}
 
 		$http.get("/user").success(function(data) {
+			console.log("1");
 			self.user = data.userAuthentication.details.name;
 			self.authenticated = true;
 		}).error(function() {
