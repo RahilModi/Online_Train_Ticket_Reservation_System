@@ -24,7 +24,7 @@ public class ExpressLookupServiceImpl implements ExpressLookupService{
 			c+= 5;
 		}while( c <= 'Z');
 		
-		for(int i = 0; i < lookup.length; i++)
+		for(int i = 1; i < lookup.length; i++)
 			for(int j = i+1; j < lookup.length; j++)
 				lookup[i][j] = lookup[i-1][j-1];
 	}
