@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import com.project.dao.UserRepository;
 import com.project.model.User;
 
-
-
 @Service
 @Transactional
 public class UserServiceimpl implements UserServices{
@@ -45,6 +43,32 @@ public class UserServiceimpl implements UserServices{
 			}
 		}
 		return null;
+	}
+
+	
+	//Facebook Login Service
+	public User addOauthFacebookLogin(String user_id, String name) {
+		
+		for(User p:userRepo.findAll()){
+			if(p.getEmail().equals(user_id)){
+				return p;
+			}
+		}
+		User usr = new User(user_id,name);
+		userRepo.save(usr);
+		return usr;
+	}
+
+	//Google Login Service
+	public User addOauthGoogleLogin(String email, String firstName, String lastName) {
+		for(User p:userRepo.findAll()){
+			if(p.getEmail().equals(email)){
+				return p;
+			}
+		}
+		User usr = new User(email,firstName,lastName);
+		userRepo.save(usr);
+		return usr;
 	}
 
 

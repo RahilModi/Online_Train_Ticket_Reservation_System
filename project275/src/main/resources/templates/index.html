@@ -61,21 +61,39 @@
 	<div class="container" ng-show="home.authenticated">
 		Logged in as: <span ng-bind="home.user"></span>
 	</div>
+
+
 	<div>
 		<button ng-click="home.logout()" class="btn btn-primary">Logout</button>
 	</div>
+
+	<button ng-click="home.signout()" class="btn btn-primary">sign out</button>
 </body>
 <script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
 <script type="text/javascript">
 	angular.module("app", []).controller("home", function($scope, $http, $location, $window) {
 		var self = this;
 		$http.get("/user").success(function(data) {
+			console.log(data);
 			self.user = data.userAuthentication.details.name;
 			self.authenticated = true;
+			$window.location.href ="/mainPage";
+			//$window.location.href ="/mainPage";
 		}).error(function() {
 			self.user = "N/A";
 			self.authenticated = false;
 		});
+
+		self.signout = function() {
+			$http.post('/logout', {
+
+			}).success(function(data) {
+				
+			}).error(function(data) {
+
+			});
+		};
+
 		self.register = function() {
 			$http.post('/userRegistration', {
 				"regEmail":$scope.regEmail,
@@ -91,6 +109,7 @@
 					$scope.invalid1 = "Failed to register, user already exists "
 					console.log("failed to register, user already exsists");
 				}
+				$window.location.href ="/mainPage";
 			}).error(function(data) {
 				console.log("Logout failed")
 				self.authenticated = false;
@@ -113,11 +132,10 @@
 			})
 		}
 
+		self
 		
 		self.logout = function() {
 			$http.post('/logout', {}).success(function() {
-				self.authenticated = false;
-				$location.path("/");
 			}).error(function(data) {
 				console.log("Logout failed")
 				self.authenticated = false;

@@ -33,6 +33,7 @@ public class MainController {
 		System.out.println(userEmail);
 		
 		request.setAttribute("mode", "Home_Page");
+		request.setAttribute("email", userEmail);
 		return "mainPage";
 	}
 	

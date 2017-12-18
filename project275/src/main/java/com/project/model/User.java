@@ -21,7 +21,21 @@ public class User {
 		
 	}
 	
+	//Constructor for the Facebook Login
+	public User(String email, String firstName){
+		this.email = email;
+		this.firstName = firstName;
+	}
 	
+	
+	//Constructor for Google Login
+	public User(String email, String firstName, String lastName){
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+	
+	//Constructor for normal login
 	public User(String email, String password, String firstName, String lastName){
 		this.email = email;
 		this.password = password;
@@ -65,12 +79,6 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
-	
-    
-	
-
-
 }
 
 

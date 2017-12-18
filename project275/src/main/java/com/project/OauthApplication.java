@@ -36,10 +36,10 @@ public class OauthApplication extends WebSecurityConfigurerAdapter {
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
 	
-	@RequestMapping("/user")
+	/*@RequestMapping("/user")
 	public Principal user(Principal principal) {
 		return principal;
-	}
+	}*/
 	
 	public static void main(String[] args) {
 		SpringApplication.run(OauthApplication.class, args);
@@ -52,13 +52,13 @@ public class OauthApplication extends WebSecurityConfigurerAdapter {
 		http.antMatcher("/**")
 		.addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
 		.authorizeRequests()
-		.antMatchers("/", "/connect**","/userLogin**","/userRegistration**","/webjars/**","/mainPage**")
+		.antMatchers("/", "/connect**","/userLogin**","/userRegistration**","/webjars/**","/mainPage**","/logout**")
 			.permitAll()
 		.anyRequest()
 			.authenticated()
 		.and()
 			.logout()
-		    .logoutSuccessUrl("/").permitAll().and().csrf().ignoringAntMatchers("/","/userLogin**","/userRegistration**","/mainPage**")
+		    .logoutSuccessUrl("/").permitAll().and().csrf().ignoringAntMatchers("/","/userLogin**","/userRegistration**","/mainPage**","/logout**")
 		 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 	}
 	// @formatter:on
