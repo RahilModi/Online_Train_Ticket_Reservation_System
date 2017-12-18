@@ -1,2 +1,8 @@
 #IntelliJ
 .idea
+
+#targetFolder
+project275/target
+
+#IML files
+project275/*.iml
