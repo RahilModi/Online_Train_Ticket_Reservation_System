@@ -50,6 +50,4 @@ public class ExpressLookupServiceImpl implements ExpressLookupService{
 		if(this.map.get(origin.getName()) == null || this.map.get(destination.getName()) == null) return -1;
 		return this.lookup[this.map.get(origin.getName())][map.get(destination.getName())];
 	}
-
-	
 }

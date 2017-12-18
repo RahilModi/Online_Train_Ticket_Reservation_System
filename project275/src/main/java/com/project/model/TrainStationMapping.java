@@ -2,6 +2,7 @@ package com.project.model;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.util.Date;
 
 import javax.persistence.AssociationOverride;
 import javax.persistence.AssociationOverrides;
@@ -17,6 +18,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "train_station")
@@ -31,14 +34,16 @@ public class TrainStationMapping implements Serializable{
 	@EmbeddedId
 	private TrainStation objTrainStation;
 	
-	private Time departureTime;
+	@Temporal(TemporalType.TIME)
+	private Date departureTime;
 	
-	private Time arrivalTime;
+	@Temporal(TemporalType.TIME)
+	private Date arrivalTime;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private Direction direction;
 
-	public Time getDepartureTime() {
+	public Date getDepartureTime() {
 		return departureTime;
 	}
 
@@ -46,7 +51,7 @@ public class TrainStationMapping implements Serializable{
 		this.departureTime = departureTime;
 	}
 
-	public Time getArrivalTime() {
+	public Date getArrivalTime() {
 		return arrivalTime;
 	}
 
