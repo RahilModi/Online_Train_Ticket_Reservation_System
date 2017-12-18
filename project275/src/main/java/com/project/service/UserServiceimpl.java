@@ -1,5 +1,8 @@
 package com.project.service;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +11,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
+import com.project.dao.RoleRepository;
 import com.project.dao.UserRepository;
+import com.project.model.Role;
 import com.project.model.User;
 
 @Service
@@ -16,6 +21,9 @@ import com.project.model.User;
 public class UserServiceimpl implements UserServices{
 	
 	private final UserRepository userRepo;
+	
+	@Autowired 
+	private RoleRepository roleRepository;
 	
 	
 	public UserServiceimpl(UserRepository userRepo){
@@ -28,9 +36,11 @@ public class UserServiceimpl implements UserServices{
 			if(p.getEmail().equals(email)){
 				return null;
 			}
-		}
-		
+		}	
 		User user = new User(email,password,firstName,lastName);
+		userRepo.save(user);
+		Role userRole = roleRepository.findByRole("USER");
+        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
 		userRepo.save(user);
 		return user;
 	}
@@ -56,6 +66,9 @@ public class UserServiceimpl implements UserServices{
 		}
 		User usr = new User(user_id,name);
 		userRepo.save(usr);
+		Role userRole = roleRepository.findByRole("USER");
+		usr.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+		userRepo.save(usr);
 		return usr;
 	}
 
@@ -67,6 +80,9 @@ public class UserServiceimpl implements UserServices{
 			}
 		}
 		User usr = new User(email,firstName,lastName);
+		userRepo.save(usr);
+		Role userRole = roleRepository.findByRole("USER");
+		usr.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
 		userRepo.save(usr);
 		return usr;
 	}

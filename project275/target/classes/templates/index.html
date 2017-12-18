@@ -50,24 +50,6 @@
     		</div>
      	</div>
 	</div></center>
-	<!-- <div class="container" ng-show="!home.authenticated">
-		<div>
-			With Facebook: <a href="/connect/facebook">click here</a>
-		</div>
-		<div>
-			With Google: <a href="/connect/google">click here</a>
-		</div>
-	</div> -->
-	<div class="container" ng-show="home.authenticated">
-		Logged in as: <span ng-bind="home.user"></span>
-	</div>
-
-
-	<div>
-		<button ng-click="home.logout()" class="btn btn-primary">Logout</button>
-	</div>
-
-	<button ng-click="home.signout()" class="btn btn-primary">sign out</button>
 </body>
 <script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
 <script type="text/javascript">
@@ -84,15 +66,17 @@
 			self.authenticated = false;
 		});
 
-		self.signout = function() {
-			$http.post('/logout', {
+		self.userLogout = function() {
+			
+			$http.post('/userLogout',{
 
-			}).success(function(data) {
-				
-			}).error(function(data) {
+			}).success(function(){
+				$window.location.href ="/";
+			}).error(function(data){
+				console.log("Logout failed")
+			})
+		}
 
-			});
-		};
 
 		self.register = function() {
 			$http.post('/userRegistration', {
@@ -125,7 +109,11 @@
 				if(data.statusCode=="200"){
 					self.user = data.username;
 					console.log("successfully Loged In");
-					$window.location.href ="/mainPage";
+					if(data.role=="USER"){
+						$window.location.href ="/mainPage";
+					}else if(data.role =="ADMIN"){
+						$window.location.href ="/adminMainPage";
+					}
 				}else if(data.statusCode=="404"){
 					$scope.invalid = "Failed to Login Invalid username or password";
 				}

@@ -30,11 +30,20 @@ public class MainController {
 		//Follow this to get the session data
  		HttpSession httpSession = request.getSession();
 		String userEmail = httpSession.getAttribute("User_Email").toString();
-		System.out.println(userEmail);
-		
 		request.setAttribute("mode", "Home_Page");
 		request.setAttribute("email", userEmail);
 		return "mainPage";
+	}
+	
+	@GetMapping("/adminMainPage")
+	public String adminHomePage(HttpServletRequest request){
+		
+		//Follow this to get the session data
+ 		HttpSession httpSession = request.getSession();
+		String userEmail = httpSession.getAttribute("User_Email").toString();
+		request.setAttribute("mode", "Home_Page");
+		request.setAttribute("email", userEmail);
+		return "adminMainPage";
 	}
 	
 }

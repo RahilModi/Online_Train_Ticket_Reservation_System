@@ -3,6 +3,7 @@ package com.project.controller;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.project.model.Role;
 import com.project.model.User;
 import com.project.service.UserServiceimpl;
 
@@ -72,6 +74,26 @@ public class MainRestController {
 		httpSession.putValue("User_Email", user.getEmail());
 		//End of storage to sessions 
 		
+		 Iterator iterator = user.getRoles().iterator(); 
+	      
+		   // check values
+		   while (iterator.hasNext()){
+			   Role role = (Role) iterator.next();
+			   if(role.getRole().contains("USER")){
+					map.addAttribute("role","USER");
+					System.out.println("reached 11");
+				}else if(role.getRole().contains("ADMIN")){
+					map.addAttribute("role","ADMIN");
+				}
+		   System.out.println("Value: "+role.getRole() + " ");  
+		   }
+		
+		/*if(user.getRoles().contains("USER")){
+			map.addAttribute("role","USER");
+			System.out.println("reached 11");
+		}else if(user.getRoles().contains("ADMIN")){
+			map.addAttribute("role","ADMIN");
+		}*/
  		map.addAttribute("statusCode","200");
  		map.addAttribute("username", user.getEmail());
  		map.addAttribute("UserFirstName", user.getFirstName());

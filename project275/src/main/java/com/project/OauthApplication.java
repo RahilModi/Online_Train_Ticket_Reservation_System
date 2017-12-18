@@ -52,7 +52,7 @@ public class OauthApplication extends WebSecurityConfigurerAdapter {
 		http.antMatcher("/**")
 		.addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
 		.authorizeRequests()
-		.antMatchers("/", "/connect**","/userLogin**","/userRegistration**","/webjars/**","/mainPage**","/userLogout")
+		.antMatchers("/", "/connect**","/userLogin**","/userRegistration**","/webjars/**","/mainPage**","/userLogout","/adminMainPage**")
 			.permitAll()
 		.anyRequest()
 			.authenticated()
