@@ -41,11 +41,12 @@ public class MainRestController {
 	@Autowired 
 	private HttpSession httpSession;
 	
-	@RequestMapping("/logout")
+	@RequestMapping("/userLogout")
 	public ResponseEntity<Object>  logout(HttpServletResponse response, HttpServletRequest request) throws IOException{
 		System.out.println("reached here");
 		HttpSession httpSession = request.getSession();
 		httpSession.invalidate();
+		/*response.sendRedirect("index");*/
 		return null;
 	}
 	
@@ -98,16 +99,11 @@ public class MainRestController {
 	 	}
 	@RequestMapping("/user")
 	public Principal user(Principal principal, HttpServletRequest request) throws ParseException {
-		//System.out.println("The Map is: "+principal);
-		/*JSONParser parser = new JSONParser();
- 		JSONObject json = (JSONObject) parser.parse(principal.toString());
- 		System.out.println("The json object is: "+json);*/
 		
 			OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
 	        Authentication authentication = oAuth2Authentication.getUserAuthentication();
 	        Map<String, String> details = new LinkedHashMap<>();
 	        details = (Map<String, String>) authentication.getDetails();
-	        //logger.info("details = " + details);  // id, email, name, link etc.
 	        if(details.get("id")!=null){
 	        	System.out.println("reached 1");
 	        	System.out.println("The details are: "+details.get("id"));

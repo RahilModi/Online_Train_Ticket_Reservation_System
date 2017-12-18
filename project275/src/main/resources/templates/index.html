@@ -50,6 +50,8 @@
     		</div>
      	</div>
 	</div></center>
+
+	<button ng-click="home.userLogout()" class="btn btn-primary">Register</button>
 	<!-- <div class="container" ng-show="!home.authenticated">
 		<div>
 			With Facebook: <a href="/connect/facebook">click here</a>
@@ -84,15 +86,17 @@
 			self.authenticated = false;
 		});
 
-		self.signout = function() {
-			$http.post('/logout', {
+		self.userLogout = function() {
+			
+			$http.post('/userLogout',{
 
-			}).success(function(data) {
-				
-			}).error(function(data) {
+			}).success(function(){
+				$window.location.href ="/";
+			}).error(function(data){
+				console.log("Logout failed")
+			})
+		}
 
-			});
-		};
 
 		self.register = function() {
 			$http.post('/userRegistration', {
