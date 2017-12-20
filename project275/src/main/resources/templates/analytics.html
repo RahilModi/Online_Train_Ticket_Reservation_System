@@ -24,14 +24,10 @@
             lang: 'en',
             theme: 'dark'
         });
-
         var input = document.getElementById('time');
-
         timepicker.on('change', function(evt) {
-
             var value = (evt.hour || '00') + ':' + (evt.minute || '00');
             evt.element.value = value;
-
         });
 	</script>
 </head>
@@ -120,20 +116,16 @@
 <script type="text/javascript">
     angular.module("app", ['zingchart-angularjs']).controller("home", function($scope, $http, $location, $window) {
         var self = this;
-
         $scope.var = false;
         $scope.var1 = false;
-
         self.signout = function() {
             $http.post('/userLogout',{
-
             }).success(function(){
                 $window.location.href ="/";
             }).error(function(data){
                 console.log("Logout failed")
             })
         }
-
         $scope.getDailyReservationRate = function(){
             console.log($scope.startDate+" "+$scope.endDate);
             $scope.var = true;
@@ -168,7 +160,6 @@
                 };
             });
         }
-
         $scope.getReservationRate = function(){
             $scope.var1 = true;
             console.log($scope.date);
@@ -204,7 +195,6 @@
                 console.log("error in requesting..")
 			});
         }
-
         // //res rate
         // var value1 = [
         //     [

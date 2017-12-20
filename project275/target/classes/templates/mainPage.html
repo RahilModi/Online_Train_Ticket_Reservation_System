@@ -20,14 +20,11 @@
 		  lang: 'en',
 		  theme: 'dark'
 		});
-
 		var input = document.getElementById('time');
-
 		timepicker.on('change', function(evt) {
 		  
 		  var value = (evt.hour || '00') + ':' + (evt.minute || '00');
 		  evt.element.value = value;
-
 		});
 	</script>
 </head>
@@ -111,7 +108,7 @@
 			<div class="col-lg-12" style="margin-top:5px">
 				<div class="col-lg-12"><h3>One Way Trip Date and Time Selection</h3></div>
 				<div class="col-lg-6">
-					<input placeholder="Date" type="text" style="width: 100%" onfocus="(this.type='date')" onblur="(this.type='text')" id="datefield" min='2017-12-12' ng-model="date"></input>
+					<input placeholder="Date" type="text" style="width: 100%" onfocus="(this.type='date')" onblur="(this.type='text')" id="datefield" min="{{date | date:'yyyy-MM-dd'}}" ng-model="date1"></input>
 				</div>
 				<div class="col-lg-6">
 					<input placeholder="Time" type="text" style="width: 100%" onfocus="(this.type='Time')" onblur="(this.type='text')" id="time" ng-model="time"></input>
@@ -123,7 +120,7 @@
 			<div class="col-lg-12" style="margin-top:5px" ng-show="trip_type=='roundTrip'">
 				<div class="col-lg-12"><h3>Round Trip Date and Time Selection</h3></div>
 				<div class="col-lg-6">
-					<input placeholder="Date" type="text" style="width: 100%" onfocus="(this.type='date')" onblur="(this.type='text')" id="returndate" min='2017-12-12' ng-model="returndate"></input>
+					<input placeholder="Date" type="text" style="width: 100%" onfocus="(this.type='date')" onblur="(this.type='text')" id="returndate" min="{{date | date:'yyyy-MM-dd'}}" ng-model="returndate"></input>
 				</div>
 				<div class="col-lg-6">
 					<input placeholder="Time" type="text" style="width: 100%" onfocus="(this.type='Time')" onblur="(this.type='text')" id="returntime" ng-model="returntime"></input>
@@ -203,11 +200,12 @@
                                         </div>
                                         <div class="col-lg-12" >
                                             <div class="col-lg-6"><b>From: </b>{{trains.origin}}</div>
-											<div class="col-lg-6"><b>Departure Time:</b> {{trains.depat_time}}</div>
+                                            <div class="col-lg-6"><b>To: </b>{{trains.destination}}</div>
+											
                                         </div>
                                         <div class="col-lg-12">
-                                            <div class="col-lg-6"><b>To: </b>{{trains.destination}}</div>
 											<div class="col-lg-6"><b>Arrival Time:</b> {{trains.arrival_time}}</div>
+											<div class="col-lg-6"><b>Departure Time:</b> {{trains.depat_time}}</div>
                                         </div>
 
                                     </div>
@@ -699,7 +697,6 @@
 <script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
 <script type="text/javascript">
 	angular.module("app", []).controller("home", function($scope, $http, $location, $window, $timeout) {
-
 		//console.log($scope.firstName1+$scope.firstName2)
 		$scope.oneWayTrip = true;
 		$scope.roundWayTrip = true;
@@ -711,19 +708,19 @@
 		$scope.case3 = true;
 		$scope.case4 = true;
 		$scope.case5 = true;
-
         $scope.success=false;
         $scope.error=false;
         $scope.message=false;
+
+ 		$scope.date = new Date();
+
         $scope.clearFlashMessages = function(){
             $scope.error=false;
             $scope.success = false;
             $scope.message = false;
         }
 		var guest_count = 1;
-
 		var self = this;
-
 		//console.log("value1"+value+"value2"+value1+"value3"+value2);
         $http({
             url : "/getstations",
@@ -736,14 +733,13 @@
                 console.log("Error in retrieving the stations form BackEnd");
             }
         );
-
         $scope.search = function(){
             var extTime = 0;
             var result=[];
             var frmStation = $scope.fromStation;
             var tStation = $scope.toStationmodel;
             var gstCount = $scope.guestCount;
-            var dte = $scope.date;
+            var dte = $scope.date1;
             var tme = $scope.time+":00";
             var dateTime = dte+" "+tme;
             var trpType = $scope.trip_type;
@@ -784,28 +780,23 @@
                 }
             );
         }
-
 		var res = [];
 		$scope.trip = function(forward , reverse){
 			$scope.names = forward+reverse;
 			$scope.value1 = true;
 			$scope.value2 = false;
 			$scope.value3 = true;
-
 			// res = [{"forward_trip":[forward],"reverse_trip":[reverse]}];
 			// /*$scope.names = res;*/
 			// console.log("The object is: "+res[0].forward_trip[0]);
 			// var object = JSON.parse(res[0].forward_trip[0]);
 			// console.log("type is"+object["ticket_type"]);
-
             $scope.selectedOneWay = JSON.parse(forward);
             $scope.selectedReturn = JSON.parse(reverse);
-
 			// $scope.kticket_type = object["ticket_type"];
 			// $scope.kprice = object["price"];
 			// $scope.kpassenger_count = object["passenger_count"];
 			// $scope.gstCount1 = object["passenger_count"];
-
 			// switch($scope.selectedOneWay.passenger_count){
 			// 	case 1: {
 			// 		$scope.case1 = false;
@@ -842,9 +833,7 @@
 			//
 			// $scope.ctrainsarrival_time = object1["trains"][0]["arrival_time"];
 			// $scope.ctrainsdepat_time = object1["trains"][0]["depat_time"];
-
 		}
-
 		var res2=[];
 		$scope.onewaytrip = function(forward){
 			/*$scope.names = forward;*/
@@ -856,9 +845,7 @@
 			// console.log(res2);
 			// var object4 = JSON.parse(res2[0].forward_trip[0]);
 			// console.log("The object is: "+object4["ticket_type"]);
-
 			$scope.selectedTrip = JSON.parse(forward);
-
 			console.log($scope.selectedTrip);
             // switch($scope.selectedOneWay.passenger_count){
             //     case 1: {
@@ -883,7 +870,6 @@
             //     }
             //
             // }
-
 			// $scope.fticket_type = object4["ticket_type"];
 			// $scope.fprice = object4["price"];
 			// $scope.fpassenger_count = object4["passenger_count"];
@@ -891,9 +877,7 @@
 			//
 			// $scope.ftrainsarrival_time = object4["trains"][0]["arrival_time"];
 			// $scope.ftrainsdepat_time = object4["trains"][0]["depat_time"];
-
 		}
-
         function parseResponse(result)
         {
             //console.log(result[0].forward_trip.length)
@@ -927,12 +911,9 @@
 			}*/
             }
         }
-
-
         $scope.submitOneWayTrip = function(){
 		    var res = {};
 		    res["forward_ticket"] = $scope.selectedTrip;
-
             $http({
                 url:"/purchase",
                 method: "POST",
@@ -953,16 +934,11 @@
                 $scope.value3 = true;
 			});
             $timeout(function () { $scope.clearFlashMessages(); },2000);
-
-
         }
-
         $scope.submitRoundTrip = function(){
-
 		    var res = {};
 		    res["forward_ticket"] = $scope.selectedOneWay;
 		    res["reverse_ticket"] = $scope.selectedReturn;
-
             $http({
                 url:"/purchase",
                 method: "POST",
@@ -983,25 +959,18 @@
                 $scope.value3 = true;
             });
             $timeout(function () { $scope.clearFlashMessages(); },2000);
-
         }
-
-
     	
 		/*$scope.selected = $scope.items[0];*/
-
-
 		$scope.bookingHistory = function(){
 			$http.get('/bookingHistory').success(function(data){
 			}).error(function(data){
 				console.log("Failed");
 			})
 		}
-
 		/*self.bookTicket = function(train){
 			$scope.Train = train;
 		}*/
-
 		self.signout = function() {
 			$http.post('/userLogout',{
 			}).success(function(){

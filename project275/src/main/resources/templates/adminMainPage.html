@@ -45,36 +45,36 @@
 <div class="col-lg-8">
 	<div class="col-lg-12">
 
-		<div class="col-lg-6" >
+		<div class="col-lg-12" >
 			<div class="col-lg-12" style="border: 1px solid black;height: auto;">
 				<h2>Train To Be Cancelled </h2>
 				<div class="col-lg-12">
-					<label>Train Name: </label><input type="text" name="trainCancellation" ng-model="trainCancellation"/>
-					<br/>
-					<input placeholder="Date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="datefield" min='2017-12-12' ng-model="date" />
-					<button class="btn btn-primary" ng-click="cancelTrain()" style="margin-bottom: 5px">Cancel Train</button>
-					<!-- <div ng-show="val" style="background-color: green">
-                        <h3>Successfully Cancelled the Train</h3>
-                    </div>
-                    <div ng-show="val2" style="background-color: red">
-                        <h3>Could Not Cancel the Train</h3>
-                    </div> -->
+					<div class="col-lg-5">
+						<span>Train Name: </span><input type="text" name="trainCancellation" ng-model="trainCancellation"/>
+					</div>
+					<div class="col-lg-5">
+						<span>Date: </span><input placeholder="Date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="datefield" min='2017-12-12' ng-model="date" />
+					</div>
+
+					<div class="col-lg-2">
+						<button class="btn btn-primary" ng-click="cancelTrain()" style="margin-bottom: 5px">Cancel Train</button>
+					</div>
+					<div class="alert alert-success col-lg-12" ng-show="var">
+					    <strong>Success!</strong> {{successMessage}}
+					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="col-lg-6">
+		<div class="col-lg-12" style="margin-top:15px">
 			<div class="col-lg-12" style="border: 1px solid black;height: auto;">
 				<h2>Set Max Capacity of all trains</h2>
 				<div class="col-lg-12">
-					<label>Max Capacity: </label><input type="text" name="increaseMaxCapacityCount" ng-model="increaseMaxCapacityCount"/>
+					<span>Max Capacity: </span><input type="text" name="increaseMaxCapacityCount" ng-model="increaseMaxCapacityCount"/>
 					<button class="btn btn-primary" ng-click="setMaxCapacity()" style="margin-bottom: 5px">Submit</button>
-					<!-- <div ng-show="val3" style="background-color: green">
-                        <h3>Successfully Increased the Max Capacity</h3>
-                    </div>
-                    <div ng-show="val4" style="background-color: red">
-                        <h3>Could Not Increase the Max Capacity</h3>
-                    </div> -->
+					<div class="alert alert-success col-lg-12" ng-show="var">
+					    <strong>Success!</strong> {{successMessage}}
+					</div>
 				</div>
 			</div>
 		</div>
@@ -89,21 +89,18 @@
 <script type="text/javascript">
     angular.module("app", ['zingchart-angularjs']).controller("home", function($scope, $http, $location, $window) {
         var self = this;
-
-        /*$scope.val = fal;
-        $scope.val2 = false;
+        $scope.val = false;
+        /*$scope.val2 = false;
         $scope.val3 = false;
         $scope.val4 = false;*/
         self.signout = function() {
             $http.post('/userLogout',{
-
             }).success(function(){
                 $window.location.href ="/";
             }).error(function(data){
                 console.log("Logout failed")
             })
         }
-
         $scope.cancelTrain = function(){
             console.log("inside cancelTrain");
             var params = {
@@ -115,14 +112,11 @@
                 method:"GET",
                 params: params
             }).success(function(data){
-
+            	$scope.val = true;
+            	$scope.successMessage = "Successfully Cancelled Train"
             }).error(function(err){
-
             })
-
         }
-
-
         $scope.setMaxCapacity = function(){
             $http({
                 url:"/setCapacity",
@@ -131,14 +125,11 @@
                     "capacity":$scope.increaseMaxCapacityCount
                 }
             }).success(function(data){
-
+            	$scope.val = true;
+            	$scope.successMessage = "Successfully Increased The Max Capacity of Train"
             }).error(function(err){
-
             })
-
         }
-
-
         /*elf.logout = function() {
             $http.post('/logout', {}).success(function() {
             }).error(function(data) {
