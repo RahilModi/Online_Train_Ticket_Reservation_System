@@ -75,7 +75,6 @@ public class MainRestController {
 		//End of storage to sessions 
 		
 		 Iterator iterator = user.getRoles().iterator(); 
-	      
 		   // check values
 		   while (iterator.hasNext()){
 			   Role role = (Role) iterator.next();

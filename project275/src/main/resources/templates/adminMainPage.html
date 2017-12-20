@@ -19,20 +19,31 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
 </head>
 <body ng-app="app" ng-controller="home as home">
-	<!-- <div class="container" ng-show="!home.authenticated">
-		<div>
-			With Facebook: <a href="/connect/facebook">click here</a>
-		</div>
-		<div>
-			With Google: <a href="/connect/google">click here</a>
-		</div>
-	</div> -->
-	<p>Logged In as :"${email}"</p>
-		<button ng-click="home.signout()" class="btn btn-primary">sign out</button>
+	<nav class="navbar navbar-inverse">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <a class="navbar-brand">California Ultra-Speed Rail Service</a>
+	    </div>
+	    <!-- <ul class="nav navbar-nav">
+	      <li class="active"><a href="#">Home</a></li>
+	      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
+	        <ul class="dropdown-menu">
+	          <li><a href="#">Page 1-1</a></li>
+	          <li><a href="#">Page 1-2</a></li>
+	          <li><a href="#">Page 1-3</a></li>
+	        </ul>
+	      </li>
+	      <li><a href="#">Page 2</a></li>
+	    </ul> -->
+	    <ul class="nav navbar-nav navbar-right">
+	      <li><a href="/analytics"><span class="glyphicon glyphicon-user"></span> Analytics</a></li>
+	      <li><a href="#" ng-click="home.signout()"><span class="glyphicon glyphicon-log-in"></span> LogOut</a></li>
+	    </ul>
+	  </div>
+	</nav>	
 </body>
-<script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
 <script type="text/javascript">
-	angular.module("app", []).controller("home", function($scope, $http, $location, $window) {
+	angular.module("app", ['zingchart-angularjs']).controller("home", function($scope, $http, $location, $window) {
 		var self = this;
 
 		self.signout = function() {
@@ -44,6 +55,7 @@
 				console.log("Logout failed")
 			})
 		}
+
 		
 		/*elf.logout = function() {
 			$http.post('/logout', {}).success(function() {

@@ -52,13 +52,13 @@ public class OauthApplication extends WebSecurityConfigurerAdapter {
 		http.antMatcher("/**")
 		.addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
 		.authorizeRequests()
-		.antMatchers("/", "/connect**","/userLogin**","/userRegistration**","/webjars/**","/mainPage**","/userLogout","/adminMainPage**")
+		.antMatchers("/", "/connect**","/userLogin**","/userRegistration**","/webjars/**","/mainPage**","/userLogout","/adminMainPage**","/bookingHistory**","/analytics**")
 			.permitAll()
 		.anyRequest()
 			.authenticated()
 		.and()
 			.logout()
-		    .logoutSuccessUrl("/").permitAll().and().csrf().ignoringAntMatchers("/","/userLogin**","/userRegistration**","/mainPage**")
+		    .logoutSuccessUrl("/").permitAll().and().csrf().ignoringAntMatchers("/","/userLogin**","/userRegistration**","/mainPage**","/bookingHistory**")
 		 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 	}
 	// @formatter:on

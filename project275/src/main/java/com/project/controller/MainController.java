@@ -35,6 +35,19 @@ public class MainController {
 		return "mainPage";
 	}
 	
+	@GetMapping("/bookingHistory")
+	public String bookingHistory(HttpServletRequest request){
+		request.setAttribute("mode", "Booking_History");
+		return "bookingHistory";
+	}
+	
+	@GetMapping("/analytics")
+	public String analytics(HttpServletRequest request){
+		request.setAttribute("mode", "Booking_History");
+		return "analytics";
+	}
+	
+	
 	@GetMapping("/adminMainPage")
 	public String adminHomePage(HttpServletRequest request){
 		

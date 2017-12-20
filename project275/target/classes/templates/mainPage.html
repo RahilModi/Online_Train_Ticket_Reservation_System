@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 
-<html xmlns="http://www.thymeleaf.org" lang="en">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -13,30 +13,609 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-	
-
 <script type="text/javascript"
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		var timepicker = new TimePicker('time', {
+		  lang: 'en',
+		  theme: 'dark'
+		});
+
+		var input = document.getElementById('time');
+
+		timepicker.on('change', function(evt) {
+		  
+		  var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+		  evt.element.value = value;
+
+		});
+	</script>
 </head>
 <body ng-app="app" ng-controller="home as home">
-	<!-- <div class="container" ng-show="!home.authenticated">
-		<div>
-			With Facebook: <a href="/connect/facebook">click here</a>
+
+	<nav class="navbar navbar-inverse">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <a class="navbar-brand">California Ultra-Speed Rail Service</a>
+	    </div>
+	    <!-- <ul class="nav navbar-nav">
+	      <li class="active"><a href="#">Home</a></li>
+	      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
+	        <ul class="dropdown-menu">
+	          <li><a href="#">Page 1-1</a></li>
+	          <li><a href="#">Page 1-2</a></li>
+	          <li><a href="#">Page 1-3</a></li>
+	        </ul>
+	      </li>
+	      <li><a href="#">Page 2</a></li>
+	    </ul> -->
+	    <ul class="nav navbar-nav navbar-right">
+	      <li><a href="/bookingHistory"><span class="glyphicon glyphicon-user"></span>Booking History</a></li> 
+	      <li><a href="#" ng-click="home.signout()"><span class="glyphicon glyphicon-log-in"></span> LogOut</a></li>
+	    </ul>
+	  </div>
+	</nav>
+
+
+	<div class="col-lg-3"></div>
+
+	<div class="col-lg-6">
+
+		<!-- This section includes the option to select the station -->
+		<div class="col-lg-12">
+			<div class="col-lg-4">
+				<select ng-options="item as item.fromStation for item in fromStationItem track by item.fromStation" ng-model="fromStation" style="width: 100%">
+					<option value="">
+						From Station
+					</option>	
+				</select>
+			</div>
+			<div class="col-lg-4">
+				<select ng-options="item as item.toStation for item in toStationItem track by item.toStation" ng-model="toStationmodel" style="width: 100%">
+					<option value="">
+						To Station
+					</option>	
+				</select>
+			</div>
+			<div class="col-lg-4">
+				<select ng-model="guestCount" style="width: 100%">
+					<option value="">
+						Guests
+					</option>
+					<option value="1">1</option>	
+					<option value="2">2</option>	
+					<option value="3">3</option>	
+					<option value="4">4</option>	
+					<option value="5">5</option>	
+				</select>
+			</div>
 		</div>
-		<div>
-			With Google: <a href="/connect/google">click here</a>
+		<!-- End of the station selection -->
+
+		<!-- Start of date and Time Picker -->
+		<div class="col-lg-12" style="margin-top:5px">
+			<div class="col-lg-6">
+				<input placeholder="Date" type="text" style="width: 100%" onfocus="(this.type='date')" onblur="(this.type='text')" id="datefield" min='2017-12-12' ng-model="date"></input>
+			</div>
+			<div class="col-lg-6">
+				<input placeholder="Time" type="text" style="width: 100%" onfocus="(this.type='Time')" onblur="(this.type='text')" id="time" ng-model="time"></input>
+			</div>
 		</div>
-	</div> -->
-	<p>Logged In as :"${email}"</p>
-		<button ng-click="home.signout()" class="btn btn-primary">sign out</button>
+		<!-- End of date and time picker -->
+
+		<!-- Start of trip type, ticket type and Number of conncetion fields -->
+		<div class="col-lg-12" style="margin-top:5px">
+			<div class="col-lg-4">
+            	<h4>Trip type</h4>
+                <ul class="list-group">
+                    <li class="list-group-item">One Way<input type="radio" value="oneWay" ng-model="trip_type" style="float:right"></input></li>
+                    <li class="list-group-item">Round Trip<input type="radio" value="roundTrip" ng-model="trip_type" style="float:right"></input></li>
+                </ul>
+                
+			</div>
+			<div class="col-lg-4">
+				<h4>Train type</h4>
+                <ul class="list-group">
+                    <li class="list-group-item">Regular<input type="radio" value="regularTrain" ng-model="train_type" style="float:right"></input></li>
+                    <li class="list-group-item">Express<input type="radio" value="expressTrain" ng-model="train_type" style="float:right"></input></li>
+                    <li class="list-group-item">Any<input type="radio" value="Any" ng-model="train_type" style="float:right"></input></li>
+                </ul>
+			</div>
+			<div class="col-lg-4">
+				<h4>Number of Connections</h4>
+                <ul class="list-group">
+                    <li class="list-group-item">Any<input  type="radio" value="anyConnection" ng-model="connectionCount" style="float:right"></input></li>
+                    <li class="list-group-item">One<input  type="radio" value="oneConnection" ng-model="connectionCount" style="float:right"></input></li>
+                    <li class="list-group-item">Two<input  type="radio" value="twoConnection" ng-model="connectionCount" style="float:right"></input></li>
+                </ul>
+			</div>
+		</div>
+		<!-- End of trip type, ticket type and Number of conncetion fields -->
+		<div class="col-lg-12">
+			<div class="col-lg-12">
+	            <ul class="list-group" style="width: 100%">
+	                <li class="list-group-item">Exact Time<input type="radio" value="exactTime" ng-model="exact_time" style="float:right"></input></li>
+	            </ul>
+            </div>
+		</div>
+		<div class="col-lg-12">
+			<div class="col-lg-12">
+				<button ng-click="search()" class="btn btn-primary" style="width:100%">Search</button>
+			</div>
+		</div>
+
+
+
+
+		<!-- <div class="col-lg-12" ng-repeat="x in records">
+			<p>{{x.Name}}</p>
+			<div>
+				<center><p ng-repeat="j in x.city">{{j.name}}</p>
+			</div>
+		</div> -->
+
+
+			<div class="col-lg-12" style="margin-top: 10px" ng-hide="oneWayTrip">
+				<ul class="list-group" style="height: auto;">
+	                <li class="list-group-item" ng-repeat="x in records" style="height: 120px">
+	                			<div class="col-lg-12">
+		                			<div class="col-lg-6">
+				                		<label>Ticket Type: {{x.ticket_type}}</label>
+				                	</div>
+				                	<div class="col-lg-6"> 
+				                		<input type="radio" style="float: right;" ng-model="$parent.name" value="{{x}}"/>
+				                	</div>
+			                	</div>
+			                	<div class="col-lg-12">
+				                	<div class="col-lg-6"><b>Cost of Ticket:</b> {{x.price}}$</div>
+				                	<div class="col-lg-6"><b>Passenger Count:</b> {{x.passenger_count}}</div>
+				                </div>
+
+				                <div class="col-lg-12">
+				                	<div class="col-lg-6"><b>Arrival Time:</b> {{x.trains[0].arrival_time}}</div>
+				                	<div class="col-lg-6"><b>Departure Time:</b> {{x.trains[0].depat_time}}</div>
+				                </div>
+	                	<!-- <span>The ticket type: </span>{{x.ticket_type}}{{x.trains.arrival_time}}
+	                	<button class="btn btn-primary" ng-click="bookTicket(x.Name)" style="float: right;">Select Train</button> -->
+	                </li>
+		        	<center><button class="btn btn-primary" ng-click="onewaytrip(name)" style="width:100%;margin-top:5px">Submit</button></center>
+		        </ul>
+			</div>
+
+			<div class="col-lg-12" style="margin-top: 10px" ng-hide="roundWayTrip">
+				<div class="col-lg-6">
+					<h4>Forward Trip</h4>
+					<ul class="list-group" style="height: auto;">
+		                <li class="list-group-item" ng-repeat="y in records1" style="height:175px;">
+		                	<div class="col-lg-12">
+	                			<div class="col-lg-8">
+			                		<label>Ticket Type: {{y.ticket_type}}</label>
+			                	</div>
+			                	<div class="col-lg-4"> 
+			                		<input type="radio" style="float: right;" ng-model="$parent.name1" value="{{y}}"/>
+			                	</div>
+		                	</div>
+		                	<div class="col-lg-12">
+			                	<div class="col-lg-12"><b>Cost of Ticket:</b> {{y.price}}$</div>
+			                	<div class="col-lg-12"><b>Passenger Count:</b> {{y.passenger_count}}</div>
+			                </div>
+
+			                <div class="col-lg-12">
+			                	<div class="col-lg-12"><b>Arrival Time:</b> {{y.trains[0].arrival_time}}</div>
+			                	<div class="col-lg-12"><b>Departure Time:</b> {{y.trains[0].depat_time}}</div>
+			                </div>
+
+		                	<!-- <input type="radio" style="float: right;" ng-model="$parent.name1" value="{{y}}"/>
+		                	<label>{{y.ticket_type}}</label> -->
+
+		                	<!-- <span>The ticket type: </span>{{y.ticket_type}}{{y.trains.arrival_time}} 
+		                	<button class="btn btn-primary" ng-click="bookTicket(y.Name)" style="float: right;">Select Train</button>-->
+		                </li>
+			        </ul>
+		        </div>
+		        <div class="col-lg-6">
+					<h4>Reverse Trip</h4>
+					<ul class="list-group" style="height: auto">
+		                <li class="list-group-item" ng-repeat="z in records2" style="height:175px;">
+
+		                	<div class="col-lg-12">
+	                			<div class="col-lg-8">
+			                		<label>Ticket Type: {{z.ticket_type}}</label>
+			                	</div>
+			                	<div class="col-lg-4"> 
+			                		<input type="radio" style="float: right;" ng-model="$parent.name2" value="{{z}}"/>
+			                	</div>
+		                	</div>
+		                	<div class="col-lg-12">
+			                	<div class="col-lg-12"><b>Cost of Ticket:</b> {{z.price}}$</div>
+			                	<div class="col-lg-12"><b>Passenger Count:</b> {{z.passenger_count}}</div>
+			                </div>
+
+			                <div class="col-lg-12">
+			                	<div class="col-lg-12"><b>Arrival Time:</b> {{z.trains[0].arrival_time}}</div>
+			                	<div class="col-lg-12"><b>Departure Time:</b> {{z.trains[0].depat_time}}</div>
+			                </div>
+
+<!-- 		                	<input type="radio" style="float: right;" ng-model="$parent.name2" value="{{z}}"/>
+		                	<label>{{z.ticket_type}}</label> -->
+
+		                	<!-- <span>The ticket type: </span>{{z.ticket_type}}{{z.trains.arrival_time}} 
+		                	<button class="btn btn-primary" ng-click="bookTicket(y.Name)" style="float: right;">Select Train</button>-->
+		                </li>
+			        </ul>
+		        </div>
+		        <div class="col-lg-12">
+		        	<center><button class="btn btn-primary" ng-click="trip(name1,name2)" style="width:100%">Submit</button></center>
+		        </div>
+			</div>
+
+{{names}}
+
+	</div>
+
+	<div class="col-lg-3"></div>
+
 </body>
 <script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
 <script type="text/javascript">
 	angular.module("app", []).controller("home", function($scope, $http, $location, $window) {
+
+		$scope.oneWayTrip = true;
+		$scope.roundWayTrip = true;
+
 		var self = this;
 
+		//console.log("value1"+value+"value2"+value1+"value3"+value2);
+		$http({
+			url : "/getDateData",
+			method:"GET",
+		}).success(function(data){
+			if(data.statusCode=="200"){
+				
+			}
+			else if(data.statusCode=="404"){
+				
+			}
+		});
+
+		$scope.search = function(){
+			var extTime = 0;
+			var frmStation = $scope.fromStation;
+			var tStation = $scope.toStationmodel;
+			var gstCount = $scope.guestCount;
+			var dte = $scope.date;
+			var tme = $scope.time+":00";
+			var dateTime = dte+" "+tme;
+			var trpType = $scope.trip_type;
+			var trnType = $scope.train_type;
+			var cnnCount = $scope.connectionCount;
+			var extTime = $scope.exact_time;
+			if(!extTime){
+				extTime ="NotExactTime"
+			}
+			console.log(frmStation.fromStation+" "+tStation.toStation+" "+gstCount+" "+dte+" "+tme+" "+trpType+" "+trnType+" "+cnnCount+" "+extTime+" "+dateTime);
+//train type reg = 1 exprs=2 any=0
+//no of connections any=0 one =1 two = 2
+			/*$http({
+				url:"/search",
+				method: "POST",
+				data: {
+					"origin":frmStation.fromStation,
+					"destination":tStation,
+					"departure_datetime"
+				}
+			})*/
+
+		}
+		
+
+		
+		//ng-options for from station
+		$scope.fromStationItem = [{
+			fromStation: 'a',
+		}, {
+			fromStation: 'b',
+		}];
+
+		//ng-options for to station
+		$scope.toStationItem = [{
+			toStation: 'a',
+		}, {
+			toStation: 'b',
+		}];
+		$scope.trip = function(forward , reverse){
+			$scope.names = forward+reverse;
+		}
+		$scope.onewaytrip = function(forward){
+			$scope.names = forward;
+		}
+		var result=[];
+		/*var object = JSON.stringify(result);
+		console.log("The data is: "+Object.keys(result).length);
+
+		if(object.forward_trip!=null){
+			console.log("The data is: ");
+			$scope.records = result;
+		}*/
+		result = [
+	       {
+			    "forward_trip": [
+			        {
+			            "ticket_type": "Express",
+			            "price": 12,
+			            "origin": "F",
+			            "destination": "U",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 08:49:00 PST 2017",
+			                "train_name": "SB0700",
+			                "origin": "F",
+			                "destination": "U",
+			                "depat_time": "Sun Dec 17 07:28:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Regular",
+			            "price": 6,
+			            "origin": "F",
+			            "destination": "U",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 08:52:00 PST 2017",
+			                "train_name": "SB0615",
+			                "origin": "F",
+			                "destination": "U",
+			                "depat_time": "Sun Dec 17 06:55:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Regular",
+			            "price": 6,
+			            "origin": "F",
+			            "destination": "U",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 09:07:00 PST 2017",
+			                "train_name": "SB0630",
+			                "origin": "F",
+			                "destination": "U",
+			                "depat_time": "Sun Dec 17 07:10:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Regular",
+			            "price": 6,
+			            "origin": "F",
+			            "destination": "U",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 09:22:00 PST 2017",
+			                "train_name": "SB0645",
+			                "origin": "F",
+			                "destination": "U",
+			                "depat_time": "Sun Dec 17 07:25:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Express",
+			            "price": 12,
+			            "origin": "F",
+			            "destination": "U",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 09:49:00 PST 2017",
+			                "train_name": "SB0800",
+			                "origin": "F",
+			                "destination": "U",
+			                "depat_time": "Sun Dec 17 08:28:00 PST 2017"
+			            }]
+			        }
+			    ],
+			    "reverse_trip": [
+			        {
+			            "ticket_type": "Express",
+			            "price": 12,
+			            "origin": "U",
+			            "destination": "F",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 07:49:00 PST 2017",
+			                "train_name": "NB0600",
+			                "origin": "U",
+			                "destination": "F",
+			                "depat_time": "Sun Dec 17 06:28:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Express",
+			            "price": 12,
+			            "origin": "U",
+			            "destination": "F",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 08:49:00 PST 2017",
+			                "train_name": "NB0700",
+			                "origin": "U",
+			                "destination": "F",
+			                "depat_time": "Sun Dec 17 07:28:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Regular",
+			            "price": 6,
+			            "origin": "U",
+			            "destination": "F",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 08:52:00 PST 2017",
+			                "train_name": "NB0615",
+			                "origin": "U",
+			                "destination": "F",
+			                "depat_time": "Sun Dec 17 06:55:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Regular",
+			            "price": 6,
+			            "origin": "U",
+			            "destination": "F",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 09:07:00 PST 2017",
+			                "train_name": "NB0630",
+			                "origin": "U",
+			                "destination": "F",
+			                "depat_time": "Sun Dec 17 07:10:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Regular",
+			            "price": 6,
+			            "origin": "U",
+			            "destination": "F",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 09:22:00 PST 2017",
+			                "train_name": "NB0645",
+			                "origin": "U",
+			                "destination": "F",
+			                "depat_time": "Sun Dec 17 07:25:00 PST 2017"
+			            }]
+			        }
+			    ]
+			}
+    	]
+
+    	/*result =[
+    	{
+			    "forward_trip": [
+			        {
+			            "ticket_type": "Express",
+			            "price": 12,
+			            "origin": "F",
+			            "destination": "U",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 08:49:00 PST 2017",
+			                "train_name": "SB0700",
+			                "origin": "F",
+			                "destination": "U",
+			                "depat_time": "Sun Dec 17 07:28:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Regular",
+			            "price": 6,
+			            "origin": "F",
+			            "destination": "U",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 08:52:00 PST 2017",
+			                "train_name": "SB0615",
+			                "origin": "F",
+			                "destination": "U",
+			                "depat_time": "Sun Dec 17 06:55:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Regular",
+			            "price": 6,
+			            "origin": "F",
+			            "destination": "U",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 09:07:00 PST 2017",
+			                "train_name": "SB0630",
+			                "origin": "F",
+			                "destination": "U",
+			                "depat_time": "Sun Dec 17 07:10:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Regular",
+			            "price": 6,
+			            "origin": "F",
+			            "destination": "U",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 09:22:00 PST 2017",
+			                "train_name": "SB0645",
+			                "origin": "F",
+			                "destination": "U",
+			                "depat_time": "Sun Dec 17 07:25:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Express",
+			            "price": 12,
+			            "origin": "F",
+			            "destination": "U",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 09:49:00 PST 2017",
+			                "train_name": "SB0800",
+			                "origin": "F",
+			                "destination": "U",
+			                "depat_time": "Sun Dec 17 08:28:00 PST 2017"
+			            }]
+			        }
+			    ]
+			}
+    	]*/
+
+
+		var object = JSON.stringify(result);
+		//console.log(result[0].forward_trip.length)
+		/*console.log("The data is: "+Object.keys(result).length);
+		console.log("The object is: "+angular.fromJson(result)[0])*/
+		var v1 = result[0].forward_trip;
+		var v2 = result[0].reverse_trip;
+		if (result.length!=0) {
+			if(v2==null){
+				$scope.oneWayTrip=false;
+				$scope.roundWayTrip=true;
+				$scope.records = result[0].forward_trip;
+			}else{
+				console.log("The data is: "+result[0].forward_trip);
+				$scope.oneWayTrip=true;
+				$scope.roundWayTrip=false;
+				$scope.records1 = result[0].forward_trip;
+				$scope.records2 = result[0].reverse_trip;
+			}
+			/*if(v1!=null || v2!=null){
+				console.log("The data is: "+result[0].forward_trip);
+				$scope.oneWayTrip=true;
+				$scope.roundWayTrip=false;
+				$scope.records1 = result[0].forward_trip;
+				$scope.records2 = result[0].reverse_trip;
+			}else if(result[0].forward_trip==null){
+				$scope.oneWayTrip=false;
+				$scope.roundWayTrip=true;
+				$scope.records = result;
+			}*/
+		}else{
+
+		}
+
+
+
+    	
+		/*$scope.selected = $scope.items[0];*/
+
+
+		$scope.bookingHistory = function(){
+			$http.get('/bookingHistory').success(function(data){
+
+			}).error(function(data){
+				console.log("Failed");
+			})
+		}
+
+		/*self.bookTicket = function(train){
+			$scope.Train = train;
+		}*/
+
 		self.signout = function() {
-			
 			$http.post('/userLogout',{
 
 			}).success(function(){
@@ -45,13 +624,7 @@
 				console.log("Logout failed")
 			})
 		}
-		
-		/*elf.logout = function() {
-			$http.post('/logout', {}).success(function() {
-			}).error(function(data) {
-				console.log("Logout failed")
-			});
-		};*/
 	});
 </script>
 </html>
+
