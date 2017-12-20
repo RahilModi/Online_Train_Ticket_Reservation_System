@@ -51,10 +51,10 @@ public class OauthApplication extends WebSecurityConfigurerAdapter {
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
 	
-	@RequestMapping("/user")
+	/*@RequestMapping("/user")
 	public Principal user(Principal principal) {
 		return principal;
-	}
+	}*/
 	
 	public static void main(String[] args) {
 		SpringApplication.run(OauthApplication.class, args);
@@ -67,15 +67,13 @@ public class OauthApplication extends WebSecurityConfigurerAdapter {
 		http.antMatcher("/**")
 		.addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
 		.authorizeRequests()
-		
-		.antMatchers("/", "/connect**","/userLogin**","/userRegistration**","/webjars/**", "/search**", "/purchase**", "/canceltrain**", "/getstations**", "/getTickets**", "/cancelTicket**/**", "/setCapacity**")
-
+		.antMatchers("/", "/connect**","/userLogin**","/userRegistration**","/webjars/**", "/search**", "/purchase**", "/canceltrain**", "/getstations**", "/getTickets**", "/cancelTicket**/**", "/setCapacity**","/mainPage**","/userLogout","/adminMainPage**","/bookingHistory**","/analytics**")
 			.permitAll()
 		.anyRequest()
 			.authenticated()
 		.and()
 			.logout()
-		    .logoutSuccessUrl("/").permitAll().and().csrf().ignoringAntMatchers("/","/userLogin**","/userRegistration**","/canceltrain**", "/getstations**", "/getTickets**", "/cancelTicket**/**", "/setCapacity**","/search**", "/purchase**")
+		    .logoutSuccessUrl("/").permitAll().and().csrf().ignoringAntMatchers("/","/userLogin**","/userRegistration**","/canceltrain**", "/getstations**", "/getTickets**", "/cancelTicket**/**", "/setCapacity**","/search**", "/purchase**","/mainPage**","/userLogout","/adminMainPage**","/bookingHistory**","/analytics**")
 		 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 	}
 	// @formatter:on
