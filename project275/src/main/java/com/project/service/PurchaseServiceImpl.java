@@ -35,7 +35,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 	private TrainRepository trainRepository;
 	
 	@Override
-	public boolean purchase(Map<String, Object> payload) {
+	public boolean purchase(Map<String, Object> payload, User user) {
 		try{
 			Object of = payload.get("forward_ticket");
 			Object or = payload.get("reverse_ticket");
@@ -44,9 +44,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     		t.setRoundTrip(payload.size() == 1 ? false : true);
     		t.setCancelled(false);
     		t.setTicketType(TrainType.valueOf((String)mapF.get("ticket_type")));
-    		User u = new User();
-    		u.setEmail("xyz@gmail.com");
-    		t.setUser(u);
+    		t.setUser(user);
     		List<Booking> ls = new ArrayList<>();
     		List<Map<String, String>> bookings= (List<Map<String, String>>)mapF.get("trains");
     		DateFormat df = new SimpleDateFormat("E MMM dd HH:mm:ss zzz yyyy");

@@ -64,14 +64,14 @@
 		<!-- This section includes the option to select the station -->
 		<div class="col-lg-12">
 			<div class="col-lg-4">
-				<select ng-options="item as item.fromStation for item in fromStationItem track by item.fromStation" ng-model="fromStation" style="width: 100%">
+				<select ng-options="item as item for item in fromStationItem" ng-model="fromStation" style="width: 100%">
 					<option value="">
 						From Station
 					</option>	
 				</select>
 			</div>
 			<div class="col-lg-4">
-				<select ng-options="item as item.toStation for item in toStationItem track by item.toStation" ng-model="toStationmodel" style="width: 100%">
+				<select ng-options="item as item for item in toStationItem" ng-model="toStationmodel" style="width: 100%">
 					<option value="">
 						To Station
 					</option>	
@@ -251,9 +251,144 @@
 
 {{names}}
 
+	<!--Rahil - passenger-->
+		<div ng-if = "gstCount==1">
+			<div class="form-row">
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 1 First Name"  ng-model="firstName1">
+				</div>
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 1 Last Name"  ng-model="lastName1">
+				</div>
+			</div>
+		</div>
+		<div ng-if = "gstCount==2">
+	<div class="form-row">
+		<div class="col">
+			<input type="text" class="form-control" placeholder="Passenger 1 First Name"  ng-model="firstName1">
+		</div>
+		<div class="col">
+			<input type="text" class="form-control" placeholder="Passenger 1 Last Name"  ng-model="lastName1">
+		</div>
+	</div>
+	<div class="form-row">
+		<div class="col">
+			<input type="text" class="form-control" placeholder="Passenger 2 First Name"  ng-model="firstName2">
+		</div>
+		<div class="col">
+			<input type="text" class="form-control" placeholder="Passenger 2 Last Name"  ng-model="lastName2">
+		</div>
+	</div>
+	</div>
+		<div ng-if = "gstCount==3">
+			<div class="form-row">
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 1 First Name"  ng-model="firstName1">
+				</div>
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 1 Last Name"  ng-model="lastName1">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 2 First Name"  ng-model="firstName2">
+				</div>
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 2 Last Name"  ng-model="lastName2">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 3 First Name" ng-model="firstName3">
+				</div>
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 3 Last Name" ng-model="lastName3">
+				</div>
+			</div>
+		</div>
+		<div ng-if = "gstCount==4">
+			<div class="form-row">
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 1 First Name"  ng-model="firstName1">
+				</div>
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 1 Last Name"  ng-model="lastName1">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 2 First Name"  ng-model="firstName2">
+				</div>
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 2 Last Name"  ng-model="lastName2">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 3 First Name" ng-model="firstName3">
+				</div>
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 3 Last Name" ng-model="lastName3">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 4 First Name" ng-model="firstName4">
+				</div>
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 4 Last Name" ng-model="lastName4">
+				</div>
+			</div>
+		</div>
+		<div ng-if = "gstCount==5">
+			<div class="form-row">
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 1 First Name"  ng-model="firstName1">
+				</div>
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 1 Last Name"  ng-model="lastName1">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 2 First Name"  ng-model="firstName2">
+				</div>
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 2 Last Name"  ng-model="lastName2">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 3 First Name" ng-model="firstName3">
+				</div>
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 3 Last Name" ng-model="lastName3">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 4 First Name" ng-model="firstName4">
+				</div>
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 4 Last Name" ng-model="lastName4">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 5 First Name" ng-model="firstName5">
+				</div>
+				<div class="col">
+					<input type="text" class="form-control" placeholder="Passenger 5 Last Name" ng-model="lastName5">
+				</div>
+			</div>
+		</div>
+
+
 	</div>
 
 	<div class="col-lg-3"></div>
+
+
 
 </body>
 <script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
@@ -267,16 +402,16 @@
 
 		//console.log("value1"+value+"value2"+value1+"value3"+value2);
 		$http({
-			url : "/getDateData",
+			url : "/getstations",
 			method:"GET",
 		}).success(function(data){
-			if(data.statusCode=="200"){
-				
-			}
-			else if(data.statusCode=="404"){
-				
-			}
-		});
+		    console.log(data);
+			$scope.fromStationItem = data;
+			$scope.toStationItem = data;
+		}).error(function() {
+                console.log("Error in retrieving the stations form BackEnd");
+            }
+		);
 
 		$scope.search = function(){
 			var extTime = 0;
@@ -289,40 +424,52 @@
 			var trpType = $scope.trip_type;
 			var trnType = $scope.train_type;
 			var cnnCount = $scope.connectionCount;
-			var extTime = $scope.exact_time;
-			if(!extTime){
-				extTime ="NotExactTime"
+			var extTime = false;
+			if($scope.exact_time == 1)
+				extTime = true;
+			if(trpType == "oneWay")
+			var params = {
+                "origin":frmStation,
+                "destination":tStation,
+                "departure_datetime": dateTime,
+				"passenger_count":gstCount,
+                "trip_type":false,
+                "ticket_type":trnType,
+                "is_exact_time":extTime,
+                "connection":cnnCount
+			};
+			if(trpType == "roundTrip"){
+                var r_dte = $scope.returndate;
+                var r_tme = $scope.returntime+":00";
+				params["trip_type"] = true;
+				params["r_departure_datetime"] = r_dte + r_tme;
 			}
 			console.log(frmStation.fromStation+" "+tStation.toStation+" "+gstCount+" "+dte+" "+tme+" "+trpType+" "+trnType+" "+cnnCount+" "+extTime+" "+dateTime);
-//train type reg = 1 exprs=2 any=0
-//no of connections any=0 one =1 two = 2
-			/*$http({
+			//train type reg = 1 exprs=2 any=0
+			//no of connections any=0 one =1 two = 2
+			$http({
 				url:"/search",
-				method: "POST",
-				data: {
-					"origin":frmStation.fromStation,
-					"destination":tStation,
-					"departure_datetime"
-				}
-			})*/
+				method: "GET",
+				params: params
+			})
 
 		}
 		
 
 		
-		//ng-options for from station
-		$scope.fromStationItem = [{
-			fromStation: 'a',
-		}, {
-			fromStation: 'b',
-		}];
-
-		//ng-options for to station
-		$scope.toStationItem = [{
-			toStation: 'a',
-		}, {
-			toStation: 'b',
-		}];
+		// //ng-options for from station
+		// $scope.fromStationItem = [{
+		// 	fromStation: 'a',
+		// }, {
+		// 	fromStation: 'b',
+		// }];
+        //
+		// //ng-options for to station
+		// $scope.toStationItem = [{
+		// 	toStation: 'a',
+		// }, {
+		// 	toStation: 'b',
+		// }];
 		$scope.trip = function(forward , reverse){
 			$scope.names = forward+reverse;
 		}

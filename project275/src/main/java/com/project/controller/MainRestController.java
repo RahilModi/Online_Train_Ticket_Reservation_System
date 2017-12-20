@@ -68,6 +68,7 @@ public class MainRestController {
  		//Follow this to set the Http Sessions
  		HttpSession httpSession = request.getSession();
 		httpSession.putValue("User_Email", user.getEmail());
+		httpSession.putValue("User", user);
 		//End of storage to sessions 
 		
 		 Iterator iterator = user.getRoles().iterator(); 
@@ -109,6 +110,7 @@ public class MainRestController {
 	 		}
      		HttpSession httpSession = request.getSession();
     		httpSession.putValue("User_Email", user.getEmail());
+			httpSession.putValue("User", user);
 	 		map.addAttribute("statusCode","200");
 	 		map.addAttribute("username", user.getEmail());
 	 		map.addAttribute("UserFirstName", user.getFirstName());

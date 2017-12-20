@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.project.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.service.PurchaseService;
 import com.project.service.SearchService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @RestController
 public class SearchController {
 
@@ -25,7 +29,10 @@ public class SearchController {
 	@Autowired
 	private PurchaseService purchaseService;
 
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
+	@Autowired
+	HttpSession httpSession;
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
     public ResponseEntity<Object> search(@RequestParam(value = "origin", required = true) String origin,
                                         @RequestParam(value = "destination", required = true) String destination,
                                         @RequestParam(value = "departure_datetime", required = true) String departure_datetime,
@@ -65,9 +72,11 @@ public class SearchController {
     }
     
     @RequestMapping(value = "/purchase", method = RequestMethod.POST)
-    public ResponseEntity<Object> purchase(@RequestBody Map<String, Object> payload){
+    public ResponseEntity<Object> purchase(@RequestBody Map<String, Object> payload, HttpServletRequest request){
     	try{
-    		boolean bflag = purchaseService.purchase(payload);
+			HttpSession httpSession = request.getSession();
+			User user = (User) httpSession.getAttribute("User");
+    		boolean bflag = purchaseService.purchase(payload, user);
     		return new ResponseEntity<Object>(bflag, HttpStatus.OK);
     	}
     	catch(Exception e)

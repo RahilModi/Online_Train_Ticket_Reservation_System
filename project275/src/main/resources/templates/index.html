@@ -10,10 +10,9 @@
 <base href="/" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-	
 
 <script type="text/javascript"
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
@@ -31,9 +30,9 @@
       				<input type="email" class="form-control" style="margin-top:15px;height:40px" placeholder="Email" name="emailId" ng-model="emailId"/>
       				<input type="password" class="form-control" style="margin-top:15px;height:40px" placeholder="password" name="loginPassword" ng-model="loginPassword"/>
       				<p font-color="red">{{invalid}}</p>
-              		<button id="login" class="btn btn-primary" style="margin-top:5px;width:100%" value="Sign in" ng-click="home.login()">Login</button>
-              		<a href="/connect/facebook"><button class="btn btn-primary" style="margin-top:5px;width:100%" >Facebook Login</button> </a>
-              		 <a href="/connect/google"><button class="btn btn-primary" style="margin-top:5px;width:100%" >Google Login</button> </a>
+              		<button id="login" class="btn btn-success" style="margin-top:5px;width:100%" value="Sign in" ng-click="home.login()">Login</button>
+              		<a href="/connect/facebook" class="btn btn-primary" style="margin-top:5px;width:100%" ><i class="fa fa-facebook" aria-hidden="true"></i> Facebook Login </a>
+              		 <a href="/connect/google" class="btn" style="margin-top:5px;width:100%;background-color:#dd4b39" ><i class="fa fa-google" aria-hidden="true"></i> Google Login</a>
             </div>
     		</div>
     	
