@@ -1,6 +1,7 @@
 package com.project.controller;
 
 import com.project.model.User;
+
 import com.project.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

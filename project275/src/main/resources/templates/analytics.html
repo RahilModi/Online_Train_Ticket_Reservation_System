@@ -137,97 +137,105 @@
         $scope.getDailyReservationRate = function(){
             console.log($scope.startDate+" "+$scope.endDate);
             $scope.var = true;
-            /*$http({
+            $http({
                 url : "/getDailyReservationRate",
                 method:"POST",
-                data: {
-                    "startDate":$scope.startDate,
-                    "endDate":$scope.endDate
+                params: {
+                    "sDate":$scope.startDate+" "+"00:00:00",
+                    "eDate":$scope.endDate+" "+"00:00:00"
                 }
             }).success(function(data){
-
-            });*/
+                var value = data;
+                $scope.myJson = {
+                    "type" : 'line' ,
+                    "scale-x": {
+                        "values": value[0],
+                        "line-color": "#7E7E7E",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-family": "arial",
+                            "font-color": "#8B8B8B"
+                        }
+                    },
+                    "series" : [
+                        {values : value[1] },
+                    ]
+                };
+            });
         }
 
         $scope.getReservationRate = function(){
             $scope.var1 = true;
             console.log($scope.date);
-            /*$http({
+            $http({
                 url : "/getReservationRate",
                 method:"POST",
-                data: {
-                    "date":$scope.date
+                params: {
+                    "date":$scope.date+" "+"00:00:00"
                 }
             }).success(function(data){
-
-            });*/
+                var value1 = data;
+                $scope.myJson1 = {
+                    "type" : 'line' ,
+                    "scale-x": {
+                        "values": value1[0],
+                        "line-color": "#7E7E7E",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-family": "arial",
+                            "font-color": "#8B8B8B"
+                        }
+                    },
+                    "series" : [
+                        {values : value1[1] },
+                    ]
+                };
+            }).error(function(err){
+                console.log("error in requesting..")
+			});
         }
-        //daily res rate
-        var value = [
-            [
-                "2017-12-18",
-                "2017-12-19",
-                "2017-12-17"
-            ],
-            [
-                0.0128,
-                0.0128,
-                0.0237
-            ]
-        ];
-        $scope.myJson = {
-            "type" : 'line' ,
-            "scale-x": {
-                "values": value[0],
-                "line-color": "#7E7E7E",
-                "tick": {
-                    "visible": false
-                },
-                "guide": {
-                    "visible": false
-                },
-                "item": {
-                    "font-family": "arial",
-                    "font-color": "#8B8B8B"
-                }
-            },
-            "series" : [
-                {values : value[1] },
-            ]
-        };
 
-
-        //res rate
-        var value1 = [
-            [
-                "NB1715",
-                "SB0800"
-            ],
-            [
-                0.03,
-                0.01
-            ]
-        ]
-        $scope.myJson1 = {
-            "type" : 'line' ,
-            "scale-x": {
-                "values": value1[0],
-                "line-color": "#7E7E7E",
-                "tick": {
-                    "visible": false
-                },
-                "guide": {
-                    "visible": false
-                },
-                "item": {
-                    "font-family": "arial",
-                    "font-color": "#8B8B8B"
-                }
-            },
-            "series" : [
-                {values : value1[1] },
-            ]
-        };
+        // //res rate
+        // var value1 = [
+        //     [
+        //         "NB1715",
+        //         "SB0800"
+        //     ],
+        //     [
+        //         0.03,
+        //         0.01
+        //     ]
+        // ]
+        // $scope.myJson1 = {
+        //     "type" : 'line' ,
+        //     "scale-x": {
+        //         "values": value1[0],
+        //         "line-color": "#7E7E7E",
+        //         "tick": {
+        //             "visible": false
+        //         },
+        //         "guide": {
+        //             "visible": false
+        //         },
+        //         "item": {
+        //             "font-family": "arial",
+        //             "font-color": "#8B8B8B"
+        //         }
+        //     },
+        //     "series" : [
+        //         {values : value1[1] },
+        //     ]
+        // };
         /*$scope.myJson = {
           "type" : 'line' ,
           "scale-x": {

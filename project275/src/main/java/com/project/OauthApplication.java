@@ -13,10 +13,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceS
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
@@ -47,7 +44,9 @@ import org.springframework.web.filter.CompositeFilter;
 @Configuration
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
+@Primary
 public class OauthApplication extends WebSecurityConfigurerAdapter {
+
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
 	
@@ -67,13 +66,13 @@ public class OauthApplication extends WebSecurityConfigurerAdapter {
 		http.antMatcher("/**")
 		.addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
 		.authorizeRequests()
-		.antMatchers("/", "/connect**","/userLogin**","/userRegistration**","/webjars/**", "/search**", "/purchase**", "/canceltrain**", "/getstations**", "/getTickets**", "/cancelTicket**/**", "/setCapacity**","/mainPage**","/userLogout","/adminMainPage**","/bookingHistory**","/analytics**")
+		.antMatchers("/", "/connect**","/userLogin**","/userRegistration**","/webjars/**", "/search**", "/purchase**", "/canceltrain**", "/getstations**", "/getTickets**", "/cancelTicket**/**", "/setCapacity**","/mainPage**","/userLogout","/adminMainPage**","/bookingHistory**","/analytics**","/getReservationRate**", "/getDailyReservationRate**")
 			.permitAll()
 		.anyRequest()
 			.authenticated()
 		.and()
 			.logout()
-		    .logoutSuccessUrl("/").permitAll().and().csrf().ignoringAntMatchers("/","/userLogin**","/userRegistration**","/canceltrain**", "/getstations**", "/getTickets**", "/cancelTicket**/**", "/setCapacity**","/search**", "/purchase**","/mainPage**","/userLogout","/adminMainPage**","/bookingHistory**","/analytics**")
+		    .logoutSuccessUrl("/").permitAll().and().csrf().ignoringAntMatchers("/","/userLogin**","/userRegistration**","/canceltrain**", "/getstations**", "/getTickets**", "/cancelTicket**/**", "/setCapacity**","/search**", "/purchase**","/mainPage**","/userLogout","/adminMainPage**","/bookingHistory**","/analytics**", "/getReservationRate**", "/getDailyReservationRate**")
 		 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 	}
 	// @formatter:on
