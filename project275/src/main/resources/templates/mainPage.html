@@ -36,7 +36,7 @@
 	<nav class="navbar navbar-inverse">
 	  <div class="container-fluid">
 	    <div class="navbar-header">
-	      <a class="navbar-brand">California Ultra-Speed Rail Service</a>
+	      <a href="/mainPage" onclick="window.location.reload(true)" class="navbar-brand">California Ultra-Speed Rail Service</a>
 	    </div>
 	    <!-- <ul class="nav navbar-nav">
 	      <li class="active"><a href="#">Home</a></li>
@@ -326,6 +326,7 @@
 	        <div class="col-lg-12">
 	        
 	        	<center><button class="btn btn-primary" ng-click="submitRoundTrip()" style="width:100%">Submit</button></center>
+	        	<a style="float: right;" ng-click="goBack()">dfdfdf</a>
 	        </div>
 		</div>
 
@@ -352,6 +353,7 @@
 	        </ul>
 	        <div class="col-lg-12">
 	        	<center><button class="btn btn-primary" ng-click="submitOneWayTrip()" style="width:100%">Submit</button></center>
+	        	<a style="float: right;" ng-click="goBack()">dfdfdf</a>
 	        </div>
 		</div>
 
@@ -528,6 +530,12 @@
 			}
 		});
 
+		$scope.goBack = function(){
+			$scope.value1 = false;
+			$scope.value2 = true;
+			$scope.value3 = true;
+		}
+
 		$scope.search = function(){
 			var extTime = 0;
 			var frmStation = $scope.fromStation;
@@ -558,10 +566,8 @@
 		}
 		$scope.submitRoundTrip = function(){
 			console.log("The name"+$scope.krishna);
-			for(var i = 1; i<=$scope.gstCount1 ; i++){
-				console.log("$scope.f1"+i);
-			}
-			console.log("the datavvvvv: "+$scope.f1+$scope.l1);
+			
+
 		}
 		$scope.submitOneWayTrip=function(){
 			console.log("the dataa: "+$scope.f1+$scope.l1);
@@ -600,7 +606,7 @@
 			
 
 			res = [{"forward_trip":[forward],"reverse_trip":[reverse]}];
-			/*$scope.names = res;*/
+			/*$scope.names = res;
 			console.log("The object is: "+res[0].forward_trip[0]);
 			var object = JSON.parse(res[0].forward_trip[0]);
 			console.log("type is"+object["ticket_type"]);

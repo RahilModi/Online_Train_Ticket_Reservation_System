@@ -41,11 +41,57 @@
 	    </ul>
 	  </div>
 	</nav>	
+
+	<div class="col-lg-2"></div>
+	<div class="col-lg-8">
+		<div class="col-lg-12">
+			<div class="col-lg-6" >
+				<div class="col-lg-12" style="border: 1px solid black;height: auto;">
+					<h2>Train To Be Cancelled </h2>
+					<div class="col-lg-12">
+						<label>Train Name: </label><input type="text" name="trainCancellation" ng-model="trainCancellation"/>
+						<button class="btn btn-primary" ng-model="cancelTrain()" style="margin-bottom: 5px">Cancel</button>
+						<!-- <div ng-show="val" style="background-color: green">
+							<h3>Successfully Cancelled the Train</h3>
+						</div>
+						<div ng-show="val2" style="background-color: red">
+							<h3>Could Not Cancel the Train</h3>
+						</div> -->
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-6">
+				<div class="col-lg-12" style="border: 1px solid black;height: auto;">
+					<h2>Set Max Capacity of all trains</h2>
+					<div class="col-lg-12">
+						<label>Max Capacity: </label><input type="text" name="increaseMaxCapacityCount" ng-model="increaseMaxCapacityCount"/>
+						<button class="btn btn-primary" ng-model="setMaxCapacity()" style="margin-bottom: 5px">Submit</button>
+						<!-- <div ng-show="val3" style="background-color: green">
+							<h3>Successfully Increased the Max Capacity</h3>
+						</div>
+						<div ng-show="val4" style="background-color: red">
+							<h3>Could Not Increase the Max Capacity</h3>
+						</div> -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+		
+	</div>
+	<div class="col-lg-2"></div>
+
+
 </body>
 <script type="text/javascript">
 	angular.module("app", ['zingchart-angularjs']).controller("home", function($scope, $http, $location, $window) {
 		var self = this;
 
+		/*$scope.val = fal;
+		$scope.val2 = false;
+		$scope.val3 = false;
+		$scope.val4 = false;*/
 		self.signout = function() {
 			$http.post('/userLogout',{
 
@@ -54,6 +100,30 @@
 			}).error(function(data){
 				console.log("Logout failed")
 			})
+		}
+
+		$scope.cancelTrain = function(){
+			/*$http({
+				url:"/cancelTrain",
+				method:"POST",
+				data:{
+					"trainName":$scope.trainCancellation
+				}
+			}).success(function(data){
+
+			})*/
+		}
+
+		$scope.setMaxCapacity = function(){
+			/*$http({
+				url:"/setMaxCapacity",
+				method:"POST",
+				data:{
+					"maxCapacity":$scope.increaseMaxCapacityCount
+				}
+			}).success(function(data){
+
+			})*/
 		}
 
 		

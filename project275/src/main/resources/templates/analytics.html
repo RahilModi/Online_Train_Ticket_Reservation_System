@@ -19,6 +19,21 @@
 
 <script type="text/javascript"
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		var timepicker = new TimePicker('time', {
+		  lang: 'en',
+		  theme: 'dark'
+		});
+
+		var input = document.getElementById('time');
+
+		timepicker.on('change', function(evt) {
+		  
+		  var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+		  evt.element.value = value;
+
+		});
+	</script>
 </head>
 <body ng-app="app" ng-controller="home as home">
 	<nav class="navbar navbar-inverse">
@@ -43,8 +58,62 @@
 	    </ul>
 	  </div>
 	</nav>
+	<div class="col-lg-2"></div>
+	<div class="col-lg-8">
+		<div class="col-lg-12"> </div>
+		<h2> Daily Reservation Rate</h2>
+		<div class="col-lg-12">
+			<div class="col-lg-1"></div>
+			<div class="col-lg-5"> 
+				<label>Select The Start Date:</label>
+				<input placeholder="Date" type="text" style="width: 100%" onfocus="(this.type='date')" onblur="(this.type='text')" id="datefield" min='2017-12-12' ng-model="startDate"></input>
+			</div>
+			<div class="col-lg-5"> 
+				<label>Select The End Date:</label>
+				<input placeholder="Date" type="text" style="width: 100%" onfocus="(this.type='date')" onblur="(this.type='text')" id="datefield" min='2017-12-12' ng-model="endDate"></input>
+			</div>
 
-	<zingchart id = "myChart" zc-json = "myJson" zc-height ="500" zc-width ="600" ></zingchart>
+			<div class="col-lg-1"></div>
+			<div class="col-lg-12">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<button ng-click="getDailyReservationRate()" class="btn btn-primary" style="float: right; margin-top:10px;width:10%">submit</button>
+				</div>
+				<div class="col-lg-1"></div>
+			</div>
+		</div>
+
+		<div class="col-lg-12">
+			<zingchart id = "myChart" zc-json = "myJson" zc-height ="500" zc-width ="600" ></zingchart>
+		</div>
+
+
+
+		<div class="col-lg-12"> </div>
+		<h2> Reservation Rate</h2>
+		<div class="col-lg-12">
+			<div class="col-lg-1"></div>
+			<div class="col-lg-10"> 
+				<span class="col-lg-5">Select The Date To show analytics:</span>
+				<input class="col-lg-5" placeholder="Date" type="text" style="width: 100%" onfocus="(this.type='date')" onblur="(this.type='text')" id="datefield" min='2017-12-12' ng-model="date"></input>
+				<div class="col-lg-2"></div>
+			</div>
+			<div class="col-lg-1"></div>
+			<div class="col-lg-12">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<button ng-click="getReservationRate()" class="btn btn-primary" style="float: right; margin-top:10px;width:10%">submit</button>
+				</div>
+				<div class="col-lg-1"></div>
+			</div>
+		</div>
+	
+
+		<div class="col-lg-12">
+			<zingchart id = "myChart1" zc-json = "myJson1" zc-height ="500" zc-width ="600" ></zingchart>
+		</div>
+	</div>
+	<div class="col-lg-2"></div>
 	
 </body>
 <script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
@@ -62,46 +131,131 @@
 			})
 		}
 
-		$scope.myJson = {  
+		$scope.getDailyReservationRate = function(){
+			console.log($scope.startDate+" "+$scope.endDate);
+			/*$http({
+				url : "/getDailyReservationRate",
+				method:"POST",
+				data: {
+					"startDate":$scope.startDate,
+					"endDate":$scope.endDate
+				}
+			}).success(function(data){
+				
+			});*/
+		}
+
+		$scope.getReservationRate = function(){
+			console.log($scope.date);
+			/*$http({
+				url : "/getReservationRate",
+				method:"POST",
+				data: {
+					"date":$scope.date
+				}
+			}).success(function(data){
+				
+			});*/
+		}
+		//daily res rate
+		var value = [
+		    [
+		        "2017-12-18",
+		        "2017-12-19",
+		        "2017-12-17"
+		    ],
+		    [
+		        0.0128,
+		        0.0128,
+		        0.0237
+		    ]
+		];
+		 $scope.myJson = {  
 		  "type" : 'line' ,
 		  "scale-x": {
-                "values": [
-                    "JAN",
-                    "FEB",
-                    "MAR",
-                    "APR",
-                    "MAY",
-                    "JUN",
-                    "JUL",
-                    "AUG",
-                    "SEP",
-                    "OCT",
-                    "NOV",
-                    "DEC"
-                ],
-                "line-color": "#7E7E7E",
-                "tick": {
-                    "visible": false
-                },
-                "guide": {
-                    "visible": false
-                },
-                "item": {
-                    "font-family": "arial",
-                    "font-color": "#8B8B8B"
-                }
-            },
+	            "values": value[0],
+	            "line-color": "#7E7E7E",
+	            "tick": {
+	                "visible": false
+	            },
+	            "guide": {
+	                "visible": false
+	            },
+	            "item": {
+	                "font-family": "arial",
+	                "font-color": "#8B8B8B"
+	            }
+	        },
 		  "series" : [  
-            {values : [ 54 , 23 , 34 , 23 , 43,50, 60,70,66,55,33,33 ] },
+	        {values : value[1] },
 		  ]  
 		}; 
-		
-		/*elf.logout = function() {
-			$http.post('/logout', {}).success(function() {
-			}).error(function(data) {
-				console.log("Logout failed")
-			});
-		};*/
+
+
+		//res rate
+		var value1 = [
+			[
+		        "NB1715",
+		        "SB0800"
+		    ],
+		    [
+		        0.03,
+		        0.01
+		    ]
+		]
+		$scope.myJson1 = {  
+		  "type" : 'line' ,
+		  "scale-x": {
+	            "values": value1[0],
+	            "line-color": "#7E7E7E",
+	            "tick": {
+	                "visible": false
+	            },
+	            "guide": {
+	                "visible": false
+	            },
+	            "item": {
+	                "font-family": "arial",
+	                "font-color": "#8B8B8B"
+	            }
+	        },
+		  "series" : [  
+	        {values : value1[1] },
+		  ]  
+		}; 
+		/*$scope.myJson = {  
+		  "type" : 'line' ,
+		  "scale-x": {
+	            "values": [
+	                "JAN",
+	                "FEB",
+	                "MAR",
+	                "APR",
+	                "MAY",
+	                "JUN",
+	                "JUL",
+	                "AUG",
+	                "SEP",
+	                "OCT",
+	                "NOV",
+	                "DEC"
+	            ],
+	            "line-color": "#7E7E7E",
+	            "tick": {
+	                "visible": false
+	            },
+	            "guide": {
+	                "visible": false
+	            },
+	            "item": {
+	                "font-family": "arial",
+	                "font-color": "#8B8B8B"
+	            }
+	        },
+		  "series" : [  
+	        {values : [ 54 , 23 , 34 , 23 , 43, 50, 60, 70, 66, 55, 33, 33 ] },
+		  ]  
+		}; */
 	});
 </script>
 </html>
