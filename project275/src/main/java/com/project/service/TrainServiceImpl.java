@@ -35,6 +35,8 @@ public class TrainServiceImpl implements TrainService {
     @Transactional
     public void cancelTrain(String trainName, Date date) {
         try{
+            System.out.println("cancelled train...");
+            System.out.println(trainName + date);
             CancelledDate cancelledDate = cancelledTrainRepository.findByDate(date);
             Train t = trainRepository.findOne(trainName);
             if(cancelledDate != null)
@@ -49,7 +51,7 @@ public class TrainServiceImpl implements TrainService {
                 ls.add(t);
                 cancelledDate.setTrain(ls);
             }
-            cancelledTrainRepository.save(cancelledDate);
+           // cancelledTrainRepository.save(cancelledDate);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -61,6 +63,7 @@ public class TrainServiceImpl implements TrainService {
 
         try{
             trains = trainRepository.getAllTrains();
+            System.out.println(capacity);
             for(Train t : trains) {
                 t.setMaxCapacity(capacity);
                 trainRepository.save(t);
@@ -68,7 +71,6 @@ public class TrainServiceImpl implements TrainService {
             cancelledTrainRepository.deleteAll();
             bookingRepository.deleteAll();
             ticketRepository.deleteAll();
-
         }catch (Exception e){
             e.printStackTrace();
         }

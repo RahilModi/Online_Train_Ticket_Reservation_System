@@ -7,13 +7,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.project.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.dao.BookingRepository;
-import com.project.dao.StationRepository;
-import com.project.dao.TicketRepository;
-import com.project.dao.TrainRepository;
 import com.project.model.Booking;
 import com.project.model.Ticket;
 import com.project.model.TrainType;
@@ -33,9 +30,12 @@ public class PurchaseServiceImpl implements PurchaseService {
 	
 	@Autowired
 	private TrainRepository trainRepository;
+
+	@Autowired
+	private UserRepository userRepo;
 	
 	@Override
-	public boolean purchase(Map<String, Object> payload, User user) {
+	public boolean purchase(Map<String, Object> payload) {
 		try{
 			Object of = payload.get("forward_ticket");
 			Object or = payload.get("reverse_ticket");
@@ -44,7 +44,8 @@ public class PurchaseServiceImpl implements PurchaseService {
     		t.setRoundTrip(payload.size() == 1 ? false : true);
     		t.setCancelled(false);
     		t.setTicketType(TrainType.valueOf((String)mapF.get("ticket_type")));
-    		t.setUser(user);
+    		User u = userRepo.findByEmail(((User)payload.get("user")).getEmail());
+    		t.setUser(u);
     		List<Booking> ls = new ArrayList<>();
     		List<Map<String, String>> bookings= (List<Map<String, String>>)mapF.get("trains");
     		DateFormat df = new SimpleDateFormat("E MMM dd HH:mm:ss zzz yyyy");
@@ -88,7 +89,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     		ticketRepository.save(t);
 		}
 		catch(Exception e){
-			
+			e.printStackTrace();
 		}
 		return false;
 	}

@@ -12,5 +12,7 @@ public interface UserRepository extends CrudRepository<User, Integer>{
 	@Transactional
 	@Query(value="select * from CMPE275project.userdetails where email=? and password=?",nativeQuery=true)
 	public User findUser(String user_email,String password);
+
+	public User findByEmail(String email);
 	
 }

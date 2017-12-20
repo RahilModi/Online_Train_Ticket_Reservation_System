@@ -14,7 +14,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     /**
      * find Booked Tickets by the user
      */
-    @Query(value = "select * from ticket as t where passenger_id = :user_id and cancelled = 0", nativeQuery = true)
+    @Query(value = "select * from ticket as t where passenger_id = :user_id", nativeQuery = true)
     public List<Ticket> findByUserId(@Param("user_id") int user_id);
 
     @Query(value = "select * from ticket as t where id = :ticket_id", nativeQuery = true)

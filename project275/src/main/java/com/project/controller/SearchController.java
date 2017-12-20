@@ -75,8 +75,10 @@ public class SearchController {
     public ResponseEntity<Object> purchase(@RequestBody Map<String, Object> payload, HttpServletRequest request){
     	try{
 			HttpSession httpSession = request.getSession();
+			System.out.println(httpSession.getAttribute(""));
 			User user = (User) httpSession.getAttribute("User");
-    		boolean bflag = purchaseService.purchase(payload, user);
+			payload.put("user",user);
+    		boolean bflag = purchaseService.purchase(payload);
     		return new ResponseEntity<Object>(bflag, HttpStatus.OK);
     	}
     	catch(Exception e)

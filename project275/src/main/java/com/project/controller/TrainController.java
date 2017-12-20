@@ -21,7 +21,7 @@ public class TrainController {
     @Autowired
     TrainService trainService;
 
-    @RequestMapping(value="/setCapacity", method = RequestMethod.POST)
+    @RequestMapping(value="/setCapacity", method = RequestMethod.GET)
     public ResponseEntity<Object> setCapacity(@RequestParam(value = "capacity", required = true) int capacity){
 
         try{
@@ -34,7 +34,7 @@ public class TrainController {
 
     }
 
-    @RequestMapping(value="/canceltrain", method = RequestMethod.POST)
+    @RequestMapping(value="/canceltrain", method = RequestMethod.GET)
     public ResponseEntity<Object> cancelTrain(@RequestParam(value = "id", required = true) String trainName,
                                       @RequestParam(value = "date", required = true) String date){
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -44,7 +44,7 @@ public class TrainController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        this.trainService.cancelTrain(trainName,d);
+      //  this.trainService.cancelTrain(trainName,d);
         return new ResponseEntity<Object>("Train has been cancelled",HttpStatus.OK);
     }
 }

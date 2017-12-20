@@ -7,10 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -53,6 +52,7 @@ public class BookingServiceImpl implements BookingService {
     public List<Map<String, Object>> getAllTickets(int user_id) {
         List<Ticket> BookedTickets = null;
         List<Map<String, Object>> tickets = new ArrayList<>();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try{
             BookedTickets = this.ticketsRepository.findByUserId(user_id);
 
@@ -63,16 +63,21 @@ public class BookingServiceImpl implements BookingService {
                 ticket.put("ticket_type",t.getTicketType());
                 ticket.put("price",t.getPrice());
                 ticket.put("passenger_count", t.getBookings().get(0).getPassengerCount());
-
+                ticket.put("cancelled",t.isCancelled());
                 List<Booking> bookingsList = t.getBookings();
                 List<Map<String, Object>> bookings = new ArrayList<>();
                 for(Booking b : bookingsList) {
                     Map<String, Object> bookingMap = new HashMap<>();
                     bookingMap.put("origin", b.getOrigin().getName());
                     bookingMap.put("destination", b.getDestination().getName());
-
-                    bookingMap.put("departure_date", b.getDepartureDate().toString());
-                    bookingMap.put("arrival_date", b.getArrivalDate().toString());
+                    bookingMap.put("train_name",b.getTrain().getName());
+                    Date d = df.parse(b.getDepartureDate().toString());
+                    System.out.println(d.toString());
+//                    System.out.println(b.getDepartureDate());
+//                    System.out.println(b.getDepartureDate().toString());
+                    bookingMap.put("departure_date", d.toString());
+                    d = df.parse(b.getArrivalDate().toString());
+                    bookingMap.put("arrival_date", d.toString());
                     bookings.add(bookingMap);
                 }
                 ticket.put("bookings", bookings);
