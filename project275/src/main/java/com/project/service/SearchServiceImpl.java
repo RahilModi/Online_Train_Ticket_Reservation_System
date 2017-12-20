@@ -3,6 +3,7 @@ package com.project.service;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class SearchServiceImpl implements SearchService{
 //	private Cance
 	
 	@Override
-	public List<Map<String, Object>> search(String origin, String destination, String departure_datetime, int passenger_count, int ticket_type) {
+	public List<Map<String, Object>> search(String origin, String destination, String departure_datetime, int passenger_count, int ticket_type, boolean is_exact) {
 
 		List<Object> trains= null;
 		List<String> cancelledTrains= null;
@@ -46,7 +47,7 @@ public class SearchServiceImpl implements SearchService{
 	        DateFormat dftime = new SimpleDateFormat("HH:mm:ss");
 	        Date date = dfdate.parse(departure_datetime);
 	        Time time = Time.valueOf(dftime.format(d));
-			trains = this.trainRepo.findDirectTrains(origin, destination, date, time, passenger_count, origin.compareTo(destination) > 0 ? 1 : 0);
+	        trains = this.trainRepo.findDirectTrains(origin, destination, date, time, passenger_count, origin.compareTo(destination) > 0 ? 1 : 0);
 			cancelledTrains = CancelledTrainRepository.findTrainsByDate(date);
 			if(ticket_type == 0)
 			{
@@ -55,12 +56,17 @@ public class SearchServiceImpl implements SearchService{
 				{
 					Object[] oarr = (Object[])o;
 					String tname = oarr[0].toString();
-					if(cancelledTrains.size() == 0 || !cancelledTrains.contains(tname) )
+					String stime = oarr[1].toString();
+					if(
+							(cancelledTrains.size() == 0 || !cancelledTrains.contains(tname)
+							) 
+							&& (!is_exact || (is_exact && this.trainRepo.findByTrainNameStationName(tname, origin).equals(time)))
+					)
 					{
 						Map<String, Object> map = new HashMap<>();
 						Time departureTime = this.trainRepo.findDepartureTimeByTrainNameStationName(tname, origin);
 						count++;
-						String stime = oarr[1].toString();
+						
 						Date d1 = dftime.parse(departureTime.toString());
 						d1.setMonth(d.getMonth());d1.setYear(d.getYear());d1.setDate(d.getDate());// origin departure time
 						Date d2 = dftime.parse(stime);
@@ -68,7 +74,7 @@ public class SearchServiceImpl implements SearchService{
 						map.put("origin", origin);map.put("destination", destination);
 						Train trn = trainRepo.findOne(tname);
 						map.put("price", cost(origin, destination,passenger_count ,trn.getType().getCost()));
-						map.put("ticket_type", TrainType.Undefined);
+						map.put("ticket_type", TrainType.Any);
 						map.put("passenger_count", passenger_count);
 						List<Map<String, String>> ls1 = new ArrayList<>();
 						Map<String, String> map1 = new HashMap<>();
@@ -92,12 +98,15 @@ public class SearchServiceImpl implements SearchService{
 				{
 					Object[] oarr = (Object[])o;
 					String tname = oarr[0].toString();
-					if((cancelledTrains.size() == 0 || !cancelledTrains.contains(tname)) && !tname.contains("00"))
+					String stime = oarr[1].toString();
+					if((cancelledTrains.size() == 0 || !cancelledTrains.contains(tname)) && !tname.contains("00")
+							&& (!is_exact || (is_exact && this.trainRepo.findByTrainNameStationName(tname, origin).equals(time)))
+						)
 					{
 						Map<String, Object> map = new HashMap<>();
 						Time departureTime = this.trainRepo.findDepartureTimeByTrainNameStationName(tname, origin);
 						count++;
-						String stime = oarr[1].toString();
+						
 						Date d1 = dftime.parse(departureTime.toString());
 						d1.setMonth(d.getMonth());d1.setYear(d.getYear());d1.setDate(d.getDate());// origin departure time
 						Date d2 = dftime.parse(stime);
@@ -129,12 +138,15 @@ public class SearchServiceImpl implements SearchService{
 				{
 					Object[] oarr = (Object[])o;
 					String tname = oarr[0].toString();
-					if((cancelledTrains.size() == 0 || !cancelledTrains.contains(tname)) && tname.contains("00"))
+					String stime = oarr[1].toString();
+					if((cancelledTrains.size() == 0 || !cancelledTrains.contains(tname)) && tname.contains("00")
+							&& (!is_exact || (is_exact && this.trainRepo.findByTrainNameStationName(tname, origin).equals(time)))
+					)
 					{
 						Map<String, Object> map = new HashMap<>();
 						Time departureTime = this.trainRepo.findDepartureTimeByTrainNameStationName(tname, origin);
 						count++;
-						String stime = oarr[1].toString();
+						
 						Date d1 = dftime.parse(departureTime.toString());
 						d1.setMonth(d.getMonth());d1.setYear(d.getYear());d1.setDate(d.getDate());// origin departure time
 						Date d2 = dftime.parse(stime);
@@ -180,7 +192,7 @@ public class SearchServiceImpl implements SearchService{
 
 	@Override
 	public List<Map<String, Object>> search(String origin, String destination, String departure_datetime,
-			int passenger_count, int conn, int train_type) {
+			int passenger_count, int conn, int train_type, boolean is_exact) {
 		
 		List<Object> trains= null;
 		List<String> cancelledTrains= null;
@@ -188,7 +200,7 @@ public class SearchServiceImpl implements SearchService{
 		int oCost = stationRepository.findOne(origin).getStationType().getCost();
 		int dCost = stationRepository.findOne(destination).getStationType().getCost();
 		if(oCost == 2 &&  dCost == 2)
-			return this.search(origin, destination, departure_datetime, passenger_count, train_type);
+			return this.search(origin, destination, departure_datetime, passenger_count, train_type, is_exact);
 		else if(oCost == 1 && dCost == 2)
 		{
 			//if origin is local and destination is express
@@ -225,7 +237,6 @@ public class SearchServiceImpl implements SearchService{
 					c = origin.charAt(0);
 					while((c - 'A')%5 != 0 )
 						c++;
-					
 				}
 				else
 				{
@@ -234,7 +245,7 @@ public class SearchServiceImpl implements SearchService{
 						c--;
 				}
 				Station expressStation = stationRepository.findByName(String.valueOf(c));
-				List<Object[]> trainsCombined = trainRepo.findTrainsWithOneStopRE(origin, String.valueOf(c), destination, time, passenger_count, origin.compareTo(destination) > 0 ? 1 : 0);
+				//List<Object[]> trainsCombined = trainRepo.findTrainsWithOneStopRE(origin, String.valueOf(c), destination, time, passenger_count, origin.compareTo(destination) > 0 ? 1 : 0);
 				Train lastTrain = trainRepo.findOne(result1.get(result1.size()-1));
 				
 				

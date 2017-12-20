@@ -1,5 +1,7 @@
 package com.project.service;
 
+import com.project.model.User;
+
 import java.util.Map;
 
 import com.project.model.Ticket;

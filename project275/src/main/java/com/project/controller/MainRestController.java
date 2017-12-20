@@ -68,6 +68,7 @@ public class MainRestController {
  		//Follow this to set the Http Sessions
  		HttpSession httpSession = request.getSession();
 		httpSession.putValue("User_Email", user.getEmail());
+		httpSession.putValue("User", user);
 		//End of storage to sessions 
 		
 		 Iterator iterator = user.getRoles().iterator(); 
@@ -109,6 +110,7 @@ public class MainRestController {
 	 		}
      		HttpSession httpSession = request.getSession();
     		httpSession.putValue("User_Email", user.getEmail());
+			httpSession.putValue("User", user);
 	 		map.addAttribute("statusCode","200");
 	 		map.addAttribute("username", user.getEmail());
 	 		map.addAttribute("UserFirstName", user.getFirstName());
@@ -127,12 +129,14 @@ public class MainRestController {
 	        	User user = userServiceimpl.addOauthFacebookLogin(details.get("id"),details.get("name"));
 	     		HttpSession httpSession = request.getSession();
 	    		httpSession.putValue("User_Email", user.getEmail());
+	    		httpSession.putValue("User",user);
 	        }else if(details.get("email")!=null){
 	        	System.out.println("reached 2");
 	        	System.out.println("The details are: "+details.get("email"));
 	        	User user = userServiceimpl.addOauthGoogleLogin(details.get("email"),details.get("given_name"),details.get("family_name"));
 	     		HttpSession httpSession = request.getSession();
 	    		httpSession.putValue("User_Email", user.getEmail());
+				httpSession.putValue("User",user);
 	        }
 	        System.out.println("The details are: "+details);
 	        Map<String, String> map = new LinkedHashMap<>();

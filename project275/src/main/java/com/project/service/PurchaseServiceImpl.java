@@ -7,8 +7,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.project.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import com.project.dao.BookingRepository;
 import com.project.dao.StationRepository;
@@ -34,9 +36,10 @@ public class PurchaseServiceImpl implements PurchaseService {
 	
 	@Autowired
 	private TrainRepository trainRepository;
-	
+
 	@Autowired
 	private UserRepository userRepo;
+	
 	
 	@Override
 	public Map<String, Object> purchase(Map<String, Object> payload) {
@@ -48,7 +51,8 @@ public class PurchaseServiceImpl implements PurchaseService {
     		t.setRoundTrip(payload.size() == 1 ? false : true);
     		t.setCancelled(false);
     		t.setTicketType(TrainType.valueOf((String)mapF.get("ticket_type")));
-    		User u = userRepo.findByEmail("parth13pandya@gmail.com");
+
+    		User u = userRepo.findByEmail(((User)payload.get("user")).getEmail());
     		t.setUser(u);
     		payload.put("username",u.getEmail());
     		List<Booking> ls = new ArrayList<>();
@@ -95,7 +99,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     		return payload;
 		}
 		catch(Exception e){
-			
+			e.printStackTrace();
 		}
 		return null;
 	}

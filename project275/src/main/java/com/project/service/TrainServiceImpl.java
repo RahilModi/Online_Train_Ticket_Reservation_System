@@ -51,6 +51,7 @@ public class TrainServiceImpl implements TrainService {
                 cancelledDate.setTrain(ls);
             }
             cancelledDate = cancelledTrainRepository.save(cancelledDate);
+
         }catch (Exception e){
             e.printStackTrace();
             cancelledDate = null;
@@ -64,6 +65,7 @@ public class TrainServiceImpl implements TrainService {
 
         try{
             trains = trainRepository.getAllTrains();
+            System.out.println(capacity);
             for(Train t : trains) {
                 t.setMaxCapacity(capacity);
                 trainRepository.save(t);
@@ -71,7 +73,6 @@ public class TrainServiceImpl implements TrainService {
             cancelledTrainRepository.deleteAll();
             bookingRepository.deleteAll();
             ticketRepository.deleteAll();
-
         }catch (Exception e){
             e.printStackTrace();
         }

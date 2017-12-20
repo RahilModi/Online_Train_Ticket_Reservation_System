@@ -46,7 +46,8 @@ public class SystemReportController {
 
     @RequestMapping(value="/getDailyReservationRate", method = RequestMethod.POST)
     public ResponseEntity<Object> getReservationRate(@RequestParam(value = "sDate", required = true) String sDate, @RequestParam(value = "eDate", required = true) String eDate){
-
+        System.out.println(sDate);
+        System.out.println(eDate);
         Map<Date, Double> DailyReservationRateMap = null;
         List<Object> list = new ArrayList<>();
         try{

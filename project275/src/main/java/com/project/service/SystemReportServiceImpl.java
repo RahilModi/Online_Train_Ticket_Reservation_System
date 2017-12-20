@@ -59,7 +59,6 @@ public class SystemReportServiceImpl implements SystemReportService {
                     rate += integer;
                 }
                 rate /= (double)2500;
-                rate = Math.round (rate * 100.0) / 100.0;
                 answer.put(key,result);
                 reservationRate.put(key, rate);
             }
@@ -92,7 +91,6 @@ public class SystemReportServiceImpl implements SystemReportService {
                     count++;
                 }
                 dailyRate /= count;
-                dailyRate = Math.round (dailyRate * 100.0) / 100.0;
                 dailyReservationRate.put(date,dailyRate);
             }
             System.out.println(dailyReservationRate.toString());

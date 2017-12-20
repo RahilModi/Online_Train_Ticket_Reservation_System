@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.project.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,9 @@ import com.project.model.Ticket;
 import com.project.service.PurchaseService;
 import com.project.service.SearchService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @RestController
 public class SearchController {
 
@@ -26,7 +30,10 @@ public class SearchController {
 	@Autowired
 	private PurchaseService purchaseService;
 
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
+	@Autowired
+	HttpSession httpSession;
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
     public ResponseEntity<Object> search(@RequestParam(value = "origin", required = true) String origin,
                                         @RequestParam(value = "destination", required = true) String destination,
                                         @RequestParam(value = "departure_datetime", required = true) String departure_datetime,
@@ -42,34 +49,34 @@ public class SearchController {
         	Map<String, List<Map<String, Object>>> map = null;
         	if (connection == 0)
         	{
-        		List<Map<String, Object>> result = searchService.search(origin, destination, departure_datetime, Integer.parseInt(passenger_count), ticket_type);
+        		List<Map<String, Object>> result = searchService.search(origin, destination, departure_datetime, Integer.parseInt(passenger_count), ticket_type, is_exact_time );
             	map = new HashMap<>();
             	map.put("forward_trip", result);
             	if(trip_type)
             	{
-            		result = searchService.search(destination, origin, r_departure_datetime, Integer.parseInt(passenger_count), ticket_type);
+            		result = searchService.search(destination, origin, r_departure_datetime, Integer.parseInt(passenger_count), ticket_type, is_exact_time);
             		map.put("reverse_trip", result);
             	}                
         	}
         	else if(connection == 1)
         	{
-        		List<Map<String, Object>> result = searchService.search(origin, destination, departure_datetime, Integer.parseInt(passenger_count), ticket_type);
+        		List<Map<String, Object>> result = searchService.search(origin, destination, departure_datetime, Integer.parseInt(passenger_count), ticket_type, is_exact_time);
             	map = new HashMap<>();
             	map.put("forward_trip", result);
             	if(trip_type)
             	{
-            		result = searchService.search(destination, origin, r_departure_datetime, Integer.parseInt(passenger_count), ticket_type);
+            		result = searchService.search(destination, origin, r_departure_datetime, Integer.parseInt(passenger_count), ticket_type, is_exact_time);
             		map.put("reverse_trip", result);
             	}
         	}
         	else
         	{
-        		List<Map<String, Object>> result = searchService.search(origin, destination, departure_datetime, Integer.parseInt(passenger_count), ticket_type);
+        		List<Map<String, Object>> result = searchService.search(origin, destination, departure_datetime, Integer.parseInt(passenger_count), ticket_type, is_exact_time);
             	map = new HashMap<>();
             	map.put("forward_trip", result);
             	if(trip_type)
             	{
-            		result = searchService.search(destination, origin, r_departure_datetime, Integer.parseInt(passenger_count), ticket_type);
+            		result = searchService.search(destination, origin, r_departure_datetime, Integer.parseInt(passenger_count), ticket_type, is_exact_time);
             		map.put("reverse_trip", result);
             	}
         	}
@@ -80,8 +87,13 @@ public class SearchController {
     }
     
     @RequestMapping(value = "/purchase", method = RequestMethod.POST)
-    public ResponseEntity<Object> purchase(@RequestBody Map<String, Object> payload){
+    public ResponseEntity<Object> purchase(@RequestBody Map<String, Object> payload, HttpServletRequest request){
     	try{
+    		
+    		HttpSession httpSession = request.getSession();
+			System.out.println(httpSession.getAttribute(""));
+			User user = (User) httpSession.getAttribute("User");
+			payload.put("user",user);
     		payload = purchaseService.purchase(payload);
     		return new ResponseEntity<Object>(payload == null ? false : true, HttpStatus.OK);
     	}
