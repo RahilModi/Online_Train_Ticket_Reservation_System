@@ -14,6 +14,9 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoT
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
@@ -24,22 +27,34 @@ import org.springframework.security.oauth2.client.token.grant.code.Authorization
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.filter.CompositeFilter;
 
+@SpringBootApplication
+@ComponentScan(basePackages = {
+		"com.project.aop",
+		"com.project",
+		"com.project.controller",
+		"com.project.dao",
+		"com.project.model",
+		"com.project.service"
+		})
 
 @RestController
 @EnableOAuth2Client
-@SpringBootApplication
+@Configuration
+@EnableAspectJAutoProxy
+@EnableTransactionManagement
 public class OauthApplication extends WebSecurityConfigurerAdapter {
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
 	
-	@RequestMapping("/user")
+	/*@RequestMapping("/user")
 	public Principal user(Principal principal) {
 		return principal;
-	}
+	}*/
 	
 	public static void main(String[] args) {
 		SpringApplication.run(OauthApplication.class, args);
@@ -52,13 +67,15 @@ public class OauthApplication extends WebSecurityConfigurerAdapter {
 		http.antMatcher("/**")
 		.addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
 		.authorizeRequests()
-		.antMatchers("/", "/connect**","/userLogin**","/userRegistration**","/webjars/**", "/canceltrain**", "/getstations**", "/getTickets**", "/cancelTicket**/**", "/setCapacity**", "/getReservationRate**", "/getDailyReservationRate**")
+		.antMatchers("/", "/connect**","/userLogin**","/userRegistration**","/webjars/**", "/search**", "/purchase**", "/canceltrain**", "/getstations**", "/getTickets**", "/cancelTicket**/**", "/setCapacity**","/mainPage**","/userLogout","/adminMainPage**","/bookingHistory**","/analytics**","/getReservationRate**", "/getDailyReservationRate**")
 			.permitAll()
 		.anyRequest()
 			.authenticated()
 		.and()
 			.logout()
-		    .logoutSuccessUrl("/").permitAll().and().csrf().ignoringAntMatchers("/","/userLogin**","/userRegistration**","/canceltrain**", "/getstations**", "/getTickets**", "/cancelTicket**/**", "/setCapacity**", "/getReservationRate**", "/getDailyReservationRate**")
+
+		    .logoutSuccessUrl("/").permitAll().and().csrf().ignoringAntMatchers("/","/userLogin**","/userRegistration**","/canceltrain**", "/getstations**", "/getTickets**", "/cancelTicket**/**", "/setCapacity**","/search**", "/purchase**","/mainPage**","/userLogout","/adminMainPage**","/bookingHistory**","/analytics**","/getReservationRate**", "/getDailyReservationRate**")
+
 		 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 	}
 	// @formatter:on

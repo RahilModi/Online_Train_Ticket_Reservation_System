@@ -4,7 +4,7 @@ import java.util.Date;
 
 public interface TrainService {
 
-    public void cancelTrain(String trainName, Date date);
+    public boolean cancelTrain(String trainName, Date date);
 
     public void setCapacity(int capacity);
 

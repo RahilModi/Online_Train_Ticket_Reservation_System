@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import sun.plugin2.message.Message;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -38,15 +37,17 @@ public class TrainController {
     @RequestMapping(value="/canceltrain", method = RequestMethod.POST)
     public ResponseEntity<Object> cancelTrain(@RequestParam(value = "id", required = true) String trainName,
                                       @RequestParam(value = "date", required = true) String date){
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date d = null;
         try {
             d = df.parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        this.trainService.cancelTrain(trainName,d);
-        return new ResponseEntity<Object>("Train has been cancelled",HttpStatus.OK);
+        boolean bflag = this.trainService.cancelTrain(trainName,d);
+        if(bflag)
+        	return new ResponseEntity<Object>("Train has been cancelled",HttpStatus.OK);
+        else
+        	return new ResponseEntity<Object>("Train cannot be cancelled",HttpStatus.OK);
     }
-
 }

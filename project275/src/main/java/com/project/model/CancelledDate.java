@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class CancelledDate {
 
@@ -20,6 +22,7 @@ public class CancelledDate {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
+	@JsonIgnoreProperties("train")
 	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
 	private List<Train> train;
 	

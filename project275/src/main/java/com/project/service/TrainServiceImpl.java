@@ -1,5 +1,7 @@
 package com.project.service;
 
+
+import com.project.dao.CancelledTrainRepository;
 import com.project.dao.BookingRepository;
 import com.project.dao.CancelledTrainRepository;
 import com.project.dao.TicketRepository;
@@ -31,9 +33,10 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     @Transactional
-    public void cancelTrain(String trainName, Date date) {
-        try{
-            CancelledDate cancelledDate = cancelledTrainRepository.findByDate(date);
+    public boolean cancelTrain(String trainName, Date date) {
+    	CancelledDate cancelledDate = null;
+    	try{
+            cancelledDate = cancelledTrainRepository.findByDate(date);
             Train t = trainRepository.findOne(trainName);
             if(cancelledDate != null)
             {
@@ -47,12 +50,13 @@ public class TrainServiceImpl implements TrainService {
                 ls.add(t);
                 cancelledDate.setTrain(ls);
             }
-            cancelledTrainRepository.save(cancelledDate);
+            cancelledDate = cancelledTrainRepository.save(cancelledDate);
         }catch (Exception e){
             e.printStackTrace();
+            cancelledDate = null;
         }
+        return cancelledDate == null ? false : true;
     }
-
     @Override
     @Transactional
     public void setCapacity(int capacity) {

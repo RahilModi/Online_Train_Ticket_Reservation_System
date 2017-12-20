@@ -17,6 +17,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Ticket implements Serializable{
 
@@ -24,6 +27,7 @@ public class Ticket implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
+
 	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST}, mappedBy = "ticket", fetch=FetchType.LAZY)
 	@JsonManagedReference
 	@JsonIgnoreProperties("bookings")

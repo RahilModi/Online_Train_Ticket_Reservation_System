@@ -22,11 +22,11 @@ public class BookingController {
     public ResponseEntity<Object> cancelTicket(@PathVariable("id") int ticket_id){
         int canceledTicket;
         try{
-            int user_id = 1;
+            int user_id = 4;
             canceledTicket = bookingService.cancelTicket(user_id, ticket_id);
 
             if(canceledTicket != 0)return new ResponseEntity<>(canceledTicket, HttpStatus.OK);
-            else return new ResponseEntity<Object>("Train is already cancelled",HttpStatus.CONFLICT);
+            else return new ResponseEntity<Object>("Train is already or cannot be cancelled",HttpStatus.CONFLICT);
         }catch (Exception e){
             e.printStackTrace();
         }

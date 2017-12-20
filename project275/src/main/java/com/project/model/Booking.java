@@ -15,6 +15,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class Booking {
 
@@ -24,14 +27,17 @@ public class Booking {
 
 	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST}, fetch=FetchType.LAZY)
 	@JoinColumn(name="train_id")
+	@JsonIgnoreProperties("train")
 	private Train train;
 	
 	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST}, fetch=FetchType.LAZY)
 	@JoinColumn(name="origin_id")
+	@JsonIgnoreProperties("origin")
 	private Station origin;
 	
 	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST}, fetch=FetchType.LAZY)
 	@JoinColumn(name="destination_id")
+	@JsonIgnoreProperties("destination")
 	private Station destination;
 	
 	private Date departureDate; // departure Date time
@@ -42,8 +48,8 @@ public class Booking {
 	
 	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST}, fetch=FetchType.LAZY)
 	@JoinColumn(name="ticket_id")
-	@JsonBackReference
 	@JsonIgnoreProperties("ticket")
+	@JsonBackReference
 	private Ticket ticket;
 
 	public int getId() {

@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @EnableAutoConfiguration
 public class Train implements Serializable{
@@ -30,6 +33,8 @@ public class Train implements Serializable{
 	private Direction direction;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "objTrainStation.train", cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
+	@JsonIgnoreProperties("trainStation")
+	@JsonManagedReference
 	private Set<TrainStationMapping> trainStation;
 	
 	public String getName() {
@@ -72,8 +77,4 @@ public class Train implements Serializable{
 		this.trainStation = trainStation;
 	} 
 	
-	
-	
 }
-
-
