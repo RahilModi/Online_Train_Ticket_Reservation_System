@@ -2,137 +2,140 @@
 
 <html xmlns="http://www.thymeleaf.org" lang="en">
 <head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>275Project</title>
-<meta name="description" content="" />
-<meta name="viewport" content="width=device-width" />
-<base href="/" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-	
-
-<script type="text/javascript"
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>275Project</title>
+	<meta name="description" content="" />
+	<meta name="viewport" content="width=device-width" />
+	<base href="/" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript"
+			src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+	<script src = "https://cdn.zingchart.com/zingchart.min.js" ></script>
+	<script src = "https://cdn.zingchart.com/angular/zingchart-angularjs.js" ></script>
 </head>
 <body ng-app="app" ng-controller="home as home">
-	<nav class="navbar navbar-inverse">
-	  <div class="container-fluid">
-	    <div class="navbar-header">
-	      <a class="navbar-brand">California Ultra-Speed Rail Service</a>
-	    </div>
-	    <!-- <ul class="nav navbar-nav">
-	      <li class="active"><a href="#">Home</a></li>
-	      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
-	        <ul class="dropdown-menu">
-	          <li><a href="#">Page 1-1</a></li>
-	          <li><a href="#">Page 1-2</a></li>
-	          <li><a href="#">Page 1-3</a></li>
-	        </ul>
-	      </li>
-	      <li><a href="#">Page 2</a></li>
-	    </ul> -->
-	    <ul class="nav navbar-nav navbar-right">
-	      <li><a href="/analytics"><span class="glyphicon glyphicon-user"></span> Analytics</a></li>
-	      <li><a href="#" ng-click="home.signout()"><span class="glyphicon glyphicon-log-in"></span> LogOut</a></li>
-	    </ul>
-	  </div>
-	</nav>	
+<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand">California Ultra-Speed Rail Service</a>
+		</div>
+		<!-- <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Page 1-1</a></li>
+              <li><a href="#">Page 1-2</a></li>
+              <li><a href="#">Page 1-3</a></li>
+            </ul>
+          </li>
+          <li><a href="#">Page 2</a></li>
+        </ul> -->
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="/analytics"><span class="glyphicon glyphicon-user"></span> Analytics</a></li>
+			<li><a href="#" ng-click="home.signout()"><span class="glyphicon glyphicon-log-in"></span> LogOut</a></li>
+		</ul>
+	</div>
+</nav>
 
-	<div class="col-lg-2"></div>
-	<div class="col-lg-8">
-		<div class="col-lg-12">
-			<div class="col-lg-6" >
-				<div class="col-lg-12" style="border: 1px solid black;height: auto;">
-					<h2>Train To Be Cancelled </h2>
-					<div class="col-lg-12">
-						<label>Train Name: </label><input type="text" name="trainCancellation" ng-model="trainCancellation"/>
-						<button class="btn btn-primary" ng-model="cancelTrain()" style="margin-bottom: 5px">Cancel</button>
-						<!-- <div ng-show="val" style="background-color: green">
-							<h3>Successfully Cancelled the Train</h3>
-						</div>
-						<div ng-show="val2" style="background-color: red">
-							<h3>Could Not Cancel the Train</h3>
-						</div> -->
+<div class="col-lg-2"></div>
+<div class="col-lg-8">
+	<div class="col-lg-12">
+
+		<div class="col-lg-12" >
+			<div class="col-lg-12" style="border: 1px solid black;height: auto;">
+				<h2>Train To Be Cancelled </h2>
+				<div class="col-lg-12">
+					<div class="col-lg-5">
+						<span>Train Name: </span><input type="text" name="trainCancellation" ng-model="trainCancellation"/>
 					</div>
-				</div>
-			</div>
+					<div class="col-lg-5">
+						<span>Date: </span><input placeholder="Date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="datefield" min='2017-12-12' ng-model="date" />
+					</div>
 
-			<div class="col-lg-6">
-				<div class="col-lg-12" style="border: 1px solid black;height: auto;">
-					<h2>Set Max Capacity of all trains</h2>
-					<div class="col-lg-12">
-						<label>Max Capacity: </label><input type="text" name="increaseMaxCapacityCount" ng-model="increaseMaxCapacityCount"/>
-						<button class="btn btn-primary" ng-model="setMaxCapacity()" style="margin-bottom: 5px">Submit</button>
-						<!-- <div ng-show="val3" style="background-color: green">
-							<h3>Successfully Increased the Max Capacity</h3>
-						</div>
-						<div ng-show="val4" style="background-color: red">
-							<h3>Could Not Increase the Max Capacity</h3>
-						</div> -->
+					<div class="col-lg-2">
+						<button class="btn btn-primary" ng-click="cancelTrain()" style="margin-bottom: 5px">Cancel Train</button>
+					</div>
+					<div class="alert alert-success col-lg-12" ng-show="var">
+					    <strong>Success!</strong> {{successMessage}}
 					</div>
 				</div>
 			</div>
 		</div>
 
-		
+		<div class="col-lg-12" style="margin-top:15px">
+			<div class="col-lg-12" style="border: 1px solid black;height: auto;">
+				<h2>Set Max Capacity of all trains</h2>
+				<div class="col-lg-12">
+					<span>Max Capacity: </span><input type="text" name="increaseMaxCapacityCount" ng-model="increaseMaxCapacityCount"/>
+					<button class="btn btn-primary" ng-click="setMaxCapacity()" style="margin-bottom: 5px">Submit</button>
+					<div class="alert alert-success col-lg-12" ng-show="var">
+					    <strong>Success!</strong> {{successMessage}}
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class="col-lg-2"></div>
+
+
+</div>
+<div class="col-lg-2"></div>
 
 
 </body>
 <script type="text/javascript">
-	angular.module("app", ['zingchart-angularjs']).controller("home", function($scope, $http, $location, $window) {
-		var self = this;
-
-		/*$scope.val = fal;
-		$scope.val2 = false;
-		$scope.val3 = false;
-		$scope.val4 = false;*/
-		self.signout = function() {
-			$http.post('/userLogout',{
-
-			}).success(function(){
-				$window.location.href ="/";
-			}).error(function(data){
-				console.log("Logout failed")
-			})
-		}
-
-		$scope.cancelTrain = function(){
-			/*$http({
-				url:"/cancelTrain",
-				method:"POST",
-				data:{
-					"trainName":$scope.trainCancellation
-				}
-			}).success(function(data){
-
-			})*/
-		}
-
-		$scope.setMaxCapacity = function(){
-			/*$http({
-				url:"/setMaxCapacity",
-				method:"POST",
-				data:{
-					"maxCapacity":$scope.increaseMaxCapacityCount
-				}
-			}).success(function(data){
-
-			})*/
-		}
-
-		
-		/*elf.logout = function() {
-			$http.post('/logout', {}).success(function() {
-			}).error(function(data) {
-				console.log("Logout failed")
-			});
-		};*/
-	});
+    angular.module("app", ['zingchart-angularjs']).controller("home", function($scope, $http, $location, $window) {
+        var self = this;
+        $scope.val = false;
+        /*$scope.val2 = false;
+        $scope.val3 = false;
+        $scope.val4 = false;*/
+        self.signout = function() {
+            $http.post('/userLogout',{
+            }).success(function(){
+                $window.location.href ="/";
+            }).error(function(data){
+                console.log("Logout failed")
+            })
+        }
+        $scope.cancelTrain = function(){
+            console.log("inside cancelTrain");
+            var params = {
+                "id": $scope.trainCancellation,
+                "date": $scope.date
+			};
+            $http({
+                url:"/canceltrain",
+                method:"GET",
+                params: params
+            }).success(function(data){
+            	$scope.val = true;
+            	$scope.successMessage = "Successfully Cancelled Train"
+            }).error(function(err){
+            })
+        }
+        $scope.setMaxCapacity = function(){
+            $http({
+                url:"/setCapacity",
+                method:"GET",
+                params:{
+                    "capacity":$scope.increaseMaxCapacityCount
+                }
+            }).success(function(data){
+            	$scope.val = true;
+            	$scope.successMessage = "Successfully Increased The Max Capacity of Train"
+            }).error(function(err){
+            })
+        }
+        /*elf.logout = function() {
+            $http.post('/logout', {}).success(function() {
+            }).error(function(data) {
+                console.log("Logout failed")
+            });
+        };*/
+    });
 </script>
 </html>

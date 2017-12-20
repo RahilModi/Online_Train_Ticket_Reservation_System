@@ -22,9 +22,9 @@ public class User {
 	private long id;
     @Column(name="email",unique=true)
 	private String email;
-    private String password;
 	private String firstName;
 	private String lastName;
+	private String password;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))

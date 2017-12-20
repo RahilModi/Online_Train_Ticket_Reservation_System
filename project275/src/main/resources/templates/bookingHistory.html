@@ -36,7 +36,7 @@
 	<nav class="navbar navbar-inverse">
 	  <div class="container-fluid">
 	    <div class="navbar-header">
-	      <a class="navbar-brand">California Ultra-Speed Rail Service</a>
+			<a href="/mainPage" class="navbar-brand">California Ultra-Speed Rail Service</a>
 	    </div>
 	    <!-- <ul class="nav navbar-nav">
 	      <li class="active"><a href="#">Home</a></li>
@@ -60,52 +60,55 @@
 	<div class="col-lg-3"></div>
 
 	<div class="col-lg-6">
+		<div class="alert alert-success col-lg-12" ng-show="success">
+		<strong>Success!</strong> {{successMessage}}
+		</div>
+
+		<!-- Success Message -->
+		<div class="alert alert-danger col-lg-12" ng-show="error">
+		<strong>Failed!</strong> {{failureMessage}}
+		</div>
+
+		<!-- Success Message -->
+		<div class="alert alert-light col-lg-12" ng-show="message">
+		<strong>Message!</strong> {{Message}}
+		</div>
 		<div class="col-lg-12"><h2>Booking History</h2></div>
 		<div class="col-lg-12">
 			<div class="col-lg-12" style="margin-top: 10px">
-				<ul class="list-group" style="height: auto;">
-	                <li class="list-group-item" ng-repeat="x in records" style="height: 120px">
+				<ul class="list-group" >
+					<h4 ng-if="tickets.length == 0">{{Message}}</h4>
+	                <li class="list-group-item" ng-repeat="x in tickets" style="display: inline-block;">
             			<div class="col-lg-12">
                 			<div class="col-lg-6">
 		                		<label>Ticket Type: {{x.ticket_type}}</label>
 		                	</div>
-		                	<div class="col-lg-6"> 
-		                		<input type="radio" style="float: right;" ng-model="$parent.name" value="{{x}}"/>
+		                	<div class="col-lg-6" ng-hide="x.cancelled">
+		                		<input type="radio" style="float: right;" ng-model="$parent.name" value="{{x.ticket_id}}"/>
 		                	</div>
 	                	</div>
 	                	<div class="col-lg-12">
 		                	<div class="col-lg-6"><b>Cost of Ticket:</b> {{x.price}}$</div>
 		                	<div class="col-lg-6"><b>Passenger Count:</b> {{x.passenger_count}}</div>
 		                </div>
-		                <div class="col-lg-12">
-		                	<div class="col-lg-6"><b>Origin:</b> {{x.bookings[0].origin}}</div>
-		                	<div class="col-lg-6"><b>Destination:</b> {{x.bookings[0].destination}}</div>
-		                </div>
-
-		                <div class="col-lg-12">
-		                	<div class="col-lg-6"><b>Arrival Date Time:</b> {{x.bookings[0].arrival_date}}</div>
-		                	<div class="col-lg-6"><b>Departure Date Time:</b> {{x.bookings[0].departure_date}}</div>
-		                </div>
-		                <!-- <ul class="list-group" style="height: auto;">
-		                	<li class="list-group-item" ng-repeat="j in x.bookings">
-		                		<div class="col-lg-12"><h4> Details of the trip:</h4></div>
-		                		<div class="col-lg-12">
-				                	<div class="col-lg-6"><b>Origin:</b> {{j.origin}}</div>
-				                	<div class="col-lg-6"><b>Destination:</b> {{j.destination}}</div>
-				                </div>
-
-				                <div class="col-lg-12">
-				                	<div class="col-lg-6"><b>Arrival Date Time:</b> {{j.arrival_date}}</div>
-				                	<div class="col-lg-6"><b>Departure Date Time:</b> {{j.departure_date}}</div>
-				                </div>	
-		                	</li>
-		                </ul> -->
+						<div ng-repeat="trains in x.bookings">
+							<div class="col-lg-12">
+								<div class="col-lg-6"><b>Train Name: </b>{{trains.train_name}}</div>
+							</div>
+							<div class="col-lg-12" >
+								<div class="col-lg-6"><b>From: </b>{{trains.origin}}</div>
+								<div class="col-lg-6"><b>Departure Time:</b> {{trains.departure_date}}</div>
+							</div>
+							<div class="col-lg-12">
+								<div class="col-lg-6"><b>To: </b>{{trains.destination}}</div>
+								<div class="col-lg-6"><b>Arrival Time:</b> {{trains.arrival_date}}</div>
+							</div>
+						</div>
 	                </li>
-		        	<center><button class="btn btn-primary" ng-click="onewaytrip(name)" style="width:100%;margin-top:5px">Cancel Ticket</button></center>
+		        	<center><button class="btn btn-primary" ng-click="cancelTickets(name)" style="width:100%;margin-top:5px" ng-if="tickets.length != 0">Cancel Ticket</button></center>
 		        </ul>
 			</div>
 
-{{names}}
 		</div>
 
 	</div>
@@ -115,263 +118,61 @@
 </body>
 <script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
 <script type="text/javascript">
-	angular.module("app", []).controller("home", function($scope, $http, $location, $window) {
+	angular.module("app", []).controller("home", function($scope, $http, $location, $window, $timeout) {
 
+        var self = this;
+        $scope.success=false;
+        $scope.error=false;
+        $scope.Message = "There is not any booking..";
 
+        //console.log("value1"+value+"value2"+value1+"value3"+value2);
+        $http({
+            url: "/getTickets",
+            method: "GET"
+        }).success(function (data) {
+            console.log(data);
+            $scope.tickets = data;
+        }).error(function () {
+            console.log("Error in retrieving the user bookings...");
+        })
 
-		var self = this;
-
-		//console.log("value1"+value+"value2"+value1+"value3"+value2);
-		$http({
-			url : "/getDateData",
-			method:"GET",
-		}).success(function(data){
-			if(data.statusCode=="200"){
-				
-			}
-			else if(data.statusCode=="404"){
-				
-			}
-		});
-
-		$scope.search = function(){
-			var extTime = 0;
-			var frmStation = $scope.fromStation;
-			var tStation = $scope.toStationmodel;
-			var gstCount = $scope.guestCount;
-			var dte = $scope.date;
-			var tme = $scope.time+":00";
-			var dateTime = dte+" "+tme;
-			var trpType = $scope.trip_type;
-			var trnType = $scope.train_type;
-			var cnnCount = $scope.connectionCount;
-			var extTime = $scope.exact_time;
-			if(!extTime){
-				extTime ="NotExactTime"
-			}
-			console.log(frmStation.fromStation+" "+tStation.toStation+" "+gstCount+" "+dte+" "+tme+" "+trpType+" "+trnType+" "+cnnCount+" "+extTime+" "+dateTime);
-//train type reg = 1 exprs=2 any=0
-//no of connections any=0 one =1 two = 2
-			/*$http({
-				url:"/search",
-				method: "POST",
-				data: {
-					"origin":frmStation.fromStation,
-					"destination":tStation,
-					"departure_datetime"
-				}
-			})*/
-
+		$scope.clearFlashMessages = function(){
+            $scope.error=false;
+            $scope.success = false;
+            $scope.message = false;
 		}
-		
-
-		
-		//ng-options for from station
-		
-		$scope.trip = function(forward , reverse){
-			$scope.names = forward+reverse;
-		}
-		$scope.onewaytrip = function(forward){
-			$scope.names = forward;
-		}
-		var result=[];
-
-    	result = [
-		    {
-		        "ticket_type": "Express",
-		        "price": 18,
-		        "passenger_count": 2,
-		        "bookings": [
-		            {
-		                "origin": "F",
-		                "departure_date": "2017-12-17 08:28:00.0",
-		                "destination": "U",
-		                "arrival_date": "2017-12-17 09:49:00.0"
-		            },
-		            {
-		                "origin": "U",
-		                "departure_date": "2017-12-17 17:55:00.0",
-		                "destination": "F",
-		                "arrival_date": "2017-12-17 19:52:00.0"
-		            }
-		        ]
-		    }
-		]
-
-		$scope.records = result;
-
-		console.log("The bookings are: "+result[0].bookings.length);
-		var object = JSON.stringify(result);
-		//console.log(result[0].forward_trip.length)
-		/*console.log("The data is: "+Object.keys(result).length);
-		console.log("The object is: "+angular.fromJson(result)[0])*/
-/*
-		if (result.length!=0) {
-			if(result[0].forward_trip!=null){
-				console.log("The data is: "+result[0].forward_trip);
-				$scope.oneWayTrip=true;
-				$scope.roundWayTrip=false;
-				$scope.records1 = result[0].forward_trip;
-				$scope.records2 = result[0].reverse_trip;
-			}else if(result[0].forward_trip==null){
-				$scope.oneWayTrip=false;
-				$scope.roundWayTrip=true;
-				$scope.records = result;
-			}
-		}else{
-
-		}*/
-
-
-
-    	
-		/*$scope.selected = $scope.items[0];*/
-
-
-		$scope.bookingHistory = function(){
-			$http.get('/bookingHistory').success(function(data){
-
-			}).error(function(data){
-				console.log("Failed");
+		$scope.cancelTickets = function(id){
+			$http.post("/cancelTicket/"+ id).success(function (data){
+				$scope.successMessage = "Ticket has been cancelled...";
+				$scope.success=true;
+			}).error(function(err){
+                $scope.failureMessage = "Error in processing the request...";
+                $scope.error=true;
 			})
+            $timeout(function () { $scope.clearFlashMessages(); },2000);
+			$window.location.reload(true);
 		}
 
-		/*self.bookTicket = function(train){
+        $scope.bookingHistory = function () {
+            $http.get('/bookingHistory').success(function (data) {
+
+            }).error(function (data) {
+                console.log("Failed");
+            })
+        }
+
+        /*self.bookTicket = function(train){
 			$scope.Train = train;
 		}*/
 
-		self.signout = function() {
-			$http.post('/userLogout',{
-
-			}).success(function(){
-				$window.location.href ="/";
-			}).error(function(data){
-				console.log("Logout failed")
-			})
-		}
-	});
+        self.signout = function () {
+            $http.post('/userLogout', {}).success(function () {
+                $window.location.href = "/";
+            }).error(function (data) {
+                console.log("Logout failed")
+            })
+        }
+    });
 </script>
 </html>
 
-
-
-
-<!-- <!DOCTYPE HTML>
-
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>275Project</title>
-<meta name="description" content="" />
-<meta name="viewport" content="width=device-width" />
-<base href="/" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-<script type="text/javascript"
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-</head>
-<body ng-app="app" ng-controller="home as home">
-	<nav class="navbar navbar-inverse">
-	  <div class="container-fluid">
-	    <div class="navbar-header">
-	      <a href="/mainPage" class="navbar-brand">California Ultra-Speed Rail Service</a>
-	    </div>
-	    <ul class="nav navbar-nav navbar-right">
-	      <li><a href="#" ng-click="home.signout()"><span class="glyphicon glyphicon-log-in"></span> LogOut</a></li>
-	    </ul>
-	  </div>
-	</nav>
-
-	<div class="col-lg-2"></div>
-	<div class="col-lg-8">
-		<div class="col-lg-12">
-			<h1> Your Reservations: </h1>
-		</div>
-		<div class="col-lg-12" style="margin-top: 10px" ng-hide="oneWayTrip">
-			<ul class="list-group" style="height: auto;">
-                <li class="list-group-item" ng-repeat="x in records" style="height: 120px">
-        			<div class="col-lg-12">
-            			<div class="col-lg-6">
-	                		<label>Ticket Type: {{x.ticket_type}}</label>
-	                	</div>
-	                	<div class="col-lg-6"> 
-	                		<input type="radio" style="float: right;" ng-model="$parent.name" value="{{x}}"/>
-	                	</div>
-                	</div>
-                	<div class="col-lg-12">
-	                	<div class="col-lg-6"><b>Origin:</b> {{x.price}}$</div>
-	                	<div class="col-lg-6"><b>Passenger Count:</b> {{x.passenger_count}}</div>
-	                </div>
-
-	                <div class="col-lg-12">
-	                	<div class="col-lg-6"><b>Origin:</b> {{x.bookings[0].origin}}</div>
-	                	<div class="col-lg-6"><b>Destination:</b> {{x.bookings[0].destination}}</div>
-	                </div>
-
-	                <div class="col-lg-12">
-	                	<div class="col-lg-6"><b>Arrival Date Time:</b> {{x.bookings[0].arrival_date}}</div>
-	                	<div class="col-lg-6"><b>Departure Date Time:</b> {{x.bookings[0].departure_date}}</div>
-	                </div>
-
-                </li>
-	        	<center><button class="btn btn-primary" ng-click="onewaytrip(name)" style="width:100%;margin-top:5px">Submit</button></center>
-	        </ul>
-		</div>
-
-	</div>
-	<div class="col-lg-2"></div>
-
-	
-</body>
-<script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
-<script type="text/javascript">
-	angular.module("app", []).controller("home", function($scope, $http, $location, $window) {
-		var self = this;
-		var bookingsa = [
-		    {
-		        "ticket_type": "Express",
-		        "ticket_id":"100"
-		        "price": 18,
-		        "passenger_count": 2,
-		        "bookings": [
-		            {
-		                "origin": "F",
-		                "departure_date": "2017-12-17 08:28:00.0",
-		                "destination": "U",
-		                "arrival_date": "2017-12-17 09:49:00.0"
-		            },
-		            {
-		                "origin": "U",
-		                "departure_date": "2017-12-17 17:55:00.0",
-		                "destination": "F",
-		                "arrival_date": "2017-12-17 19:52:00.0"
-		            }
-		        ]
-		    }
-		]
-
-
-		$scope.records = bookingsa;
-		$http.get('/getCurrentBooking').success(function(data){
-			
-		}).error(function(data){
-			console.log("Request Failed");
-		})
-
-		self.signout = function() {
-			$http.post('/userLogout',{
-
-			}).success(function(){
-				$window.location.href ="/";
-			}).error(function(data){
-				console.log("Logout failed")
-			})
-		}
-		
-	});
-</script>
-</html> -->
