@@ -130,17 +130,17 @@
 				<div class="col-lg-4">
 					<h4>Train type</h4>
 	                <ul class="list-group">
-	                    <li class="list-group-item">Regular<input type="radio" value="regularTrain" ng-model="train_type" style="float:right"></input></li>
-	                    <li class="list-group-item">Express<input type="radio" value="expressTrain" ng-model="train_type" style="float:right"></input></li>
-	                    <li class="list-group-item">Any<input type="radio" value="Any" ng-model="train_type" style="float:right"></input></li>
+	                    <li class="list-group-item">Regular<input type="radio" value="1" ng-model="train_type" style="float:right"></input></li>
+	                    <li class="list-group-item">Express<input type="radio" value="2" ng-model="train_type" style="float:right"></input></li>
+	                    <li class="list-group-item">Any<input type="radio" value="0" ng-model="train_type" style="float:right"></input></li>
 	                </ul>
 				</div>
 				<div class="col-lg-4">
 					<h4>Number of Connections</h4>
 	                <ul class="list-group">
-	                    <li class="list-group-item">Any<input  type="radio" value="anyConnection" ng-model="connectionCount" style="float:right"></input></li>
-	                    <li class="list-group-item">One<input  type="radio" value="oneConnection" ng-model="connectionCount" style="float:right"></input></li>
-	                    <li class="list-group-item">Two<input  type="radio" value="twoConnection" ng-model="connectionCount" style="float:right"></input></li>
+	                    <li class="list-group-item">Any<input  type="radio" value="0" ng-model="connectionCount" style="float:right"></input></li>
+	                    <li class="list-group-item">One<input  type="radio" value="1" ng-model="connectionCount" style="float:right"></input></li>
+	                    <li class="list-group-item">Two<input  type="radio" value="2" ng-model="connectionCount" style="float:right"></input></li>
 	                </ul>
 				</div>
 			</div>
@@ -148,7 +148,7 @@
 			<div class="col-lg-12">
 				<div class="col-lg-12">
 		            <ul class="list-group" style="width: 100%">
-		                <li class="list-group-item">Exact Time<input type="radio" value="exactTime" ng-model="exact_time" style="float:right"></input></li>
+		                <li class="list-group-item">Exact Time<input type="radio" value="1" ng-model="exact_time" style="float:right"></input></li>
 		            </ul>
 	            </div>
 			</div>
@@ -274,21 +274,23 @@
 		<div class="col-lg-12" ng-hide="value2">
 			<div class="col-lg-6">
 				<h4>Forward Trip</h4>
+
+
 				<ul class="list-group" style="height: auto;">
-	                <li class="list-group-item" ng-repeat="k in rec1" style="height:175px;">
+	                <li class="list-group-item" style="height:175px;">
 	                	<div class="col-lg-12">
                 			<div class="col-lg-12">
-		                		<label>Ticket Type: {{k.ticket_type}}</label>
+		                		<label>Ticket Type: {{kticket_type}}</label>
 		                	</div>
 	                	</div>
 	                	<div class="col-lg-12">
-		                	<div class="col-lg-12"><b>Cost of Ticket:</b> {{k.price}}$</div>
-		                	<div class="col-lg-12"><b>Passenger Count:</b> {{k.passenger_count}}</div>
+		                	<div class="col-lg-12"><b>Cost of Ticket:</b> {{kprice}}$</div>
+		                	<div class="col-lg-12"><b>Passenger Count:</b> {{kpassenger_count}}</div>
 		                </div>
 
 		                <div class="col-lg-12">
-		                	<div class="col-lg-12"><b>Arrival Time:</b> {{k.trains[0].arrival_time}}</div>
-		                	<div class="col-lg-12"><b>Departure Time:</b> {{k.trains[0].depat_time}}</div>
+		                	<div class="col-lg-12"><b>Arrival Time:</b> {{ktrainsarrival_time}}</div>
+		                	<div class="col-lg-12"><b>Departure Time:</b> {{ktrainsdepat_time}}</div>
 		                </div>
 
 	                	<!-- <input type="radio" style="float: right;" ng-model="$parent.name1" value="{{y}}"/>
@@ -302,32 +304,193 @@
 	        <div class="col-lg-6">
 				<h4>Reverse Trip</h4>
 				<ul class="list-group" style="height: auto">
-	                <li class="list-group-item" ng-repeat="c in rec2" style="height:175px;">
+	                <li class="list-group-item" style="height:175px;">
 
 	                	<div class="col-lg-12">
                 			<div class="col-lg-12">
-		                		<label>Ticket Type: {{c.ticket_type}}</label>
+		                		<label>Ticket Type: {{cticket_type}}</label>
 		                	</div>
 	                	</div>
 	                	<div class="col-lg-12">
-		                	<div class="col-lg-12"><b>Cost of Ticket:</b> {{c.price}}$</div>
-		                	<div class="col-lg-12"><b>Passenger Count:</b> {{c.passenger_count}}</div>
+		                	<div class="col-lg-12"><b>Cost of Ticket:</b> {{cprice}}$</div>
+		                	<div class="col-lg-12"><b>Passenger Count:</b> {{cpassenger_count}}</div>
 		                </div>
 
 		                <div class="col-lg-12">
-		                	<div class="col-lg-12"><b>Arrival Time:</b> {{c.trains[0].arrival_time}}</div>
-		                	<div class="col-lg-12"><b>Departure Time:</b> {{c.trains[0].depat_time}}</div>
+		                	<div class="col-lg-12"><b>Arrival Time:</b> {{ctrainsarrival_time}}</div>
+		                	<div class="col-lg-12"><b>Departure Time:</b> {{ctrainsdepat_time}}</div>
 		                </div>
 	                </li>
 		        </ul>
 	        </div>
 	        <div class="col-lg-12">
-	        	<center><button class="btn btn-primary" ng-click="trip(name1,name2)" style="width:100%">Submit</button></center>
+	        
+	        	<center><button class="btn btn-primary" ng-click="submitRoundTrip()" style="width:100%">Submit</button></center>
 	        </div>
 		</div>
 
-{{names}}
 
+		<div class="col-lg-12" ng-hide="value3">
+			<h4>One Way Trip</h4>
+			<ul class="list-group" style="height: auto">
+                <li class="list-group-item" style="height:175px;">
+                	<div class="col-lg-12">
+            			<div class="col-lg-12">
+	                		<label>Ticket Type: {{fticket_type}}</label>
+	                	</div>
+                	</div>
+                	<div class="col-lg-12">
+	                	<div class="col-lg-12"><b>Cost of Ticket:</b> {{fprice}}$</div>
+	                	<div class="col-lg-12"><b>Passenger Count:</b> {{fpassenger_count}}</div>
+	                </div>
+
+	                <div class="col-lg-12">
+	                	<div class="col-lg-12"><b>Arrival Time:</b> {{ftrainsarrival_time}}</div>
+	                	<div class="col-lg-12"><b>Departure Time:</b> {{ftrainsdepat_time}}</div>
+	                </div>
+                </li>
+	        </ul>
+	        <div class="col-lg-12">
+	        	<center><button class="btn btn-primary" ng-click="submitOneWayTrip()" style="width:100%">Submit</button></center>
+	        </div>
+		</div>
+
+
+		<div class="col-lg-12" style="margin-top: 10px">
+				<div ng-hide = "case1"> 
+					<div class="form-row" >
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 1 First Name"  ng-model="f11"/>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 1 Last Name"  ng-model="l11"/>
+						</div>
+					</div>
+				</div>
+
+				<div ng-hide = "case2">
+					<div class="" >
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 1 First Name"  ng-model="f21"/>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 1 Last Name"  ng-model="l21"/>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 2 First Name"  ng-model="f22"/>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 2 Last Name"  ng-model="l22"/>
+						</div>
+					</div>
+				</div>
+			<!-- </div> -->
+
+				<div ng-hide = "case3">
+					<div class="form-row">
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 1 First Name"  ng-model="f31"/>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 1 Last Name"  ng-model="l31"/>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 2 First Name"  ng-model="f32"/>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 2 Last Name"  ng-model="l32"/>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 3 First Name" ng-model="f33"/>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 3 Last Name" ng-model="l33"/>
+						</div>
+					</div>
+				</div>
+				<div ng-hide = "case4">
+					<div class="form-row">
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 1 First Name"  ng-model="f41"/>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 1 Last Name"  ng-model="l41"/>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 2 First Name"  ng-model="f42"/>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 2 Last Name"  ng-model="l42"/>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 3 First Name" ng-model="f43"/>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 3 Last Name" ng-model="l43"/>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 4 First Name" ng-model="f44"/>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 4 Last Name" ng-model="l44"/>
+						</div>
+					</div>
+				</div>
+				<div ng-hide = "case5">
+					<div class="form-row">
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 1 First Name"  ng-model="f51"/>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 1 Last Name"  ng-model="l51"/>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 2 First Name"  ng-model="f52"/>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 2 Last Name"  ng-model="l52"/>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 3 First Name" ng-model="f53"/>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 3 Last Name" ng-model="l53"/>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 4 First Name" ng-model="f54"/>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 4 Last Name" ng-model="l54"/>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 5 First Name" ng-model="f55"/>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control" placeholder="Passenger 5 Last Name" ng-model="l55"/>
+						</div>
+					</div>
+				</div>
+		</div>
 	</div>
 
 	<div class="col-lg-3"></div>
@@ -337,10 +500,17 @@
 <script type="text/javascript">
 	angular.module("app", []).controller("home", function($scope, $http, $location, $window) {
 
+		//console.log($scope.firstName1+$scope.firstName2)
 		$scope.oneWayTrip = true;
 		$scope.roundWayTrip = true;
 		$scope.value1 = false;
 		$scope.value2 = true;
+		$scope.value3 = true;
+		$scope.case1 = true;
+		$scope.case2 = true;
+		$scope.case3 = true;
+		$scope.case4 = true;
+		$scope.case5 = true;
 		var guest_count = 1;
 
 		var self = this;
@@ -363,10 +533,12 @@
 			var frmStation = $scope.fromStation;
 			var tStation = $scope.toStationmodel;
 			var gstCount = $scope.guestCount;
-			guest_count = gstCount;
 			var dte = $scope.date;
 			var tme = $scope.time+":00";
-			var dateTime = dte+" "+tme;
+			var dateTimeOneWay = dte+" "+tme;
+			var roundTripdate = $scope.returndate;
+			var roundTripTime = $scope.returntime+":00";
+			var roundTripDateTime = roundTripdate+" "+roundTripTime;
 			var trpType = $scope.trip_type;
 			var trnType = $scope.train_type;
 			var cnnCount = $scope.connectionCount;
@@ -374,8 +546,7 @@
 			if(!extTime){
 				extTime ="NotExactTime"
 			}
-			console.log(frmStation.fromStation+" "+tStation.toStation+" "+gstCount+" "+dte+" "+tme+" "+trpType+" "+trnType+" "+cnnCount+" "+extTime+" "+dateTime);
-
+			console.log(frmStation.fromStation+" "+tStation.toStation+" "+gstCount+" "+dte+" "+tme+" "+trpType+" "+trnType+" "+cnnCount+" "+extTime+" "+dateTimeOneWay);
 			
 
 			if(trpType=="oneWay"){
@@ -384,19 +555,17 @@
 			}else if(trpType=="roundTrip"){
 				console.log("The Guest count is: "+trpType);
 			}
+		}
+		$scope.submitRoundTrip = function(){
+			console.log("The name"+$scope.krishna);
 
-//train type reg = 1 exprs=2 any=0
-//no of connections any=0 one =1 two = 2
-			/*$http({
-				url:"/search",
-				method: "POST",
-				data: {
-					"origin":frmStation.fromStation,
-					"destination":tStation,
-					"departure_datetime"
-				}
-			})*/
-
+			for(var i = 1; i<=$scope.gstCount1 ; i++){
+				console.log(${"$scope"+i});
+			}
+			console.log("the datavvvvv: "+$scope.f1+$scope.l1);
+		}
+		$scope.submitOneWayTrip=function(){
+			console.log("the dataa: "+$scope.f1+$scope.l1);
 		}
 		
 
@@ -424,22 +593,88 @@
 		var res = [];
 		$scope.trip = function(forward , reverse){
 			$scope.names = forward+reverse;
-			res = [{"forward_trip":[forward],"reverse_trip":[reverse]}];
-			$scope.names = res;
-			var object = JSON.parse(res);
-			console.log("type is"+res[0].forward_trip[0].trip_type);
-			console.log("The object is: "+object[0].forward_trip[0]);
-			
-			$scope.rec1=res[0].forward_trip;
-			$scope.rec2 = res[0].reverse_trip;
 			$scope.value1 = true;
 			$scope.value2 = false;
-			$scope.rec1=forward;
-			$scope.rec2 = reverse;
+			$scope.value3 = true;
+
+
+			
+
+			res = [{"forward_trip":[forward],"reverse_trip":[reverse]}];
+			/*$scope.names = res;*/
+			console.log("The object is: "+res[0].forward_trip[0]);
+			var object = JSON.parse(res[0].forward_trip[0]);
+			console.log("type is"+object["ticket_type"]);
+
+			$scope.kticket_type = object["ticket_type"];
+			$scope.kprice = object["price"];
+			$scope.kpassenger_count = object["passenger_count"];
+			$scope.gstCount1 = object["passenger_count"];
+
+			switch($scope.gstCount1){
+				case 1: {
+					$scope.case1 = false;
+					break;
+				}
+				case 2: {
+					$scope.case2 = false;
+					break;
+				}
+				case 3: {
+					$scope.case3 = false;
+					break;
+				}
+				case 4: {
+					$scope.case4 = false;
+					break;
+				}
+				case 5: {
+					$scope.case5 = false;
+					break;
+				}
+
+			}
+			$scope.ktrainsarrival_time = object["trains"][0]["arrival_time"];
+			$scope.ktrainsdepat_time = object["trains"][0]["depat_time"];
+
+
+			var object1 = JSON.parse(res[0].reverse_trip[0]);
+			console.log("type is"+object1["ticket_type"]);
+
+			$scope.cticket_type = object1["ticket_type"];
+			$scope.cprice = object["price"];
+			$scope.cpassenger_count = object1["passenger_count"];
+			
+			$scope.ctrainsarrival_time = object1["trains"][0]["arrival_time"];
+			$scope.ctrainsdepat_time = object1["trains"][0]["depat_time"];
+
+
+
+
 
 		}
+
+		var res2=[];
 		$scope.onewaytrip = function(forward){
-			$scope.names = forward;
+			/*$scope.names = forward;*/
+			$scope.value1 = true;
+			$scope.value2 = true;
+			$scope.value3 = false;
+			
+			res2 = [{"forward_trip":[forward]}];
+			console.log(res2);
+			var object4 = JSON.parse(res2[0].forward_trip[0]);
+			console.log("The object is: "+object4["ticket_type"]);
+
+			$scope.fticket_type = object4["ticket_type"];
+			$scope.fprice = object4["price"];
+			$scope.fpassenger_count = object4["passenger_count"];
+			$scope.gstCount1 = object4["passenger_count"];
+			
+			$scope.ftrainsarrival_time = object4["trains"][0]["arrival_time"];
+			$scope.ftrainsdepat_time = object4["trains"][0]["depat_time"];
+
+
 		}
 		var result=[];
 		/*var object = JSON.stringify(result);
