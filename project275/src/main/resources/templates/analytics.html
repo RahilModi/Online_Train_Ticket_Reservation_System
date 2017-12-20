@@ -84,7 +84,7 @@
 		</div>
 
 		<div class="col-lg-12">
-			<zingchart id = "myChart" zc-json = "myJson" zc-height ="500" zc-width ="600" ></zingchart>
+			<zingchart ng-show="var" id = "myChart" zc-json = "myJson" zc-height ="500" zc-width ="600" ></zingchart>
 		</div>
 
 
@@ -110,7 +110,7 @@
 	
 
 		<div class="col-lg-12">
-			<zingchart id = "myChart1" zc-json = "myJson1" zc-height ="500" zc-width ="600" ></zingchart>
+			<zingchart ng-show="var1" id = "myChart1" zc-json = "myJson1" zc-height ="500" zc-width ="600" ></zingchart>
 		</div>
 	</div>
 	<div class="col-lg-2"></div>
@@ -120,6 +120,9 @@
 <script type="text/javascript">
 	angular.module("app", ['zingchart-angularjs']).controller("home", function($scope, $http, $location, $window) {
 		var self = this;
+
+		$scope.var = false;
+		$scope.var1 = false;
 
 		self.signout = function() {
 			$http.post('/userLogout',{
@@ -133,6 +136,7 @@
 
 		$scope.getDailyReservationRate = function(){
 			console.log($scope.startDate+" "+$scope.endDate);
+			$scope.var = true;
 			/*$http({
 				url : "/getDailyReservationRate",
 				method:"POST",
@@ -146,6 +150,7 @@
 		}
 
 		$scope.getReservationRate = function(){
+			$scope.var1 = true;
 			console.log($scope.date);
 			/*$http({
 				url : "/getReservationRate",
