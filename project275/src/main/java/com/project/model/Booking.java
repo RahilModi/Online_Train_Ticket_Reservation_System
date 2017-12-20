@@ -1,5 +1,8 @@
 package com.project.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Date;
 import java.util.List;
 
@@ -19,15 +22,15 @@ public class Booking {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST}, fetch=FetchType.LAZY)
 	@JoinColumn(name="train_id")
 	private Train train;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST}, fetch=FetchType.LAZY)
 	@JoinColumn(name="origin_id")
 	private Station origin;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST}, fetch=FetchType.LAZY)
 	@JoinColumn(name="destination_id")
 	private Station destination;
 	
@@ -37,8 +40,10 @@ public class Booking {
 	
 	private int passengerCount;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST}, fetch=FetchType.LAZY)
 	@JoinColumn(name="ticket_id")
+	@JsonBackReference
+	@JsonIgnoreProperties("ticket")
 	private Ticket ticket;
 
 	public int getId() {

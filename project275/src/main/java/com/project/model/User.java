@@ -14,9 +14,9 @@ public class User {
 	private long id;
     @Column(name="email",unique=true)
 	private String email;
-    private String password;
 	private String firstName;
 	private String lastName;
+	private String password;
 	public User(){
 		
 	}

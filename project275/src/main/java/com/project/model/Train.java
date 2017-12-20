@@ -29,7 +29,7 @@ public class Train implements Serializable{
 	@Enumerated(EnumType.ORDINAL)
 	private Direction direction;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "objTrainStation.train", cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "objTrainStation.train", cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
 	private Set<TrainStationMapping> trainStation;
 	
 	public String getName() {
