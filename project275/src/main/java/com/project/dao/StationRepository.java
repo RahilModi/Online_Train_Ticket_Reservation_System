@@ -6,12 +6,12 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.access.annotation.Secured;
 
 import com.project.model.Station;
+import org.springframework.data.jpa.repository.Query;
 
 public interface StationRepository extends CrudRepository<Station, String>{
-
-	//@Query("Select s from station s")
-	@Secured(value = "ROLE_USER")
-	List<Station> findAll();
 	
 	Station findByName(String name);
+
+	@Query(value = "select s.name from station s", nativeQuery = true)
+	List<String> findAllStation();
 }

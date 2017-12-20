@@ -1,5 +1,9 @@
 package com.project.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -23,9 +27,10 @@ public class Ticket implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket", fetch=FetchType.LAZY)
-	@JsonIgnoreProperties("bookings")
+
+	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST}, mappedBy = "ticket", fetch=FetchType.LAZY)
 	@JsonManagedReference
+	@JsonIgnoreProperties("bookings")
 	private List<Booking> bookings;
 
 	private boolean cancelled;
@@ -36,8 +41,10 @@ public class Ticket implements Serializable{
 	
 	private int price;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST}, fetch = FetchType.LAZY)
 	@JoinColumn(name="passenger_id")
+	@JsonIgnoreProperties("user")
+	@JsonBackReference
 	private User user;
 
 	public int getId() {

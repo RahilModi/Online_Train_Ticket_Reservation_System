@@ -22,8 +22,8 @@ public class CancelledDate {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@OneToMany(cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("train")
+	@OneToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
 	private List<Train> train;
 	
 	@Temporal(TemporalType.DATE)

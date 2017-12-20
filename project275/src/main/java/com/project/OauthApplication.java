@@ -67,13 +67,15 @@ public class OauthApplication extends WebSecurityConfigurerAdapter {
 		http.antMatcher("/**")
 		.addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
 		.authorizeRequests()
-		.antMatchers("/", "/connect**","/userLogin**","/userRegistration**","/webjars/**","/search**", "/purchase**")
+		
+		.antMatchers("/", "/connect**","/userLogin**","/userRegistration**","/webjars/**", "/search**", "/purchase**", "/canceltrain**", "/getstations**", "/getTickets**", "/cancelTicket**/**", "/setCapacity**")
+
 			.permitAll()
 		.anyRequest()
 			.authenticated()
 		.and()
 			.logout()
-		    .logoutSuccessUrl("/").permitAll().and().csrf().ignoringAntMatchers("/","/userLogin**","/userRegistration**","/search**","/purchase**")
+		    .logoutSuccessUrl("/").permitAll().and().csrf().ignoringAntMatchers("/","/userLogin**","/userRegistration**","/canceltrain**", "/getstations**", "/getTickets**", "/cancelTicket**/**", "/setCapacity**","/search**", "/purchase**")
 		 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 	}
 	// @formatter:on

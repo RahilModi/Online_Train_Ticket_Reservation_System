@@ -9,5 +9,8 @@ import com.project.model.Train;
 
 public interface TrainService {
 
-	public void cancelTrain(String trainName, Date date);
+    public void cancelTrain(String trainName, Date date);
+
+    public void setCapacity(int capacity);
+
 }

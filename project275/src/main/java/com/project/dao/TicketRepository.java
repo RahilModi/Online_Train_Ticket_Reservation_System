@@ -2,29 +2,22 @@ package com.project.dao;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.project.model.Ticket;
 
-public interface TicketRepository extends CrudRepository<Ticket, Integer>{
+import org.springframework.data.jpa.repository.JpaRepository;
 
-	@Modifying
-	@Transactional(propagation = Propagation.MANDATORY, rollbackFor = Exception.class)
-	@Secured(value = "ROLE_ADMIN")
-	void deleteAll();
-	
-	public List<Ticket> findByUser(int user_id);
+public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     /**
-     * find a Ticket by user_id and booking_id
+     * find Booked Tickets by the user
      */
-    @Query(value = "select * from ticket as t where passenger_id = :user_id and id = :ticket_id", nativeQuery = true)
-    public Ticket findTicketByUserAndBooking(@Param("user_id") int user_id, @Param("ticket_id") int ticketId);
+    @Query(value = "select * from ticket as t where passenger_id = :user_id and cancelled = 0", nativeQuery = true)
+    public List<Ticket> findByUserId(@Param("user_id") int user_id);
+
+    @Query(value = "select * from ticket as t where id = :ticket_id", nativeQuery = true)
+    public Ticket findById(@Param("ticket_id") int ticketId);
 
 }

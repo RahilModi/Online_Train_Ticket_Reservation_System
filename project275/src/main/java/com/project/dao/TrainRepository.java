@@ -48,4 +48,11 @@ public interface TrainRepository extends CrudRepository<Train, String>{
 	
 	@Query(value="Select ts.departure_time from train_station ts where ts.train_name = :trainName and ts.station_name = :stationName",nativeQuery = true)
 	Time findDepartureTimeByTrainNameStationName(@Param("trainName") String trainName, @Param("stationName") String stationName); 
+	
+	@Modifying
+//	@Transactional(propagation=Propagation.REQUIRED, rollbackFor = Exception.class)
+	@Query(value = "select * from train", nativeQuery = true)
+	public List<Train> getAllTrains();
+
+
 }
