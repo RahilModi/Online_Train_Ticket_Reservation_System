@@ -493,9 +493,31 @@
 					</div>
 				</div>
 		</div>
+		
 	</div>
 
+
+	
+
+	
+
 	<div class="col-lg-3"></div>
+
+
+	<!-- Success Message -->
+	<div class="alert alert-success col-lg-12" ng-show="var">
+	    <strong>Success!</strong> {{successMessage}}
+	</div>
+
+	<!-- Success Message -->
+	<div class="alert alert-danger col-lg-12" ng-show="var1">
+	    <strong>Failed!</strong> {{failureMessage}}
+	</div>
+
+	<!-- Success Message -->
+	<div class="alert alert-light col-lg-12" ng-show="var2">
+	    <strong>Message!</strong> {{Message}}
+	</div>
 
 </body>
 <script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
@@ -514,6 +536,15 @@
 		$scope.case4 = true;
 		$scope.case5 = true;
 		var guest_count = 1;
+
+		$scope.var=false;
+		$scope.var1=true;
+		$scope.var2=true;
+		
+
+
+
+
 
 		var self = this;
 
