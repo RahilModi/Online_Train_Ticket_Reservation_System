@@ -5,13 +5,20 @@ import java.io.Serializable;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Embeddable
 public class TrainStation implements Serializable{
 
 	@ManyToOne
+	@JsonIgnoreProperties("station")
+	@JsonBackReference
 	private Station station;
 	
 	@ManyToOne
+	@JsonIgnoreProperties("train")
+	@JsonBackReference
 	private Train train;
 
 	public Station getStation() {

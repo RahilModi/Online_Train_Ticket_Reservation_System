@@ -14,6 +14,9 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Station implements Serializable{
 
@@ -24,6 +27,8 @@ public class Station implements Serializable{
 	private TrainType stationType;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "objTrainStation.station", cascade=CascadeType.ALL)
+	@JsonIgnoreProperties("trainStation")
+	@JsonManagedReference
 	private Set<TrainStationMapping> trainStation;
 
 	public String getName() {

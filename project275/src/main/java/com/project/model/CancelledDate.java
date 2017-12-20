@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class CancelledDate {
 
@@ -21,6 +23,7 @@ public class CancelledDate {
 	private int id;
 	
 	@OneToMany(cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("train")
 	private List<Train> train;
 	
 	@Temporal(TemporalType.DATE)

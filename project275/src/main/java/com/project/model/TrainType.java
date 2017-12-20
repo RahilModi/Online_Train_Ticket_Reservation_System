@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum TrainType {
+	Undefined(0),
 	Regular(1),
 	Express(2);
 	

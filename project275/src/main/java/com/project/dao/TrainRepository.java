@@ -17,16 +17,16 @@ import com.project.model.Train;
 
 public interface TrainRepository extends CrudRepository<Train, String>{
 
-//	@Modifying
-//	@Transactional(propagation=Propagation.REQUIRED, rollbackFor = Exception.class)
-//	@Query("update train t set t.max_capacity = :max_cap")
-//	@Secured(value = "ROLE_ADMIN")
-//	void updateTrain(@Param("max_cap") int max_cap);
-//	
-//	@Secured(value = "ROLE_USER")
-//	List<Train> findAll();
+	@Modifying
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor = Exception.class)
+	@Query(value = "update train t set t.max_capacity = :max_cap;", nativeQuery=true)
+	@Secured(value = "ROLE_ADMIN")
+	void updateTrain(@Param("max_cap") int max_cap);
 	
-	@Query(value="select t1.train_name from train_station as t1 where t1.train_name in (" + 
+	@Secured(value = "ROLE_USER")
+	List<Train> findAll();
+	
+	@Query(value="select t1.train_name, t1.arrival_time from train_station as t1 where t1.train_name in (" + 
 " select Distinct(t.train_name)  from booking as b right join " + 
 "(select Distinct(ts1.train_name) from train_station as ts1 inner join train_station as ts2 " + 
 " where ts1.departure_time  >= :departure_time and ts1.station_name = :origin and ts1.direction = :dir and ts2.station_name = :destination) " + 
@@ -43,7 +43,9 @@ public interface TrainRepository extends CrudRepository<Train, String>{
 " ) "+  
 "group by t.train_name having sum(b.passenger_count) is null or (sum(b.passenger_count) + :passenger_count) <= 15  "+
 ") and t1.station_name = :destination order by t1.arrival_time asc;",nativeQuery=true) 
-	List<String> findDirectTrains(@Param("origin") String origin,@Param("destination") String destination, @Param("date") Date date,
+	List<Object> findDirectTrains(@Param("origin") String origin,@Param("destination") String destination, @Param("date") Date date,
 					@Param("departure_time") Time departure_time, @Param("passenger_count") int passenger_count, @Param("dir") int dir);
-
+	
+	@Query(value="Select ts.departure_time from train_station ts where ts.train_name = :trainName and ts.station_name = :stationName",nativeQuery = true)
+	Time findDepartureTimeByTrainNameStationName(@Param("trainName") String trainName, @Param("stationName") String stationName); 
 }

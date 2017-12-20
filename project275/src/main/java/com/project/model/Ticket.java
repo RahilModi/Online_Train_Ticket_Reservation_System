@@ -13,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Ticket implements Serializable{
 
@@ -21,6 +24,8 @@ public class Ticket implements Serializable{
 	private int id;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket", fetch=FetchType.LAZY)
+	@JsonIgnoreProperties("bookings")
+	@JsonManagedReference
 	private List<Booking> bookings;
 
 	private boolean cancelled;
