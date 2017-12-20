@@ -14,6 +14,7 @@ import com.project.dao.BookingRepository;
 import com.project.dao.StationRepository;
 import com.project.dao.TicketRepository;
 import com.project.dao.TrainRepository;
+import com.project.dao.UserRepository;
 import com.project.model.Booking;
 import com.project.model.Ticket;
 import com.project.model.TrainType;
@@ -34,8 +35,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Autowired
 	private TrainRepository trainRepository;
 	
+	@Autowired
+	private UserRepository userRepo;
+	
 	@Override
-	public boolean purchase(Map<String, Object> payload) {
+	public Map<String, Object> purchase(Map<String, Object> payload) {
 		try{
 			Object of = payload.get("forward_ticket");
 			Object or = payload.get("reverse_ticket");
@@ -44,9 +48,9 @@ public class PurchaseServiceImpl implements PurchaseService {
     		t.setRoundTrip(payload.size() == 1 ? false : true);
     		t.setCancelled(false);
     		t.setTicketType(TrainType.valueOf((String)mapF.get("ticket_type")));
-    		User u = new User();
-    		u.setEmail("xyz@gmail.com");
+    		User u = userRepo.findByEmail("parth13pandya@gmail.com");
     		t.setUser(u);
+    		payload.put("username",u.getEmail());
     		List<Booking> ls = new ArrayList<>();
     		List<Map<String, String>> bookings= (List<Map<String, String>>)mapF.get("trains");
     		DateFormat df = new SimpleDateFormat("E MMM dd HH:mm:ss zzz yyyy");
@@ -65,7 +69,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     			b.setTicket(t);
     			ls.add(b);
     		}
-    		t.setPrice((int)mapF.get("price"));
+    		t.setPrice((int)mapF.get("price") + 1);
     		if(or != null)
     		{
     			Map<String, Object> mapR= (Map<String, Object>)or;
@@ -88,11 +92,12 @@ public class PurchaseServiceImpl implements PurchaseService {
     		}
     		t.setBookings(ls);
     		ticketRepository.save(t);
+    		return payload;
 		}
 		catch(Exception e){
 			
 		}
-		return false;
+		return null;
 	}
 
 }

@@ -41,7 +41,7 @@ public interface TrainRepository extends CrudRepository<Train, String>{
 "((b.origin_id < :destination)and(b.destination_id > :destination)) or " + 
 "((b.origin_id < :origin)and(b.destination_id > :destination))) " + 
 " ) "+  
-"group by t.train_name having sum(b.passenger_count) is null or (sum(b.passenger_count) + :passenger_count) <= 15  "+
+"group by t.train_name having sum(b.passenger_count) is null or (sum(b.passenger_count) + :passenger_count) <= (select max_capacity from train where train_name = t1.train_name Limit 1)  "+
 ") and t1.station_name = :destination order by t1.arrival_time asc;",nativeQuery=true) 
 	List<Object> findDirectTrains(@Param("origin") String origin,@Param("destination") String destination, @Param("date") Date date,
 					@Param("departure_time") Time departure_time, @Param("passenger_count") int passenger_count, @Param("dir") int dir);
@@ -54,5 +54,20 @@ public interface TrainRepository extends CrudRepository<Train, String>{
 	@Query(value = "select * from train", nativeQuery = true)
 	public List<Train> getAllTrains();
 
+	
+	@Query(value = "select t1.train_name, t1.arrival_time, t3.departure_time, t3.train_name, t4.arrival_time from train_station t1, train_station t2, train_station t3, train_station t4 "+
+"where t1.station_name = :origin and t1.departure_time > departure_time and t2.station_name = :expressStation and t2.arrival_time < t3.departure_time"+
+"and t3.station_name = :expressStation and t3.train_name like '%00' and t1.direction = :dir and t3.direction = :dir and t2.direction = :dir and t2.train_name = t1.train_name"+ 
+"and t3.train_name=t4.train_name and t4.station_name = :destination order by t3.train_name;", nativeQuery = true)
+	List<Object[]> findTrainsWithOneStopRE(@Param("origin") String origin, @Param("expressStation") String expressStation,@Param("destination") String destination,
+			@Param("departure_time") Time departure_time, @Param("passenger_count") int passenger_count, @Param("dir") int dir);
+	
+	
+	@Query(value = "select t1.train_name, t1.arrival_time, t3.departure_time, t3.train_name, t4.arrival_time from train_station t1, train_station t2, train_station t3, train_station t4 "+
+"where t1.station_name = :origin and t1.departure_time > departure_time and t2.station_name = :expressStation and t1.train_name like '%00' and t2.arrival_time < t3.departure_time"+
+"and t3.station_name = :expressStation and t3.train_name not like '%00' and t1.direction = :dir and t3.direction = :dir and t2.direction = :dir and t2.train_name = t1.train_name"+ 
+"and t3.train_name=t4.train_name and t4.station_name = :destination order by t3.train_name;", nativeQuery = true)
+	List<Object[]> findTrainsWithOneStopER(@Param("origin") String origin, @Param("expressStation") String expressStation,@Param("destination") String destination, @Param("date") Date date,
+			@Param("departure_time") Time departure_time, @Param("passenger_count") int passenger_count, @Param("dir") int dir);
 
 }

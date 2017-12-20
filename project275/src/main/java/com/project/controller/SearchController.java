@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.model.Ticket;
 import com.project.service.PurchaseService;
 import com.project.service.SearchService;
 
@@ -41,22 +42,36 @@ public class SearchController {
         	Map<String, List<Map<String, Object>>> map = null;
         	if (connection == 0)
         	{
-        		List<Map<String, Object>> result = searchService.search(origin, destination, departure_datetime, Integer.parseInt(passenger_count));
+        		List<Map<String, Object>> result = searchService.search(origin, destination, departure_datetime, Integer.parseInt(passenger_count), ticket_type);
             	map = new HashMap<>();
             	map.put("forward_trip", result);
             	if(trip_type)
             	{
-            		result = searchService.search(destination, origin, r_departure_datetime, Integer.parseInt(passenger_count));
+            		result = searchService.search(destination, origin, r_departure_datetime, Integer.parseInt(passenger_count), ticket_type);
             		map.put("reverse_trip", result);
             	}                
         	}
         	else if(connection == 1)
         	{
-        		
+        		List<Map<String, Object>> result = searchService.search(origin, destination, departure_datetime, Integer.parseInt(passenger_count), ticket_type);
+            	map = new HashMap<>();
+            	map.put("forward_trip", result);
+            	if(trip_type)
+            	{
+            		result = searchService.search(destination, origin, r_departure_datetime, Integer.parseInt(passenger_count), ticket_type);
+            		map.put("reverse_trip", result);
+            	}
         	}
         	else
         	{
-        		
+        		List<Map<String, Object>> result = searchService.search(origin, destination, departure_datetime, Integer.parseInt(passenger_count), ticket_type);
+            	map = new HashMap<>();
+            	map.put("forward_trip", result);
+            	if(trip_type)
+            	{
+            		result = searchService.search(destination, origin, r_departure_datetime, Integer.parseInt(passenger_count), ticket_type);
+            		map.put("reverse_trip", result);
+            	}
         	}
         	return new ResponseEntity<Object>(map, HttpStatus.OK);	
         }catch(Exception e){
@@ -67,8 +82,8 @@ public class SearchController {
     @RequestMapping(value = "/purchase", method = RequestMethod.POST)
     public ResponseEntity<Object> purchase(@RequestBody Map<String, Object> payload){
     	try{
-    		boolean bflag = purchaseService.purchase(payload);
-    		return new ResponseEntity<Object>(bflag, HttpStatus.OK);
+    		payload = purchaseService.purchase(payload);
+    		return new ResponseEntity<Object>(payload == null ? false : true, HttpStatus.OK);
     	}
     	catch(Exception e)
     	{
