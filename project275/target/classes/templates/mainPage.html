@@ -61,193 +61,270 @@
 
 	<div class="col-lg-6">
 
-		<!-- This section includes the option to select the station -->
-		<div class="col-lg-12">
-			<div class="col-lg-4">
-				<select ng-options="item as item.fromStation for item in fromStationItem track by item.fromStation" ng-model="fromStation" style="width: 100%">
-					<option value="">
-						From Station
-					</option>	
-				</select>
-			</div>
-			<div class="col-lg-4">
-				<select ng-options="item as item.toStation for item in toStationItem track by item.toStation" ng-model="toStationmodel" style="width: 100%">
-					<option value="">
-						To Station
-					</option>	
-				</select>
-			</div>
-			<div class="col-lg-4">
-				<select ng-model="guestCount" style="width: 100%">
-					<option value="">
-						Guests
-					</option>
-					<option value="1">1</option>	
-					<option value="2">2</option>	
-					<option value="3">3</option>	
-					<option value="4">4</option>	
-					<option value="5">5</option>	
-				</select>
-			</div>
-		</div>
-		<!-- End of the station selection -->
+		<div class="col-lg-12" ng-hide="value1">
 
-		<!-- Start of date and Time Picker -->
-		<div class="col-lg-12" style="margin-top:5px">
-			<div class="col-lg-6">
-				<input placeholder="Date" type="text" style="width: 100%" onfocus="(this.type='date')" onblur="(this.type='text')" id="datefield" min='2017-12-12' ng-model="date"></input>
-			</div>
-			<div class="col-lg-6">
-				<input placeholder="Time" type="text" style="width: 100%" onfocus="(this.type='Time')" onblur="(this.type='text')" id="time" ng-model="time"></input>
-			</div>
-		</div>
-		<!-- End of date and time picker -->
-
-		<!-- Start of trip type, ticket type and Number of conncetion fields -->
-		<div class="col-lg-12" style="margin-top:5px">
-			<div class="col-lg-4">
-            	<h4>Trip type</h4>
-                <ul class="list-group">
-                    <li class="list-group-item">One Way<input type="radio" value="oneWay" ng-model="trip_type" style="float:right"></input></li>
-                    <li class="list-group-item">Round Trip<input type="radio" value="roundTrip" ng-model="trip_type" style="float:right"></input></li>
-                </ul>
-                
-			</div>
-			<div class="col-lg-4">
-				<h4>Train type</h4>
-                <ul class="list-group">
-                    <li class="list-group-item">Regular<input type="radio" value="regularTrain" ng-model="train_type" style="float:right"></input></li>
-                    <li class="list-group-item">Express<input type="radio" value="expressTrain" ng-model="train_type" style="float:right"></input></li>
-                    <li class="list-group-item">Any<input type="radio" value="Any" ng-model="train_type" style="float:right"></input></li>
-                </ul>
-			</div>
-			<div class="col-lg-4">
-				<h4>Number of Connections</h4>
-                <ul class="list-group">
-                    <li class="list-group-item">Any<input  type="radio" value="anyConnection" ng-model="connectionCount" style="float:right"></input></li>
-                    <li class="list-group-item">One<input  type="radio" value="oneConnection" ng-model="connectionCount" style="float:right"></input></li>
-                    <li class="list-group-item">Two<input  type="radio" value="twoConnection" ng-model="connectionCount" style="float:right"></input></li>
-                </ul>
-			</div>
-		</div>
-		<!-- End of trip type, ticket type and Number of conncetion fields -->
-		<div class="col-lg-12">
+			<!-- This section includes the option to select the station -->
 			<div class="col-lg-12">
-	            <ul class="list-group" style="width: 100%">
-	                <li class="list-group-item">Exact Time<input type="radio" value="exactTime" ng-model="exact_time" style="float:right"></input></li>
-	            </ul>
-            </div>
-		</div>
-		<div class="col-lg-12">
+				<div class="col-lg-4">
+					<select ng-options="item as item.fromStation for item in fromStationItem track by item.fromStation" ng-model="fromStation" style="width: 100%">
+						<option value="">
+							From Station
+						</option>	
+					</select>
+				</div>
+				<div class="col-lg-4">
+					<select ng-options="item as item.toStation for item in toStationItem track by item.toStation" ng-model="toStationmodel" style="width: 100%">
+						<option value="">
+							To Station
+						</option>	
+					</select>
+				</div>
+				<div class="col-lg-4">
+					<select ng-model="guestCount" style="width: 100%">
+						<option value="">
+							Guests
+						</option>
+						<option value="1">1</option>	
+						<option value="2">2</option>	
+						<option value="3">3</option>	
+						<option value="4">4</option>	
+						<option value="5">5</option>	
+					</select>
+				</div>
+			</div>
+			<!-- End of the station selection -->
+
+			<!-- Start of date and Time Picker -->
+			<div class="col-lg-12" style="margin-top:5px">
+				<div class="col-lg-12"><h3>One Way Trip Date and Time Selection</h3></div>
+				<div class="col-lg-6">
+					<input placeholder="Date" type="text" style="width: 100%" onfocus="(this.type='date')" onblur="(this.type='text')" id="datefield" min='2017-12-12' ng-model="date"></input>
+				</div>
+				<div class="col-lg-6">
+					<input placeholder="Time" type="text" style="width: 100%" onfocus="(this.type='Time')" onblur="(this.type='text')" id="time" ng-model="time"></input>
+				</div>
+			</div>
+			<!-- End of date and time picker -->
+
+
+			<div class="col-lg-12" style="margin-top:5px" ng-show="trip_type=='roundTrip'">
+				<div class="col-lg-12"><h3>Round Trip Date and Time Selection</h3></div>
+				<div class="col-lg-6">
+					<input placeholder="Date" type="text" style="width: 100%" onfocus="(this.type='date')" onblur="(this.type='text')" id="returndate" min='2017-12-12' ng-model="returndate"></input>
+				</div>
+				<div class="col-lg-6">
+					<input placeholder="Time" type="text" style="width: 100%" onfocus="(this.type='Time')" onblur="(this.type='text')" id="returntime" ng-model="returntime"></input>
+				</div>
+			</div>
+
+			<!-- Start of trip type, ticket type and Number of conncetion fields -->
+			<div class="col-lg-12" style="margin-top:5px">
+				<div class="col-lg-4">
+	            	<h4>Trip type</h4>
+	                <ul class="list-group">
+	                    <li class="list-group-item">One Way<input type="radio" value="oneWay" ng-model="trip_type" style="float:right"></input></li>
+	                    <li class="list-group-item">Round Trip<input type="radio" value="roundTrip" ng-model="trip_type" style="float:right"></input></li>
+	                </ul>
+	                
+				</div>
+				<div class="col-lg-4">
+					<h4>Train type</h4>
+	                <ul class="list-group">
+	                    <li class="list-group-item">Regular<input type="radio" value="regularTrain" ng-model="train_type" style="float:right"></input></li>
+	                    <li class="list-group-item">Express<input type="radio" value="expressTrain" ng-model="train_type" style="float:right"></input></li>
+	                    <li class="list-group-item">Any<input type="radio" value="Any" ng-model="train_type" style="float:right"></input></li>
+	                </ul>
+				</div>
+				<div class="col-lg-4">
+					<h4>Number of Connections</h4>
+	                <ul class="list-group">
+	                    <li class="list-group-item">Any<input  type="radio" value="anyConnection" ng-model="connectionCount" style="float:right"></input></li>
+	                    <li class="list-group-item">One<input  type="radio" value="oneConnection" ng-model="connectionCount" style="float:right"></input></li>
+	                    <li class="list-group-item">Two<input  type="radio" value="twoConnection" ng-model="connectionCount" style="float:right"></input></li>
+	                </ul>
+				</div>
+			</div>
+			<!-- End of trip type, ticket type and Number of conncetion fields -->
 			<div class="col-lg-12">
-				<button ng-click="search()" class="btn btn-primary" style="width:100%">Search</button>
+				<div class="col-lg-12">
+		            <ul class="list-group" style="width: 100%">
+		                <li class="list-group-item">Exact Time<input type="radio" value="exactTime" ng-model="exact_time" style="float:right"></input></li>
+		            </ul>
+	            </div>
 			</div>
-		</div>
-
-
-
-
-		<!-- <div class="col-lg-12" ng-repeat="x in records">
-			<p>{{x.Name}}</p>
-			<div>
-				<center><p ng-repeat="j in x.city">{{j.name}}</p>
+			<div class="col-lg-12">
+				<div class="col-lg-12">
+					<button ng-click="search()" class="btn btn-primary" style="width:100%">Search</button>
+				</div>
 			</div>
-		</div> -->
 
 
-			<div class="col-lg-12" style="margin-top: 10px" ng-hide="oneWayTrip">
-				<ul class="list-group" style="height: auto;">
-	                <li class="list-group-item" ng-repeat="x in records" style="height: 120px">
-	                			<div class="col-lg-12">
-		                			<div class="col-lg-6">
-				                		<label>Ticket Type: {{x.ticket_type}}</label>
+
+
+			<!-- <div class="col-lg-12" ng-repeat="x in records">
+				<p>{{x.Name}}</p>
+				<div>
+					<center><p ng-repeat="j in x.city">{{j.name}}</p>
+				</div>
+			</div> -->
+
+
+				<div class="col-lg-12" style="margin-top: 10px" ng-hide="oneWayTrip">
+					<ul class="list-group" style="height: auto;">
+		                <li class="list-group-item" ng-repeat="x in records" style="height: 120px">
+		                			<div class="col-lg-12">
+			                			<div class="col-lg-6">
+					                		<label>Ticket Type: {{x.ticket_type}}</label>
+					                	</div>
+					                	<div class="col-lg-6"> 
+					                		<input type="radio" style="float: right;" ng-model="$parent.name" value="{{x}}"/>
+					                	</div>
 				                	</div>
-				                	<div class="col-lg-6"> 
-				                		<input type="radio" style="float: right;" ng-model="$parent.name" value="{{x}}"/>
+				                	<div class="col-lg-12">
+					                	<div class="col-lg-6"><b>Cost of Ticket:</b> {{x.price}}$</div>
+					                	<div class="col-lg-6"><b>Passenger Count:</b> {{x.passenger_count}}</div>
+					                </div>
+
+					                <div class="col-lg-12">
+					                	<div class="col-lg-6"><b>Arrival Time:</b> {{x.trains[0].arrival_time}}</div>
+					                	<div class="col-lg-6"><b>Departure Time:</b> {{x.trains[0].depat_time}}</div>
+					                </div>
+		                	<!-- <span>The ticket type: </span>{{x.ticket_type}}{{x.trains.arrival_time}}
+		                	<button class="btn btn-primary" ng-click="bookTicket(x.Name)" style="float: right;">Select Train</button> -->
+		                </li>
+			        	<center><button class="btn btn-primary" ng-click="onewaytrip(name)" style="width:100%;margin-top:5px">Submit</button></center>
+			        </ul>
+				</div>
+
+
+
+				<div class="col-lg-12" style="margin-top: 10px" ng-hide="roundWayTrip">
+					<div class="col-lg-6">
+						<h4>Forward Trip</h4>
+						<ul class="list-group" style="height: auto;">
+			                <li class="list-group-item" ng-repeat="y in records1" style="height:175px;">
+			                	<div class="col-lg-12">
+		                			<div class="col-lg-10">
+				                		<label>Ticket Type: {{y.ticket_type}}</label>
+				                	</div>
+				                	<div class="col-lg-2"> 
+				                		<input type="radio" style="float: right;" ng-model="$parent.name1" value="{{y}}"/>
 				                	</div>
 			                	</div>
 			                	<div class="col-lg-12">
-				                	<div class="col-lg-6"><b>Cost of Ticket:</b> {{x.price}}$</div>
-				                	<div class="col-lg-6"><b>Passenger Count:</b> {{x.passenger_count}}</div>
+				                	<div class="col-lg-12"><b>Cost of Ticket:</b> {{y.price}}$</div>
+				                	<div class="col-lg-12"><b>Passenger Count:</b> {{y.passenger_count}}</div>
 				                </div>
 
 				                <div class="col-lg-12">
-				                	<div class="col-lg-6"><b>Arrival Time:</b> {{x.trains[0].arrival_time}}</div>
-				                	<div class="col-lg-6"><b>Departure Time:</b> {{x.trains[0].depat_time}}</div>
+				                	<div class="col-lg-12"><b>Arrival Time:</b> {{y.trains[0].arrival_time}}</div>
+				                	<div class="col-lg-12"><b>Departure Time:</b> {{y.trains[0].depat_time}}</div>
 				                </div>
-	                	<!-- <span>The ticket type: </span>{{x.ticket_type}}{{x.trains.arrival_time}}
-	                	<button class="btn btn-primary" ng-click="bookTicket(x.Name)" style="float: right;">Select Train</button> -->
+
+			                	<!-- <input type="radio" style="float: right;" ng-model="$parent.name1" value="{{y}}"/>
+			                	<label>{{y.ticket_type}}</label> -->
+
+			                	<!-- <span>The ticket type: </span>{{y.ticket_type}}{{y.trains.arrival_time}} 
+			                	<button class="btn btn-primary" ng-click="bookTicket(y.Name)" style="float: right;">Select Train</button>-->
+			                </li>
+				        </ul>
+			        </div>
+			        <div class="col-lg-6">
+						<h4>Reverse Trip</h4>
+						<ul class="list-group" style="height: auto">
+			                <li class="list-group-item" ng-repeat="z in records2" style="height:175px;">
+
+			                	<div class="col-lg-12">
+		                			<div class="col-lg-10">
+				                		<label>Ticket Type: {{z.ticket_type}}</label>
+				                	</div>
+				                	<div class="col-lg-2"> 
+				                		<input type="radio" style="float: right;" ng-model="$parent.name2" value="{{z}}"/>
+				                	</div>
+			                	</div>
+			                	<div class="col-lg-12">
+				                	<div class="col-lg-12"><b>Cost of Ticket:</b> {{z.price}}$</div>
+				                	<div class="col-lg-12"><b>Passenger Count:</b> {{z.passenger_count}}</div>
+				                </div>
+
+				                <div class="col-lg-12">
+				                	<div class="col-lg-12"><b>Arrival Time:</b> {{z.trains[0].arrival_time}}</div>
+				                	<div class="col-lg-12"><b>Departure Time:</b> {{z.trains[0].depat_time}}</div>
+				                </div>
+
+	<!-- 		                	<input type="radio" style="float: right;" ng-model="$parent.name2" value="{{z}}"/>
+			                	<label>{{z.ticket_type}}</label> -->
+
+			                	<!-- <span>The ticket type: </span>{{z.ticket_type}}{{z.trains.arrival_time}} 
+			                	<button class="btn btn-primary" ng-click="bookTicket(y.Name)" style="float: right;">Select Train</button>-->
+			                </li>
+				        </ul>
+			        </div>
+			        <div class="col-lg-12">
+			        	<center><button class="btn btn-primary" ng-click="trip(name1,name2)" style="width:100%">Submit</button></center>
+			        </div>
+				</div>
+		</div>
+
+
+
+
+
+
+		<div class="col-lg-12" ng-hide="value2">
+			<div class="col-lg-6">
+				<h4>Forward Trip</h4>
+				<ul class="list-group" style="height: auto;">
+	                <li class="list-group-item" ng-repeat="k in rec1" style="height:175px;">
+	                	<div class="col-lg-12">
+                			<div class="col-lg-12">
+		                		<label>Ticket Type: {{k.ticket_type}}</label>
+		                	</div>
+	                	</div>
+	                	<div class="col-lg-12">
+		                	<div class="col-lg-12"><b>Cost of Ticket:</b> {{k.price}}$</div>
+		                	<div class="col-lg-12"><b>Passenger Count:</b> {{k.passenger_count}}</div>
+		                </div>
+
+		                <div class="col-lg-12">
+		                	<div class="col-lg-12"><b>Arrival Time:</b> {{k.trains[0].arrival_time}}</div>
+		                	<div class="col-lg-12"><b>Departure Time:</b> {{k.trains[0].depat_time}}</div>
+		                </div>
+
+	                	<!-- <input type="radio" style="float: right;" ng-model="$parent.name1" value="{{y}}"/>
+	                	<label>{{y.ticket_type}}</label> -->
+
+	                	<!-- <span>The ticket type: </span>{{y.ticket_type}}{{y.trains.arrival_time}} 
+	                	<button class="btn btn-primary" ng-click="bookTicket(y.Name)" style="float: right;">Select Train</button>-->
 	                </li>
-		        	<center><button class="btn btn-primary" ng-click="onewaytrip(name)" style="width:100%;margin-top:5px">Submit</button></center>
 		        </ul>
-			</div>
+	        </div>
+	        <div class="col-lg-6">
+				<h4>Reverse Trip</h4>
+				<ul class="list-group" style="height: auto">
+	                <li class="list-group-item" ng-repeat="c in rec2" style="height:175px;">
 
-			<div class="col-lg-12" style="margin-top: 10px" ng-hide="roundWayTrip">
-				<div class="col-lg-6">
-					<h4>Forward Trip</h4>
-					<ul class="list-group" style="height: auto;">
-		                <li class="list-group-item" ng-repeat="y in records1" style="height:175px;">
-		                	<div class="col-lg-12">
-	                			<div class="col-lg-8">
-			                		<label>Ticket Type: {{y.ticket_type}}</label>
-			                	</div>
-			                	<div class="col-lg-4"> 
-			                		<input type="radio" style="float: right;" ng-model="$parent.name1" value="{{y}}"/>
-			                	</div>
+	                	<div class="col-lg-12">
+                			<div class="col-lg-12">
+		                		<label>Ticket Type: {{c.ticket_type}}</label>
 		                	</div>
-		                	<div class="col-lg-12">
-			                	<div class="col-lg-12"><b>Cost of Ticket:</b> {{y.price}}$</div>
-			                	<div class="col-lg-12"><b>Passenger Count:</b> {{y.passenger_count}}</div>
-			                </div>
+	                	</div>
+	                	<div class="col-lg-12">
+		                	<div class="col-lg-12"><b>Cost of Ticket:</b> {{c.price}}$</div>
+		                	<div class="col-lg-12"><b>Passenger Count:</b> {{c.passenger_count}}</div>
+		                </div>
 
-			                <div class="col-lg-12">
-			                	<div class="col-lg-12"><b>Arrival Time:</b> {{y.trains[0].arrival_time}}</div>
-			                	<div class="col-lg-12"><b>Departure Time:</b> {{y.trains[0].depat_time}}</div>
-			                </div>
-
-		                	<!-- <input type="radio" style="float: right;" ng-model="$parent.name1" value="{{y}}"/>
-		                	<label>{{y.ticket_type}}</label> -->
-
-		                	<!-- <span>The ticket type: </span>{{y.ticket_type}}{{y.trains.arrival_time}} 
-		                	<button class="btn btn-primary" ng-click="bookTicket(y.Name)" style="float: right;">Select Train</button>-->
-		                </li>
-			        </ul>
-		        </div>
-		        <div class="col-lg-6">
-					<h4>Reverse Trip</h4>
-					<ul class="list-group" style="height: auto">
-		                <li class="list-group-item" ng-repeat="z in records2" style="height:175px;">
-
-		                	<div class="col-lg-12">
-	                			<div class="col-lg-8">
-			                		<label>Ticket Type: {{z.ticket_type}}</label>
-			                	</div>
-			                	<div class="col-lg-4"> 
-			                		<input type="radio" style="float: right;" ng-model="$parent.name2" value="{{z}}"/>
-			                	</div>
-		                	</div>
-		                	<div class="col-lg-12">
-			                	<div class="col-lg-12"><b>Cost of Ticket:</b> {{z.price}}$</div>
-			                	<div class="col-lg-12"><b>Passenger Count:</b> {{z.passenger_count}}</div>
-			                </div>
-
-			                <div class="col-lg-12">
-			                	<div class="col-lg-12"><b>Arrival Time:</b> {{z.trains[0].arrival_time}}</div>
-			                	<div class="col-lg-12"><b>Departure Time:</b> {{z.trains[0].depat_time}}</div>
-			                </div>
-
-<!-- 		                	<input type="radio" style="float: right;" ng-model="$parent.name2" value="{{z}}"/>
-		                	<label>{{z.ticket_type}}</label> -->
-
-		                	<!-- <span>The ticket type: </span>{{z.ticket_type}}{{z.trains.arrival_time}} 
-		                	<button class="btn btn-primary" ng-click="bookTicket(y.Name)" style="float: right;">Select Train</button>-->
-		                </li>
-			        </ul>
-		        </div>
-		        <div class="col-lg-12">
-		        	<center><button class="btn btn-primary" ng-click="trip(name1,name2)" style="width:100%">Submit</button></center>
-		        </div>
-			</div>
+		                <div class="col-lg-12">
+		                	<div class="col-lg-12"><b>Arrival Time:</b> {{c.trains[0].arrival_time}}</div>
+		                	<div class="col-lg-12"><b>Departure Time:</b> {{c.trains[0].depat_time}}</div>
+		                </div>
+	                </li>
+		        </ul>
+	        </div>
+	        <div class="col-lg-12">
+	        	<center><button class="btn btn-primary" ng-click="trip(name1,name2)" style="width:100%">Submit</button></center>
+	        </div>
+		</div>
 
 {{names}}
 
@@ -262,6 +339,9 @@
 
 		$scope.oneWayTrip = true;
 		$scope.roundWayTrip = true;
+		$scope.value1 = false;
+		$scope.value2 = true;
+		var guest_count = 1;
 
 		var self = this;
 
@@ -283,6 +363,7 @@
 			var frmStation = $scope.fromStation;
 			var tStation = $scope.toStationmodel;
 			var gstCount = $scope.guestCount;
+			guest_count = gstCount;
 			var dte = $scope.date;
 			var tme = $scope.time+":00";
 			var dateTime = dte+" "+tme;
@@ -294,6 +375,16 @@
 				extTime ="NotExactTime"
 			}
 			console.log(frmStation.fromStation+" "+tStation.toStation+" "+gstCount+" "+dte+" "+tme+" "+trpType+" "+trnType+" "+cnnCount+" "+extTime+" "+dateTime);
+
+			
+
+			if(trpType=="oneWay"){
+				console.log("The Guest count is: "+trpType);
+
+			}else if(trpType=="roundTrip"){
+				console.log("The Guest count is: "+trpType);
+			}
+
 //train type reg = 1 exprs=2 any=0
 //no of connections any=0 one =1 two = 2
 			/*$http({
@@ -317,14 +408,35 @@
 			fromStation: 'b',
 		}];
 
+		
+
 		//ng-options for to station
 		$scope.toStationItem = [{
 			toStation: 'a',
 		}, {
 			toStation: 'b',
 		}];
+
+
+		
+
+
+		var res = [];
 		$scope.trip = function(forward , reverse){
 			$scope.names = forward+reverse;
+			res = [{"forward_trip":[forward],"reverse_trip":[reverse]}];
+			$scope.names = res;
+			var object = JSON.parse(res);
+			console.log("type is"+res[0].forward_trip[0].trip_type);
+			console.log("The object is: "+object[0].forward_trip[0]);
+			
+			$scope.rec1=res[0].forward_trip;
+			$scope.rec2 = res[0].reverse_trip;
+			$scope.value1 = true;
+			$scope.value2 = false;
+			$scope.rec1=forward;
+			$scope.rec2 = reverse;
+
 		}
 		$scope.onewaytrip = function(forward){
 			$scope.names = forward;
@@ -628,3 +740,530 @@
 </script>
 </html>
 
+
+
+<!-- 
+
+<!DOCTYPE HTML>
+
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>275Project</title>
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width" />
+<base href="/" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script type="text/javascript"
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		var timepicker = new TimePicker('time', {
+		  lang: 'en',
+		  theme: 'dark'
+		});
+
+		var input = document.getElementById('time');
+
+		timepicker.on('change', function(evt) {
+		  
+		  var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+		  evt.element.value = value;
+
+		});
+	</script>
+</head>
+<body ng-app="app" ng-controller="home as home">
+
+	<nav class="navbar navbar-inverse">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <a class="navbar-brand">California Ultra-Speed Rail Service</a>
+	    </div>
+	    <ul class="nav navbar-nav navbar-right">
+	      <li><a href="/bookingHistory"><span class="glyphicon glyphicon-user"></span>Booking History</a></li> 
+	      <li><a href="#" ng-click="home.signout()"><span class="glyphicon glyphicon-log-in"></span> LogOut</a></li>
+	    </ul>
+	  </div>
+	</nav>
+
+
+	<div class="col-lg-3"></div>
+
+	<div class="col-lg-6">
+
+		<div class="col-lg-12">
+			<div class="col-lg-4">
+				<select ng-options="item as item.fromStation for item in fromStationItem track by item.fromStation" ng-model="fromStation" style="width: 100%">
+					<option value="">
+						From Station
+					</option>	
+				</select>
+			</div>
+			<div class="col-lg-4">
+				<select ng-options="item as item.toStation for item in toStationItem track by item.toStation" ng-model="toStationmodel" style="width: 100%">
+					<option value="">
+						To Station
+					</option>	
+				</select>
+			</div>
+			<div class="col-lg-4">
+				<select ng-model="guestCount" style="width: 100%">
+					<option value="">
+						Guests
+					</option>
+					<option value="1">1</option>	
+					<option value="2">2</option>	
+					<option value="3">3</option>	
+					<option value="4">4</option>	
+					<option value="5">5</option>	
+				</select>
+			</div>
+		</div>
+
+		<div class="col-lg-12" ng-show="guestCount==2">
+			<div class="col-lg-12"><h3>Enter the two guest names: </h3></div>
+			<input type="text" name="user_one" ng-model="2_guest1_name" style="width: 100%" />
+			<input type="text" name="user_two" ng-model="2_guest2_name" style="width: 100%" />
+		</div>
+
+		<div class="col-lg-12" style="margin-top:5px">
+			<div class="col-lg-12"><h3>One Way Trip Date and Time Selection</h3></div>
+			<div class="col-lg-6">
+				<input placeholder="Date" type="text" style="width: 100%" onfocus="(this.type='date')" onblur="(this.type='text')" id="datefield" min='2017-12-12' ng-model="date"></input>
+			</div>
+			<div class="col-lg-6">
+				<input placeholder="Time" type="text" style="width: 100%" onfocus="(this.type='Time')" onblur="(this.type='text')" id="time" ng-model="time"></input>
+			</div>
+		</div>
+
+		<div class="col-lg-12" style="margin-top:5px" ng-show="trip_type=='roundTrip'">
+			<div class="col-lg-12"><h3>Round Trip Date and Time Selection</h3></div>
+			<div class="col-lg-6">
+				<input placeholder="Date" type="text" style="width: 100%" onfocus="(this.type='date')" onblur="(this.type='text')" id="returndate" min='2017-12-12' ng-model="returndate"></input>
+			</div>
+			<div class="col-lg-6">
+				<input placeholder="Time" type="text" style="width: 100%" onfocus="(this.type='Time')" onblur="(this.type='text')" id="returntime" ng-model="returntime"></input>
+			</div>
+		</div>
+
+		<div class="col-lg-12" style="margin-top:5px">
+			<div class="col-lg-4">
+            	<h4>Trip type</h4>
+                <ul class="list-group">
+                    <li class="list-group-item">One Way<input type="radio" value="oneWay" ng-model="trip_type" style="float:right"></input></li>
+                    <li class="list-group-item">Round Trip<input type="radio" value="roundTrip" ng-model="trip_type" style="float:right"></input></li>
+                </ul>
+                
+			</div>
+			<div class="col-lg-4">
+				<h4>Train type</h4>
+                <ul class="list-group">
+                    <li class="list-group-item">Regular<input type="radio" value="regularTrain" ng-model="train_type" style="float:right"></input></li>
+                    <li class="list-group-item">Express<input type="radio" value="expressTrain" ng-model="train_type" style="float:right"></input></li>
+                    <li class="list-group-item">Any<input type="radio" value="Any" ng-model="train_type" style="float:right"></input></li>
+                </ul>
+			</div>
+			<div class="col-lg-4">
+				<h4>Number of Connections</h4>
+                <ul class="list-group">
+                    <li class="list-group-item">Any<input  type="radio" value="anyConnection" ng-model="connectionCount" style="float:right"></input></li>
+                    <li class="list-group-item">One<input  type="radio" value="oneConnection" ng-model="connectionCount" style="float:right"></input></li>
+                    <li class="list-group-item">Two<input  type="radio" value="twoConnection" ng-model="connectionCount" style="float:right"></input></li>
+                </ul>
+			</div>
+		</div>
+		<div class="col-lg-12">
+			<div class="col-lg-12">
+	            <ul class="list-group" style="width: 100%">
+	                <li class="list-group-item">Exact Time<input type="radio" value="exactTime" ng-model="exact_time" style="float:right"></input></li>
+	            </ul>
+            </div>
+		</div>
+		<div class="col-lg-12">
+			<div class="col-lg-12">
+				<button ng-click="search()" class="btn btn-primary" style="width:100%">Search</button>
+			</div>
+		</div>
+
+
+
+
+		
+
+
+			<div class="col-lg-12" style="margin-top: 10px" ng-hide="oneWayTrip">
+				<ul class="list-group" style="height: auto;">
+	                <li class="list-group-item" ng-repeat="x in records" style="height: 120px">
+            			<div class="col-lg-12">
+                			<div class="col-lg-6">
+		                		<label>Ticket Type: {{x.ticket_type}}</label>
+		                	</div>
+		                	<div class="col-lg-6"> 
+		                		<input type="radio" style="float: right;" ng-model="$parent.name" value="{{x}}"/>
+		                	</div>
+	                	</div>
+	                	<div class="col-lg-12">
+		                	<div class="col-lg-6"><b>Cost of Ticket:</b> {{x.price}}$</div>
+		                	<div class="col-lg-6"><b>Passenger Count:</b> {{x.passenger_count}}</div>
+		                </div>
+
+		                <div class="col-lg-12">
+		                	<div class="col-lg-6"><b>Arrival Time:</b> {{x.trains[0].arrival_time}}</div>
+		                	<div class="col-lg-6"><b>Departure Time:</b> {{x.trains[0].depat_time}}</div>
+		                </div>
+
+	                </li>
+		        	<center><button class="btn btn-primary" ng-click="onewaytrip(name)" style="width:100%;margin-top:5px">Submit</button></center>
+		        </ul>
+			</div>
+
+			<div class="col-lg-12" style="margin-top: 10px" ng-hide="roundWayTrip">
+				<div class="col-lg-6">
+					<h4>Forward Trip</h4>
+					<ul class="list-group" style="height: auto;">
+		                <li class="list-group-item" ng-repeat="y in records1" style="height:175px;">
+		                	<div class="col-lg-12">
+	                			<div class="col-lg-8">
+			                		<label>Ticket Type: {{y.ticket_type}}</label>
+			                	</div>
+			                	<div class="col-lg-4"> 
+			                		<input type="radio" style="float: right;" ng-model="$parent.name1" value="{{y}}"/>
+			                	</div>
+		                	</div>
+		                	<div class="col-lg-12">
+			                	<div class="col-lg-12"><b>Cost of Ticket:</b> {{y.price}}$</div>
+			                	<div class="col-lg-12"><b>Passenger Count:</b> {{y.passenger_count}}</div>
+			                </div>
+
+			                <div class="col-lg-12">
+			                	<div class="col-lg-12"><b>Arrival Time:</b> {{y.trains[0].arrival_time}}</div>
+			                	<div class="col-lg-12"><b>Departure Time:</b> {{y.trains[0].depat_time}}</div>
+			                </div>
+
+		           
+		                </li>
+			        </ul>
+		        </div>
+		        <div class="col-lg-6">
+					<h4>Reverse Trip</h4>
+					<ul class="list-group" style="height: auto">
+		                <li class="list-group-item" ng-repeat="z in records2" style="height:175px;">
+
+		                	<div class="col-lg-12">
+	                			<div class="col-lg-8">
+			                		<label>Ticket Type: {{z.ticket_type}}</label>
+			                	</div>
+			                	<div class="col-lg-4"> 
+			                		<input type="radio" style="float: right;" ng-model="$parent.name2" value="{{z}}"/>
+			                	</div>
+		                	</div>
+		                	<div class="col-lg-12">
+			                	<div class="col-lg-12"><b>Cost of Ticket:</b> {{z.price}}$</div>
+			                	<div class="col-lg-12"><b>Passenger Count:</b> {{z.passenger_count}}</div>
+			                </div>
+
+			                <div class="col-lg-12">
+			                	<div class="col-lg-12"><b>Arrival Time:</b> {{z.trains[0].arrival_time}}</div>
+			                	<div class="col-lg-12"><b>Departure Time:</b> {{z.trains[0].depat_time}}</div>
+			                </div>
+
+
+		                </li>
+			        </ul>
+		        </div>
+		        <div class="col-lg-12">
+		        	<center><button class="btn btn-primary" ng-click="trip(name1,name2)" style="width:100%">Submit</button></center>
+		        </div>
+			</div>
+
+{{names}}
+
+	</div>
+
+	<div class="col-lg-3"></div>
+
+</body>
+<script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
+<script type="text/javascript">
+	angular.module("app", []).controller("home", function($scope, $http, $location, $window) {
+
+		$scope.oneWayTrip = true;
+		$scope.roundWayTrip = true;
+
+		var self = this;
+		$http({
+			url : "/getDateData",
+			method:"GET",
+		}).success(function(data){
+			if(data.statusCode=="200"){
+				
+			}
+			else if(data.statusCode=="404"){
+				
+			}
+		});
+
+		$scope.search = function(){
+			var extTime = 0;
+			var frmStation = $scope.fromStation;
+			var tStation = $scope.toStationmodel;
+			var gstCount = $scope.guestCount;
+			var dte = $scope.date;
+			var tme = $scope.time+":00 PST 2017";
+			var dateTimeOneWay = dte+" "+tme;
+			var roundTripdate = $scope.returndate;
+			var roundTripTime = $scope.returntime+":00 PST 2017";
+			var roundTripDateTime = roundTripdate+" "+roundTripTime;
+			var trpType = $scope.trip_type;
+			var trnType = $scope.train_type;
+			var cnnCount = $scope.connectionCount;
+			var extTime = $scope.exact_time;
+			if(!extTime){
+				extTime ="NotExactTime"
+			}
+			console.log(frmStation.fromStation+" "+tStation.toStation+" "+gstCount+" "+dte+" "+tme+" "+trpType+" "+trnType+" "+cnnCount+" "+extTime+" "+dateTimeOneWay);
+
+
+		}
+		
+
+		
+		
+		$scope.fromStationItem = [{
+			fromStation: 'a',
+		}, {
+			fromStation: 'b',
+		}];
+
+
+		$scope.toStationItem = [{
+			toStation: 'a',
+		}, {
+			toStation: 'b',
+		}];
+		$scope.trip = function(forward , reverse){
+			$scope.names = forward+reverse;
+			
+		}
+
+
+		{
+			"ticket_type":"Regular",
+			"price":6,"origin":"F",
+			"destination":"U",
+			"passenger_count":2,
+			"trains":[
+				{
+					"arrival_time":"Sun Dec 17 09:22:00 PST 2017",
+					"train_name":"SB0645",
+					"origin":"F",
+					"destination":"U",
+					"depat_time":"Sun Dec 17 07:25:00 PST 2017"
+				}
+			]
+		}
+		$scope.onewaytrip = function(forward){
+			$scope.names = forward;
+		}
+		var result=[];
+		result = [
+	       {
+			    "forward_trip": [
+			        {
+			            "ticket_type": "Express",
+			            "price": 12,
+			            "origin": "F",
+			            "destination": "U",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 08:49:00 PST 2017",
+			                "train_name": "SB0700",
+			                "origin": "F",
+			                "destination": "U",
+			                "depat_time": "Sun Dec 17 07:28:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Regular",
+			            "price": 6,
+			            "origin": "F",
+			            "destination": "U",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 08:52:00 PST 2017",
+			                "train_name": "SB0615",
+			                "origin": "F",
+			                "destination": "U",
+			                "depat_time": "Sun Dec 17 06:55:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Regular",
+			            "price": 6,
+			            "origin": "F",
+			            "destination": "U",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 09:07:00 PST 2017",
+			                "train_name": "SB0630",
+			                "origin": "F",
+			                "destination": "U",
+			                "depat_time": "Sun Dec 17 07:10:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Regular",
+			            "price": 6,
+			            "origin": "F",
+			            "destination": "U",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 09:22:00 PST 2017",
+			                "train_name": "SB0645",
+			                "origin": "F",
+			                "destination": "U",
+			                "depat_time": "Sun Dec 17 07:25:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Express",
+			            "price": 12,
+			            "origin": "F",
+			            "destination": "U",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 09:49:00 PST 2017",
+			                "train_name": "SB0800",
+			                "origin": "F",
+			                "destination": "U",
+			                "depat_time": "Sun Dec 17 08:28:00 PST 2017"
+			            }]
+			        }
+			    ],
+			    "reverse_trip": [
+			        {
+			            "ticket_type": "Express",
+			            "price": 12,
+			            "origin": "U",
+			            "destination": "F",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 07:49:00 PST 2017",
+			                "train_name": "NB0600",
+			                "origin": "U",
+			                "destination": "F",
+			                "depat_time": "Sun Dec 17 06:28:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Express",
+			            "price": 12,
+			            "origin": "U",
+			            "destination": "F",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 08:49:00 PST 2017",
+			                "train_name": "NB0700",
+			                "origin": "U",
+			                "destination": "F",
+			                "depat_time": "Sun Dec 17 07:28:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Regular",
+			            "price": 6,
+			            "origin": "U",
+			            "destination": "F",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 08:52:00 PST 2017",
+			                "train_name": "NB0615",
+			                "origin": "U",
+			                "destination": "F",
+			                "depat_time": "Sun Dec 17 06:55:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Regular",
+			            "price": 6,
+			            "origin": "U",
+			            "destination": "F",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 09:07:00 PST 2017",
+			                "train_name": "NB0630",
+			                "origin": "U",
+			                "destination": "F",
+			                "depat_time": "Sun Dec 17 07:10:00 PST 2017"
+			            }]
+			        },
+			        {
+			            "ticket_type": "Regular",
+			            "price": 6,
+			            "origin": "U",
+			            "destination": "F",
+			            "passenger_count": 2,
+			            "trains": [{
+			                "arrival_time": "Sun Dec 17 09:22:00 PST 2017",
+			                "train_name": "NB0645",
+			                "origin": "U",
+			                "destination": "F",
+			                "depat_time": "Sun Dec 17 07:25:00 PST 2017"
+			            }]
+			        }
+			    ]
+			}
+    	]
+
+
+		var object = JSON.stringify(result);
+		
+		var v1 = result[0].forward_trip;
+		var v2 = result[0].reverse_trip;
+		if (result.length!=0) {
+			if(v2==null){
+				$scope.oneWayTrip=false;
+				$scope.roundWayTrip=true;
+				$scope.records = result[0].forward_trip;
+			}else{
+				console.log("The data is: "+result[0].forward_trip);
+				$scope.oneWayTrip=true;
+				$scope.roundWayTrip=false;
+				$scope.records1 = result[0].forward_trip;
+				$scope.records2 = result[0].reverse_trip;
+			}
+
+		}else{
+
+		}
+
+
+		$scope.bookingHistory = function(){
+			$http.get('/bookingHistory').success(function(data){
+
+			}).error(function(data){
+				console.log("Failed");
+			})
+		}
+
+		self.signout = function() {
+			$http.post('/userLogout',{
+
+			}).success(function(){
+				$window.location.href ="/";
+			}).error(function(data){
+				console.log("Logout failed")
+			})
+		}
+	});
+</script>
+</html>
+
+
+
+ -->
